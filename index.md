@@ -1,54 +1,80 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的终端风主页</title>
+    <title>Terminal Portfolio</title>
     <style>
-        /* CSS 样式部分：负责页面的颜值 */
+        /* CSS 样式：定义网页的外观 */
         body {
-            /* 背景设为终端常见的深灰色/黑色 */
-            background-color: #1c1c1c; 
-            /* 字体设置：优先使用 Mac 终端常用的 SF Mono, Menlo, Monaco */
+            /* 背景色：终端深灰 */
+            background-color: #121212; 
+            /* 字体：严格使用 Mac 终端的等宽字体族 */
             font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
-            /* 字体颜色设为终端绿，更有 Feel */
-            color: #00ff00;
-            /* 让内容在页面中间显示 */
-            padding: 50px;
-            line-height: 1.6;
+            /* 字体颜色：纯白 */
+            color: #ffffff;
+            /* 页面边距和行高 */
+            padding: 40px;
+            line-height: 1.5;
+            margin: 0;
         }
 
+        /* 模拟终端命令行开头的符号 */
+        .prompt::before {
+            content: "$ ";
+            color: #888; /* 提示符设为灰色，更有层次感 */
+        }
+
+        /* 模拟光标闪烁效果 */
         .cursor {
-            /* 模拟闪烁的光标 */
-            border-left: 8px solid #00ff00;
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #ffffff;
             margin-left: 5px;
-            animation: blink 1s infinite;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
             50% { opacity: 0; }
         }
+
+        /* 链接样式 */
+        a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        a:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
     </style>
 </head>
 <body>
 
-    <h1>> Hello, World_</h1>
-    <p>欢迎来到我的 GitHub Pages 站点。</p>
-    
-    <p>
-        $ whoami <br>
-        [正在寻找自我的开发者...]
-    </p>
+    <header>
+        <p>Last login: Thu Jan 1 20:52:00 on ttys001</p>
+    </header>
 
-    <p>
-        $ ls links/ <br>
-        <a href="https://github.com" style="color: #00ff00;">GitHub</a> 
-        <a href="#" style="color: #00ff00; margin-left: 20px;">Blog</a>
-    </p>
+    <main>
+        <h1>System.out.println("Hello World");</h1>
+        
+        <p class="prompt">whoami</p>
+        <p>Independent Developer / Tech Enthusiast</p>
 
-    <div style="margin-top: 50px;">
-        Last login: 2026/01/01 on console <span class="cursor"></span>
-    </div>
+        <p class="prompt">ls -l skills/</p>
+        <ul>
+            <li>HTML / CSS / JavaScript</li>
+            <li>Python / Git / Terminal</li>
+        </ul>
+
+        <p class="prompt">cat contact.txt</p>
+        <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p>GitHub: <a href="https://github.com">github.com/yourname</a></p>
+    </main>
+
+    <p class="prompt"><span class="cursor"></span></p>
 
 </body>
 </html>
