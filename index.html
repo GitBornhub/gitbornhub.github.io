@@ -3,805 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人博客</title>
+    <title>我的个人博客 - 极致简约</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* CSS 变量定义 - 修改这里可以改变网站的整体配色 */
+        /* --- 核心变量与基础样式 --- */
         :root {
-            --primary-color: #4a90e2;        /* 主色调：浅蓝色 */
-            --secondary-color: #64b5f6;      /* 次要颜色：更浅的蓝色 */
-            --gradient-start: #667eea;       /* 渐变起始色：紫蓝色 */
-            --gradient-end: #764ba2;         /* 渐变结束色：紫色 */
-            --text-dark: #2c3e50;            /* 深色文字 */
-            --text-light: #ecf0f1;           /* 浅色文字（黑暗模式用） */
-            --bg-light: #ffffff;             /* 浅色背景 */
-            --bg-dark: #1a1a2e;              /* 深色背景 */
-            --card-light: #ffffff;           /* 浅色卡片背景 */
-            --card-dark: #16213e;            /* 深色卡片背景 */
+            --primary: #4a90e2;
+            --gradient: linear-gradient(135deg, #667eea, #764ba2);
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --bg-overlay: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
 
+        .dark-mode {
+            --text-dark: #ecf0f1;
+            --bg-overlay: rgba(26, 26, 46, 0.9);
+            --card-bg: rgba(22, 33, 62, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* 背景图片层 - 修改 URL 可以更换背景图片 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://picsum.photos/1920/1080?random=1');  /* 修改这里更换背景图 */
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-dark);
+            transition: 0.3s;
+            background: url('https://picsum.photos/1920/1080?nature') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            filter: blur(3px);  /* 模糊程度，数值越大越模糊 */
-            z-index: -2;
         }
 
-        /* 背景遮罩层 - 控制背景的透明度 */
         body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.85);  /* 浅色模式遮罩，修改透明度(0.85)可调整背景显示程度 */
-            z-index: -1;
-            transition: background 0.3s ease;
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-overlay); z-index: -1;
         }
 
-        /* 黑暗模式的背景遮罩 */
-        body.dark-mode::after {
-            background: rgba(26, 26, 46, 0.9);  /* 深色模式遮罩 */
-        }
-
-        body.dark-mode {
-            color: var(--text-light);
-        }
-
-        /* 网站顶部导航栏样式 */
+        /* --- 导航栏 --- */
         header {
-            background: rgba(255, 255, 255, 0.95);  /* 半透明白色背景 */
-            backdrop-filter: blur(10px);  /* 磨砂玻璃效果 */
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;  /* 滚动时固定在顶部 */
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode header {
-            background: rgba(22, 33, 62, 0.95);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-container {
-            max-width: 1200px;  /* 最大宽度，修改这里可以调整内容区域宽度 */
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            max-width: 1100px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* 左上角标题样式 - 修改这里可以改变 "我的个人博客" 的样式 */
         .logo {
-            font-size: 1.5rem;  /* 标题大小 */
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            cursor: pointer;  /* 点击返回首页 */
+            font-size: 1.5rem; font-weight: bold; cursor: pointer;
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        nav {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
+        nav { display: flex; gap: 1.5rem; align-items: center; }
+        nav a { text-decoration: none; color: inherit; font-weight: 500; position: relative; }
+        nav a.active::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: var(--gradient);
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;  /* 导航链接之间的间距 */
-        }
-
-        /* 导航链接样式（首页、关于） */
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        body.dark-mode .nav-links a {
-            color: var(--text-light);
-        }
-
-        /* 导航链接下划线动画效果 */
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;  /* 鼠标悬停或激活时下划线完全显示 */
-        }
-
-        /* 黑暗模式切换按钮样式 */
         .theme-toggle {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            border: none;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;  /* 圆角大小 */
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            background: var(--gradient); border: none; color: white;
+            padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;
         }
 
-        .theme-toggle:hover {
-            transform: translateY(-2px);  /* 鼠标悬停时向上移动 */
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 首页中间的大标题区域 */
-        .hero {
-            text-align: center;
-            padding: 6rem 2rem;  /* 上下内边距，修改可调整标题区域高度 */
-            min-height: 50vh;  /* 最小高度为屏幕的一半 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 主标题 "我的个人博客" */
-        .hero h1 {
-            font-size: 3.5rem;  /* 标题大小 */
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        /* 副标题 "欢迎来到我的个人博客..." */
-        .hero p {
-            font-size: 1.3rem;  /* 副标题大小 */
-            color: var(--text-dark);
-            max-width: 600px;  /* 最大宽度 */
-            line-height: 1.8;  /* 行高 */
-            animation: fadeInUp 0.8s ease 0.2s backwards;
-        }
-
-        body.dark-mode .hero p {
-            color: var(--text-light);
-        }
-
-        /* 博客文章列表区域 */
-        .blog-section {
-            max-width: 1200px;  /* 最大宽度 */
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        /* 博客卡片网格布局 - 修改这里可以改变卡片排列方式 */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));  /* 320px是每个卡片的最小宽度 */
-            gap: 2rem;  /* 卡片之间的间距 */
-            animation: fadeIn 1s ease;
-        }
-
-        /* 单个博客卡片样式 */
-        .blog-card {
-            background: rgba(255, 255, 255, 0.95);  /* 半透明白色背景 */
-            backdrop-filter: blur(10px);
-            border-radius: 15px;  /* 圆角大小 */
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        body.dark-mode .blog-card {
-            background: rgba(22, 33, 62, 0.95);
-        }
-
-        /* 鼠标悬停时的卡片效果 */
-        .blog-card:hover {
-            transform: translateY(-10px);  /* 向上移动10px */
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);  /* 增强阴影 */
-        }
-
-        /* 博客卡片中的图片 */
-        .blog-card img {
-            width: 100%;
-            height: 220px;  /* 图片高度，修改这里可以调整图片显示高度 */
-            object-fit: cover;  /* 图片填充方式 */
-            transition: transform 0.3s ease;
-        }
-
-        /* 鼠标悬停时图片放大效果 */
-        .blog-card:hover img {
-            transform: scale(1.1);  /* 放大1.1倍 */
-        }
-
-        /* 博客卡片的文字内容区域 */
-        .blog-card-content {
-            padding: 1.5rem;  /* 内边距 */
-        }
-
-        /* 博客文章标题 */
-        .blog-card h3 {
-            font-size: 1.4rem;  /* 标题大小 */
-            margin-bottom: 0.8rem;
-            color: var(--text-dark);
-        }
-
-        body.dark-mode .blog-card h3 {
-            color: var(--text-light);
-        }
-
-        /* 博客文章摘要 */
-        .blog-card p {
-            color: #7f8c8d;  /* 摘要文字颜色 */
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        /* 博客元信息（日期、评论数）区域 */
-        .blog-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #95a5a6;
-        }
-
-        /* ============================================
-           文章详情页样式 - 显示文章完整内容
-           ============================================ */
+        /* --- 首页/Hero 区域 --- */
+        .hero { text-align: center; padding: 5rem 1rem; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* 文章详情页容器 */
-        .article-detail {
-            max-width: 900px;  /* 文章内容最大宽度，修改这里可以调整文章宽度 */
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            animation: fadeIn 0.8s ease;
+        /* --- 博客网格 --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        .blog-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;
         }
 
-        /* 文章详情卡片 */
-        .article-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        .blog-card {
+            background: var(--card-bg); border-radius: 15px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s;
         }
+        .blog-card:hover { transform: translateY(-5px); }
+        .blog-card img { width: 100%; height: 200px; object-fit: cover; }
+        .blog-card-info { padding: 1.5rem; }
+        .blog-card-info h3 { margin-bottom: 0.5rem; }
+        .blog-meta { font-size: 0.85rem; color: #888; margin-top: 1rem; }
 
-        body.dark-mode .article-content {
-            background: rgba(22, 33, 62, 0.95);
+        /* --- 文章详情 --- */
+        .article-page { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; display: none; }
+        .back-btn { 
+            display: inline-block; margin-bottom: 1.5rem; padding: 0.5rem 1rem;
+            background: var(--gradient); color: white; text-decoration: none; border-radius: 20px;
         }
+        .article-content { background: var(--card-bg); padding: 2rem; border-radius: 15px; line-height: 1.8; }
+        .article-content img { width: 100%; border-radius: 10px; margin-bottom: 2rem; }
+        .article-body h2 { margin: 1.5rem 0 1rem; color: var(--primary); }
+        .article-body p { margin-bottom: 1.2rem; }
 
-        /* 返回按钮样式 */
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
+        /* --- 工具类 --- */
+        .hidden { display: none; }
+        .show { display: block; }
 
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 文章封面图片 */
-        .article-header-image {
-            width: 100%;
-            height: 400px;  /* 封面图片高度，可以修改 */
-            object-fit: cover;
-        }
-
-        /* 文章主体内容区域 */
-        .article-body {
-            padding: 3rem;  /* 文章内容的内边距 */
-        }
-
-        /* 文章标题 */
-        .article-body h1 {
-            font-size: 2.5rem;  /* 文章标题大小 */
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* 文章元信息（日期、评论数） */
-        .article-meta {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
-            color: #95a5a6;
-            font-size: 0.95rem;
-        }
-
-        /* 文章正文内容 */
-        .article-text {
-            line-height: 1.8;  /* 行高，影响阅读舒适度 */
-            font-size: 1.1rem;  /* 正文字体大小 */
-            color: var(--text-dark);
-        }
-
-        body.dark-mode .article-text {
-            color: var(--text-light);
-        }
-
-        /* 文章段落间距 */
-        .article-text p {
-            margin-bottom: 1.5rem;  /* 段落之间的间距 */
-        }
-
-        /* 文章小标题样式 */
-        .article-text h2 {
-            font-size: 1.8rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .article-text h3 {
-            font-size: 1.4rem;
-            margin-top: 2rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary-color);
-        }
-
-        /* 关于页面区域 */
-        .about-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            animation: fadeIn 0.8s ease;
-        }
-
-        /* 关于页面内容卡片 */
-        .about-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            line-height: 1.8;
-        }
-
-        body.dark-mode .about-content {
-            background: rgba(22, 33, 62, 0.95);
-        }
-
-        /* 关于页面标题 */
-        .about-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .about-content p {
-            margin-bottom: 1.5rem;
-            color: var(--text-dark);
-        }
-
-        body.dark-mode .about-content p {
-            color: var(--text-light);
-        }
-
-        /* 隐藏元素的类 - 用于页面切换 */
-        .hidden {
-            display: none;
-        }
-
-        /* 加载中提示样式 */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            font-size: 1.2rem;
-            color: var(--text-dark);
-        }
-
-        body.dark-mode .loading {
-            color: var(--text-light);
-        }
-
-        /* 淡入动画 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* 向上淡入动画 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 响应式设计 - 手机屏幕适配 */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;  /* 手机上的标题缩小 */
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .blog-grid {
-                grid-template-columns: 1fr;  /* 手机上一列显示 */
-            }
-
-            .about-content {
-                padding: 2rem;
-            }
-
-            /* 文章详情页手机适配 */
-            .article-header-image {
-                height: 250px;  /* 手机上降低封面图片高度 */
-            }
-
-            .article-body {
-                padding: 2rem;  /* 手机上减少内边距 */
-            }
-
-            .article-body h1 {
-                font-size: 2rem;  /* 手机上缩小文章标题 */
-            }
-
-            .article-text {
-                font-size: 1rem;  /* 手机上缩小正文字体 */
-            }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .header-container { flex-direction: column; gap: 1rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <!-- 点击 logo 返回首页 -->
-            <div class="logo" onclick="showHome()">我的个人博客</div>
-            <nav>
-                <div class="nav-links">
-                    <a href="#" class="nav-link active" data-page="home">首页</a>
-                    <a href="#" class="nav-link" data-page="about">关于</a>
+
+<header>
+    <div class="header-container">
+        <div class="logo" onclick="renderHome()">MY BLOG</div>
+        <nav>
+            <a href="#" id="nav-home" class="active" onclick="renderHome()">首页</a>
+            <a href="#" id="nav-about" onclick="renderAbout()">关于</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 模式</button>
+        </nav>
+    </div>
+</header>
+
+<main id="app">
+    <div id="home-view">
+        <section class="hero">
+            <h1>探索技术与生活的边界</h1>
+            <p>在这里，分享代码、思考与每一个精彩瞬间。</p>
+        </section>
+        <div class="container">
+            <div class="blog-grid" id="blog-grid">
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙 黑暗模式</button>
-            </nav>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <!-- 首页 -->
-        <div id="home-page">
-            <section class="hero">
-                <h1>我的个人博客</h1>
-                <p>欢迎来到我的个人博客！这里记录着我的想法、学习和生活。</p>
-            </section>
-
-            <section class="blog-section">
-                <!-- 加载中提示 -->
-                <div class="loading">正在加载博客文章...</div>
-                <!-- 博客文章将通过 JavaScript 动态加载到这里 -->
-                <div class="blog-grid" id="blog-grid"></div>
-            </section>
+    <div id="about-view" class="container hidden">
+        <div class="article-content">
+            <h1>关于我</h1>
+            <p style="margin-top:1rem">你好！我是一名开发者。这个博客是我用来记录学习笔记和生活感悟的方寸之地。</p>
+            <p>我喜欢简洁的设计、高效的代码和清晨的咖啡。</p>
         </div>
+    </div>
 
-        <!-- 文章详情页 - 点击文章卡片后显示 -->
-        <div id="article-page" class="hidden">
-            <div class="article-detail">
-                <!-- 返回按钮 -->
-                <a href="#" class="back-button" onclick="showHome(); return false;">
-                    ← 返回文章列表
-                </a>
-                
-                <!-- 文章内容容器 -->
-                <div class="article-content" id="article-content">
-                    <!-- 文章内容将由 JavaScript 动态生成 -->
+    <div id="article-view" class="article-page">
+        <a href="#" class="back-btn" onclick="renderHome()">← 返回列表</a>
+        <div id="article-detail" class="article-content">
+            </div>
+    </div>
+</main>
+
+<script>
+    /* ============================================
+       1. 博客数据 (原本在 posts.json 的内容现在就在这里)
+       ============================================ */
+    const blogData = [
+        {
+            id: 1,
+            title: "前端开发最佳实践",
+            excerpt: "探索现代前端开发的核心概念，从 React 到 Vue，从性能优化到用户体验设计...",
+            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800",
+            date: "2024-01-15",
+            comments: 8,
+            content: `
+                <h2>组件化开发</h2><p>组件化是现代前端开发的核心理念。保持组件的单一职责原则是提高可维护性的关键。</p>
+                <h2>性能优化</h2><p>1. 代码分割：使用懒加载减少首屏时间。<br>2. 图片优化：尽量使用 WebP 格式。</p>
+                <p>前端开发不仅仅是写代码，更是关于如何为用户创造价值。</p>
+            `
+        },
+        {
+            id: 2,
+            title: "极简生活的艺术",
+            excerpt: "生活不必复杂，分享我践行极简主义的经历，如何通过简化物品获得自由。",
+            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+            date: "2024-01-05",
+            comments: 15,
+            content: `
+                <h2>为什么选择极简</h2><p>极简主义让我学会区分“想要”和“需要”。丢掉 70% 的无用物品后，我感到前所未有的轻松。</p>
+                <p>数字极简也同样重要：清理手机通知，关掉无意义的信息源。</p>
+            `
+        },
+        {
+            id: 3,
+            title: "AI 时代的编程思维",
+            excerpt: "人工智能正在改变编程的方式，程序员需要具备哪些新技能？",
+            image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800",
+            date: "2023-12-28",
+            comments: 20,
+            content: `
+                <h2>AI 不是敌人</h2><p>学会使用 Copilot 和 ChatGPT 可以让效率提升数倍。但我们要保持对底层架构的思考能力。</p>
+                <p>未来的程序员更像是“系统导演”，而 AI 是高效的“执行员”。</p>
+            `
+        }
+    ];
+
+    /* ============================================
+       2. 核心路由与渲染逻辑
+       ============================================ */
+    
+    // 初始化渲染主页
+    function init() {
+        const grid = document.getElementById('blog-grid');
+        grid.innerHTML = blogData.map((post, index) => `
+            <div class="blog-card" onclick="renderArticle(${index})">
+                <img src="${post.image}" alt="${post.title}">
+                <div class="blog-card-info">
+                    <h3>${post.title}</h3>
+                    <p>${post.excerpt}</p>
+                    <div class="blog-meta">📅 ${post.date} · 💬 ${post.comments}</div>
                 </div>
             </div>
-        </div>
+        `).join('');
+    }
 
-        <!-- 关于页面 -->
-        <div id="about-page" class="hidden">
-            <section class="about-section">
-                <div class="about-content">
-                    <h2>关于我</h2>
-                    <p>你好！我是一名热爱技术和生活的全栈开发者，专注于前端开发和用户体验设计。</p>
-                    <p>我相信技术可以改变世界，更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
-                    <p><strong>我的技能：</strong></p>
-                    <p>💻 前端开发：React、Vue、TypeScript、HTML/CSS<br>
-                    🎨 设计工具：Figma、Adobe XD<br>
-                    🛠️ 后端技术：Node.js、Python、数据库设计<br>
-                    📚 持续学习：人工智能、机器学习、系统设计</p>
-                    <p><strong>我的理念：</strong></p>
-                    <p>• 保持好奇心，永远不停止学习<br>
-                    • 写代码如同写诗，追求优雅和简洁<br>
-                    • 技术为本，用户为先<br>
-                    • 分享知识，共同成长</p>
-                    <p>欢迎通过邮件或社交媒体与我交流，让我们一起探索技术的无限可能！</p>
-                </div>
-            </section>
-        </div>
-    </main>
+    // 渲染主页视图
+    function renderHome() {
+        switchView('home-view');
+        updateNav('nav-home');
+    }
 
-    <script>
-        // 全局变量：存储所有文章数据
-        let allPosts = [];
+    // 渲染关于视图
+    function renderAbout() {
+        switchView('about-view');
+        updateNav('nav-about');
+    }
 
-        // ============================================
-        // 从 posts.json 加载博客数据
-        // 作用：读取 JSON 文件并在页面上显示博客文章
-        // 修改：确保 posts.json 文件在同一目录下
-        // ============================================
-        async function loadBlogPosts() {
-            try {
-                // 发送请求获取 posts.json 文件
-                const response = await fetch('posts.json');
-                
-                // 检查请求是否成功
-                if (!response.ok) {
-                    throw new Error('无法加载博客数据');
-                }
-                
-                // 将响应转换为 JSON 对象并存储到全局变量
-                allPosts = await response.json();
-                
-                // 调用函数显示博客文章
-                displayBlogPosts(allPosts);
-                
-            } catch (error) {
-                // 如果加载失败，显示错误信息
-                console.error('加载博客文章时出错:', error);
-                document.querySelector('.loading').textContent = '加载失败，请刷新页面重试';
-            }
-        }
+    // 渲染文章详情
+    function renderArticle(index) {
+        const post = blogData[index];
+        const detail = document.getElementById('article-detail');
+        detail.innerHTML = `
+            <img src="${post.image}" alt="${post.title}">
+            <div class="article-body">
+                <h1>${post.title}</h1>
+                <p style="color:#888; margin-bottom:2rem">发布于 ${post.date}</p>
+                ${post.content}
+            </div>
+        `;
+        switchView('article-view');
+        window.scrollTo(0, 0);
+    }
 
-        // ============================================
-        // 显示博客文章列表到页面
-        // 作用：根据 JSON 数据生成文章卡片
-        // 修改：如果要改变卡片的 HTML 结构，修改这里
-        // ============================================
-        function displayBlogPosts(posts) {
-            const blogGrid = document.getElementById('blog-grid');
-            const loading = document.querySelector('.loading');
-            
-            // 隐藏加载提示
-            loading.style.display = 'none';
-            
-            // 清空现有内容
-            blogGrid.innerHTML = '';
-            
-            // 遍历每篇文章，生成对应的 HTML
-            posts.forEach((post, index) => {
-                // 创建博客卡片的 HTML 结构
-                const card = document.createElement('div');
-                card.className = 'blog-card';
-                
-                // 填充卡片内容（使用模板字符串）
-                card.innerHTML = `
-                    <img src="${post.image}" alt="${post.title}">
-                    <div class="blog-card-content">
-                        <h3>${post.title}</h3>
-                        <p>${post.excerpt}</p>
-                        <div class="blog-meta">
-                            <span>📅 ${post.date}</span>
-                            <span>💬 ${post.comments} 评论</span>
-                        </div>
-                    </div>
-                `;
-                
-                // 点击卡片时显示文章详情
-                // index 是文章在数组中的索引位置
-                card.onclick = () => showArticle(index);
-                
-                // 将卡片添加到页面中
-                blogGrid.appendChild(card);
-            });
-        }
-
-        // ============================================
-        // 显示文章详情页
-        // 作用：点击文章卡片后显示完整文章内容
-        // 参数：postIndex - 文章在 allPosts 数组中的索引
-        // 修改：要改变文章详情页的布局，修改这里的 HTML 结构
-        // ============================================
-        function showArticle(postIndex) {
-            // 获取对应的文章数据
-            const post = allPosts[postIndex];
-            
-            // 隐藏首页和关于页
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('about-page').classList.add('hidden');
-            
-            // 显示文章详情页
-            const articlePage = document.getElementById('article-page');
-            articlePage.classList.remove('hidden');
-            
-            // 更新导航栏状态
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // 生成文章详情的 HTML
-            const articleContent = document.getElementById('article-content');
-            articleContent.innerHTML = `
-                <img src="${post.image}" alt="${post.title}" class="article-header-image">
-                <div class="article-body">
-                    <h1>${post.title}</h1>
-                    <div class="article-meta">
-                        <span>📅 发布于 ${post.date}</span>
-                        <span>💬 ${post.comments} 条评论</span>
-                    </div>
-                    <div class="article-text">
-                        ${post.content}
-                    </div>
-                </div>
-            `;
-            
-            // 滚动到页面顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============================================
-        // 返回首页
-        // 作用：从文章详情页或关于页返回首页
-        // 修改：无需修改
-        // ============================================
-        function showHome() {
-            // 隐藏文章详情页和关于页
-            document.getElementById('article-page').classList.add('hidden');
-            document.getElementById('about-page').classList.add('hidden');
-            
-            // 显示首页
-            document.getElementById('home-page').classList.remove('hidden');
-            
-            // 更新导航栏状态
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            document.querySelector('[data-page="home"]').classList.add('active');
-            
-            // 滚动到页面顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============================================
-        // 黑暗模式切换功能
-        // 作用：切换浅色/深色主题并保存用户偏好
-        // 修改：如果要改变按钮文字，修改下面的 textContent
-        // ============================================
-        function toggleTheme() {
-            // 切换 dark-mode 类
-            document.body.classList.toggle('dark-mode');
-            
-            const btn = document.querySelector('.theme-toggle');
-            
-            // 根据当前模式更新按钮文字
-            if (document.body.classList.contains('dark-mode')) {
-                btn.textContent = '☀️ 浅色模式';
-                // 保存用户偏好到浏览器本地存储
-                localStorage.setItem('theme', 'dark');
-            } else {
-                btn.textContent = '🌙 黑暗模式';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        // ============================================
-        // 页面加载时的初始化
-        // 作用：恢复用户的主题偏好设置
-        // 修改：无需修改
-        // ============================================
-        window.addEventListener('DOMContentLoaded', () => {
-            // 从本地存储读取用户之前选择的主题
-            const savedTheme = localStorage.getItem('theme');
-            
-            // 如果之前选择了深色模式，应用该模式
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.querySelector('.theme-toggle').textContent = '☀️ 浅色模式';
-            }
-            
-            // 加载博客文章
-            loadBlogPosts();
+    // 视图切换助手
+    function switchView(viewId) {
+        const views = ['home-view', 'about-view', 'article-view'];
+        views.forEach(v => {
+            document.getElementById(v).style.display = (v === viewId) ? 'block' : 'none';
         });
+    }
 
-        // ============================================
-        // 页面导航功能（首页/关于页面切换）
-        // 作用：点击导航链接时切换显示的页面
-        // 修改：如果要添加新页面，需要在这里添加对应逻辑
-        // ============================================
-        const navLinks = document.querySelectorAll('.nav-link');
+    // 导航高亮助手
+    function updateNav(navId) {
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        if(navId) document.getElementById(navId).classList.add('active');
+    }
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();  // 阻止默认的链接跳转
-                
-                // 获取要显示的页面
-                const page = link.getAttribute('data-page');
-                
-                // 隐藏所有页面
-                document.getElementById('home-page').classList.add('hidden');
-                document.getElementById('about-page').classList.add('hidden');
-                document.getElementById('article-page').classList.add('hidden');
-                
-                // 更新导航链接的激活状态
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                // 显示对应的页面
-                if (page === 'home') {
-                    document.getElementById('home-page').classList.remove('hidden');
-                } else if (page === 'about') {
-                    document.getElementById('about-page').classList.remove('hidden');
-                }
-                
-                // 滚动到页面顶部
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-    </script>
+    // 切换主题
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        document.querySelector('.theme-toggle').textContent = isDark ? '☀️ 浅色' : '🌙 黑暗';
+    }
+
+    // 页面加载完成后启动
+    window.addEventListener('DOMContentLoaded', init);
+</script>
+
 </body>
 </html>
