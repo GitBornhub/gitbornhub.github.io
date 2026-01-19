@@ -1,22 +1,56 @@
 [
   {
-    "id": "best-practices-2024",
+    "id": "frontend-best-practices",
     "title": "前端开发最佳实践",
-    "excerpt": "探索现代前端开发的核心概念，从 React 到 Vue，从性能优化到用户体验设计...",
+    "excerpt": "探索现代前端开发的核心概念，从 React 到 Vue，从性能优化到用户体验设计，分享我在实际项目中的经验和心得。",
     "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=60",
     "date": "2024-01-15",
-    "category": "技术",
     "comments": 8,
-    "content": "..." 
+    "content": "<h2>组件化开发</h2><p>组件化是现代前端开发的核心理念。无论使用何种框架，将 UI 拆分成可复用的组件都能极大提升效率。</p><p>• 保持组件单一职责<br>• 合理划分容器组件<br>• 使用 Props 通信</p><h2>性能优化</h2><p>1. <strong>代码分割</strong>：减少首屏加载时间。<br>2. <strong>图片优化</strong>：使用 WebP 格式。<br>3. <strong>缓存策略</strong>：合理利用浏览器缓存。</p>"
   },
   {
     "id": "learning-methodology",
     "title": "高效学习方法论",
-    "excerpt": "如何在信息爆炸的时代保持高效学习？分享我的学习系统和时间管理技巧...",
+    "excerpt": "如何在信息爆炸的时代保持高效学习？分享我的学习系统和时间管理技巧，让每一天都充满成长。",
     "image": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&auto=format&fit=crop&q=60",
     "date": "2024-01-10",
-    "category": "成长",
     "comments": 12,
-    "content": "..."
+    "content": "<h2>费曼学习法</h2><p>费曼学习法的核心是‘用简单的语言解释复杂的概念’。当你能讲给不懂的人听，才说明你掌握了。</p><h2>时间管理</h2><p><strong>番茄工作法</strong>：专注 25 分钟，休息 5 分钟。保持高度专注，避免疲劳。</p>"
+  },
+  {
+    "id": "minimalist-lifestyle",
+    "title": "极简生活的艺术",
+    "excerpt": "生活不必复杂，分享我践行极简主义的经历，如何通过简化物品和习惯，获得更多的自由和专注。",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop&q=60",
+    "date": "2024-01-05",
+    "comments": 15,
+    "content": "<h2>为什么选择极简</h2><p>极简主义不是让你一无所有，而是只保留真正重要的东西。它能带来：</p><p>• 更清晰的头脑<br>• 减少决策疲劳<br>• 节省金钱和时间</p><h2>数字极简</h2><p>定期清理手机应用，减少无意义的信息摄入，关注真正有价值的内容。</p>"
+  },
+  {
+    "id": "ai-programming",
+    "title": "AI 时代的编程思维",
+    "excerpt": "人工智能正在改变编程的方式，探讨如何利用 AI 工具提升开发效率，以及程序员需要具备的新技能。",
+    "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&auto=format&fit=crop&q=60",
+    "date": "2023-12-28",
+    "comments": 20,
+    "content": "<h2>AI 辅助编程</h2><p>ChatGPT 和 Copilot 已经成为日常。它们可以生成样板代码、解释逻辑、发现潜在 Bug。</p><h2>程序员的价值</h2><p>在 AI 时代，程序员更应该是<strong>问题的定义者</strong>和<strong>架构的设计者</strong>。理解业务深度和系统扩展性是不可替代的核心竞争力。</p>"
+  },
+  {
+    "id": "book-list-2024",
+    "title": "2024 年度书单推荐",
+    "excerpt": "整理过去一年读过的好书，涵盖技术、哲学、心理学等多个领域，每一本都值得细细品味。",
+    "image": "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&auto=format&fit=crop&q=60",
+    "date": "2023-12-20",
+    "comments": 6,
+    "content": "<h2>技术必读</h2><p><strong>《代码整洁之道》</strong>：改变对代码质量的认知。<br><strong>《设计数据密集型应用》</strong>：分布式系统圣经。</p><h2>自我提升</h2><p><strong>《深度工作》</strong>：在这个碎片化的时代，专注力是最稀缺的资源。</p>"
+  },
+  {
+    "id": "remote-collaboration",
+    "title": "远程协作的挑战与机遇",
+    "excerpt": "远程工作成为新常态。分享我们团队在远程协作中的实践，以及如何保持团队凝聚力。",
+    "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&auto=format&fit=crop&q=60",
+    "date": "2023-12-15",
+    "comments": 10,
+    "content": "<h2>有效沟通</h2><p>远程工作的痛点是信息丢失。我们坚持‘异步优先，视频确认’的原则。</p><h2>工作生活平衡</h2><p>设立专门的工作空间，并保持规律的作息。物理上的边界有助于心理上的切换。</p>"
   }
 ]
