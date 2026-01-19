@@ -12,46 +12,77 @@
         }
 
         :root {
-            --bg-primary: #fafaf9;
-            --bg-secondary: #ffffff;
-            --text-primary: #292524;
-            --text-secondary: #57534e;
-            --accent: #f59e0b;
-            --accent-hover: #d97706;
-            --border: #e7e5e4;
-            --shadow: rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #1c1917;
-            --bg-secondary: #292524;
-            --text-primary: #fafaf9;
-            --text-secondary: #d6d3d1;
-            --accent: #fbbf24;
-            --accent-hover: #f59e0b;
-            --border: #44403c;
-            --shadow: rgba(0, 0, 0, 0.3);
+            --primary-color: #4a90e2;
+            --secondary-color: #64b5f6;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --bg-light: #ffffff;
+            --bg-dark: #1a1a2e;
+            --card-light: #ffffff;
+            --card-dark: #16213e;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background 0.3s ease, color 0.3s ease;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            position: relative;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://picsum.photos/1920/1080?random=1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(3px);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode::after {
+            background: rgba(26, 26, 46, 0.9);
+        }
+
+        body.dark-mode {
+            color: var(--text-light);
+        }
+
+        /* Header */
         header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        nav {
+        body.dark-mode header {
+            background: rgba(22, 33, 62, 0.95);
+        }
+
+        .header-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
@@ -63,300 +94,432 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .nav-links {
+        nav {
             display: flex;
             gap: 2rem;
             align-items: center;
         }
 
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent);
-            background: var(--bg-primary);
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        body.dark-mode .nav-links a {
+            color: var(--text-light);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
         }
 
         .theme-toggle {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-weight: 500;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .theme-toggle:hover {
-            background: var(--accent);
-            color: white;
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 4rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 6rem 2rem;
             min-height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease;
         }
 
         .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            max-width: 600px;
             line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
-        .content {
+        body.dark-mode .hero p {
+            color: var(--text-light);
+        }
+
+        /* Blog Section */
+        .blog-section {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .post-card {
-            background: var(--bg-secondary);
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 12px var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .post-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .post-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, var(--accent), #fb923c);
-        }
-
-        .post-content {
-            padding: 1.5rem;
-        }
-
-        .post-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .post-excerpt {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .post-meta {
-            color: var(--accent);
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .about-page {
-            display: none;
-            max-width: 800px;
             margin: 0 auto;
             padding: 3rem 2rem;
         }
 
-        .about-page.active {
-            display: block;
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 1s ease;
         }
 
-        .about-page h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--accent);
+        .blog-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .about-page p {
-            font-size: 1.125rem;
+        body.dark-mode .blog-card {
+            background: rgba(22, 33, 62, 0.95);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .blog-card h3 {
+            color: var(--text-light);
+        }
+
+        .blog-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #95a5a6;
+        }
+
+        /* About Page */
+        .about-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             line-height: 1.8;
+        }
+
+        body.dark-mode .about-content {
+            background: rgba(22, 33, 62, 0.95);
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
             margin-bottom: 1.5rem;
-            color: var(--text-secondary);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .home-page.active {
-            display: block;
+        .about-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
         }
 
-        .home-page {
+        body.dark-mode .about-content p {
+            color: var(--text-light);
+        }
+
+        .hidden {
             display: none;
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .posts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            nav {
-                justify-content: center;
+            .header-container {
+                flex-direction: column;
+                text-align: center;
             }
 
             .nav-links {
                 gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <nav>
+        <div class="header-container">
             <div class="logo">我的个人博客</div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="home">首页</a>
-                <a href="#" class="nav-link" data-page="about">关于</a>
-                <button class="theme-toggle" id="themeToggle">🌙</button>
-            </div>
-        </nav>
+            <nav>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" data-page="home">首页</a>
+                    <a href="#" class="nav-link" data-page="about">关于</a>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 黑暗模式</button>
+            </nav>
+        </div>
     </header>
 
-    <div class="home-page active">
-        <div class="hero">
-            <h1>我的个人博客</h1>
-            <p>欢迎来到我的个人博客！这里记录着我的想法、学习和生活。</p>
+    <main>
+        <!-- Home Page -->
+        <div id="home-page">
+            <section class="hero">
+                <h1>我的个人博客</h1>
+                <p>欢迎来到我的个人博客！这里记录着我的想法、学习和生活。</p>
+            </section>
+
+            <section class="blog-section">
+                <div class="blog-grid">
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800" alt="编程">
+                        <div class="blog-card-content">
+                            <h3>前端开发最佳实践</h3>
+                            <p>探索现代前端开发的核心概念，从 React 到 Vue，从性能优化到用户体验设计，分享我在实际项目中的经验和心得。</p>
+                            <div class="blog-meta">
+                                <span>📅 2024-01-15</span>
+                                <span>💬 8 评论</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800" alt="学习">
+                        <div class="blog-card-content">
+                            <h3>高效学习方法论</h3>
+                            <p>如何在信息爆炸的时代保持高效学习？分享我的学习系统和时间管理技巧，让每一天都充满成长。</p>
+                            <div class="blog-meta">
+                                <span>📅 2024-01-10</span>
+                                <span>💬 12 评论</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="生活">
+                        <div class="blog-card-content">
+                            <h3>极简生活的艺术</h3>
+                            <p>生活不必复杂，分享我践行极简主义的经历，如何通过简化物品和习惯，获得更多的自由和专注。</p>
+                            <div class="blog-meta">
+                                <span>📅 2024-01-05</span>
+                                <span>💬 15 评论</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="技术">
+                        <div class="blog-card-content">
+                            <h3>AI 时代的编程思维</h3>
+                            <p>人工智能正在改变编程的方式，探讨如何利用 AI 工具提升开发效率，以及程序员需要具备的新技能。</p>
+                            <div class="blog-meta">
+                                <span>📅 2023-12-28</span>
+                                <span>💬 20 评论</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800" alt="读书">
+                        <div class="blog-card-content">
+                            <h3>2024 年度书单推荐</h3>
+                            <p>整理过去一年读过的好书，涵盖技术、哲学、心理学等多个领域，每一本都值得细细品味。</p>
+                            <div class="blog-meta">
+                                <span>📅 2023-12-20</span>
+                                <span>💬 6 评论</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800" alt="团队">
+                        <div class="blog-card-content">
+                            <h3>远程协作的挑战与机遇</h3>
+                            <p>疫情后时代，远程工作成为新常态。分享我们团队在远程协作中的实践，以及如何保持团队凝聚力。</p>
+                            <div class="blog-meta">
+                                <span>📅 2023-12-15</span>
+                                <span>💬 10 评论</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <div class="content">
-            <div class="posts-grid" id="postsGrid"></div>
+        <!-- About Page -->
+        <div id="about-page" class="hidden">
+            <section class="about-section">
+                <div class="about-content">
+                    <h2>关于我</h2>
+                    <p>你好！我是一名热爱技术和生活的全栈开发者，专注于前端开发和用户体验设计。</p>
+                    <p>我相信技术可以改变世界，更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
+                    <p><strong>我的技能：</strong></p>
+                    <p>💻 前端开发：React、Vue、TypeScript、HTML/CSS<br>
+                    🎨 设计工具：Figma、Adobe XD<br>
+                    🛠️ 后端技术：Node.js、Python、数据库设计<br>
+                    📚 持续学习：人工智能、机器学习、系统设计</p>
+                    <p><strong>我的理念：</strong></p>
+                    <p>• 保持好奇心，永远不停止学习<br>
+                    • 写代码如同写诗，追求优雅和简洁<br>
+                    • 技术为本，用户为先<br>
+                    • 分享知识，共同成长</p>
+                    <p>欢迎通过邮件或社交媒体与我交流，让我们一起探索技术的无限可能！</p>
+                </div>
+            </section>
         </div>
-    </div>
-
-    <div class="about-page">
-        <h2>关于我</h2>
-        <p>你好！我是一名热爱技术和生活的开发者，这个博客是我记录学习历程和生活感悟的小天地。</p>
-        <p>在这里，你可以看到我对编程技术的探索、对生活的思考，以及一些学习心得。我相信持续学习和分享是成长的最好方式。</p>
-        <p>我喜欢尝试新技术，享受解决问题带来的成就感。除了编程，我也热爱阅读、旅行和摄影，这些爱好让我的生活更加丰富多彩。</p>
-        <p>如果你对我的文章有任何想法或建议，欢迎与我交流！</p>
-    </div>
+    </main>
 
     <script>
-        const posts = [
-            {
-                title: "JavaScript 异步编程实践",
-                excerpt: "深入探讨 Promise、async/await 的使用技巧，以及如何优雅地处理异步操作中的错误。通过实际案例，让你真正理解异步编程的精髓。",
-                date: "2024-01-15",
-                gradient: "linear-gradient(135deg, #f59e0b, #fb923c)"
-            },
-            {
-                title: "我的 2024 年度总结",
-                excerpt: "回顾这一年的成长与收获，分享工作、学习和生活中的点点滴滴。有挑战也有惊喜，每一步都是成长的印记。",
-                date: "2024-01-10",
-                gradient: "linear-gradient(135deg, #fbbf24, #fcd34d)"
-            },
-            {
-                title: "高效学习方法论",
-                excerpt: "探索如何在信息爆炸的时代保持高效学习，分享我的学习工具和方法。建立知识体系，让学习变得更有条理和乐趣。",
-                date: "2024-01-05",
-                gradient: "linear-gradient(135deg, #fb923c, #fdba74)"
-            },
-            {
-                title: "CSS Grid 布局完全指南",
-                excerpt: "从基础到进阶，全面讲解 CSS Grid 布局系统。通过丰富的示例代码，帮助你快速掌握现代网页布局技术。",
-                date: "2023-12-28",
-                gradient: "linear-gradient(135deg, #f59e0b, #fbbf24)"
-            },
-            {
-                title: "咖啡与代码的美好时光",
-                excerpt: "分享我的工作日常和喜欢的咖啡店。一杯好咖啡配上几行优雅的代码，这就是程序员的小确幸。",
-                date: "2023-12-20",
-                gradient: "linear-gradient(135deg, #fbbf24, #f59e0b)"
-            },
-            {
-                title: "React Hooks 最佳实践",
-                excerpt: "总结 React Hooks 使用中的常见陷阱和最佳实践，包括性能优化技巧和自定义 Hook 的设计思路。",
-                date: "2023-12-15",
-                gradient: "linear-gradient(135deg, #fb923c, #f59e0b)"
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️ 浅色模式';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.textContent = '🌙 黑暗模式';
+                localStorage.setItem('theme', 'light');
             }
-        ];
+        }
 
-        const postsGrid = document.getElementById('postsGrid');
-        
-        posts.forEach(post => {
-            const card = document.createElement('div');
-            card.className = 'post-card';
-            card.innerHTML = `
-                <div class="post-image" style="background: ${post.gradient}"></div>
-                <div class="post-content">
-                    <h3 class="post-title">${post.title}</h3>
-                    <p class="post-excerpt">${post.excerpt}</p>
-                    <div class="post-meta">${post.date}</div>
-                </div>
-            `;
-            postsGrid.appendChild(card);
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '☀️ 浅色模式';
+            }
         });
 
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-        
-        let isDark = false;
-        
-        themeToggle.addEventListener('click', () => {
-            isDark = !isDark;
-            html.setAttribute('data-theme', isDark ? 'dark' : 'light');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-        });
-
+        // Page navigation
         const navLinks = document.querySelectorAll('.nav-link');
-        const homePage = document.querySelector('.home-page');
-        const aboutPage = document.querySelector('.about-page');
+        const homePage = document.getElementById('home-page');
+        const aboutPage = document.getElementById('about-page');
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const page = link.getAttribute('data-page');
                 
+                // Update active state
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
+                // Show/hide pages
                 if (page === 'home') {
-                    homePage.classList.add('active');
-                    aboutPage.classList.remove('active');
-                } else if (page === 'about') {
-                    homePage.classList.remove('active');
-                    aboutPage.classList.add('active');
+                    homePage.classList.remove('hidden');
+                    aboutPage.classList.add('hidden');
+                } else {
+                    homePage.classList.add('hidden');
+                    aboutPage.classList.remove('hidden');
                 }
             });
         });
