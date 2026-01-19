@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人博客 - 极致简约</title>
+    <title>我的个人博客</title>
     <style>
         /* --- 核心变量与基础样式 --- */
         :root {
@@ -110,11 +110,11 @@
 
 <header>
     <div class="header-container">
-        <div class="logo" onclick="renderHome()">MY BLOG</div>
+        <div class="logo" onclick="renderHome()">我的个人博客</div>
         <nav>
             <a href="#" id="nav-home" class="active" onclick="renderHome()">首页</a>
             <a href="#" id="nav-about" onclick="renderAbout()">关于</a>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙 模式</button>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
         </nav>
     </div>
 </header>
@@ -261,7 +261,7 @@
     function toggleTheme() {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
-        document.querySelector('.theme-toggle').textContent = isDark ? '☀️ 浅色' : '🌙 黑暗';
+        document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
     }
 
     // 页面加载完成后启动
