@@ -11,17 +11,18 @@
             box-sizing: border-box;
         }
 
+        /* CSS 变量定义 - 修改这里可以改变网站的整体配色 */
         :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #64b5f6;
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
-            --text-dark: #2c3e50;
-            --text-light: #ecf0f1;
-            --bg-light: #ffffff;
-            --bg-dark: #1a1a2e;
-            --card-light: #ffffff;
-            --card-dark: #16213e;
+            --primary-color: #4a90e2;        /* 主色调：浅蓝色 */
+            --secondary-color: #64b5f6;      /* 次要颜色：更浅的蓝色 */
+            --gradient-start: #667eea;       /* 渐变起始色：紫蓝色 */
+            --gradient-end: #764ba2;         /* 渐变结束色：紫色 */
+            --text-dark: #2c3e50;            /* 深色文字 */
+            --text-light: #ecf0f1;           /* 浅色文字（黑暗模式用） */
+            --bg-light: #ffffff;             /* 浅色背景 */
+            --bg-dark: #1a1a2e;              /* 深色背景 */
+            --card-light: #ffffff;           /* 浅色卡片背景 */
+            --card-dark: #16213e;            /* 深色卡片背景 */
         }
 
         body {
@@ -31,6 +32,7 @@
             position: relative;
         }
 
+        /* 背景图片层 - 修改 URL 可以更换背景图片 */
         body::before {
             content: '';
             position: fixed;
@@ -38,14 +40,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://picsum.photos/1920/1080?random=1');
+            background-image: url('https://picsum.photos/1920/1080?random=1');  /* 修改这里更换背景图 */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            filter: blur(3px);
+            filter: blur(3px);  /* 模糊程度，数值越大越模糊 */
             z-index: -2;
         }
 
+        /* 背景遮罩层 - 控制背景的透明度 */
         body::after {
             content: '';
             position: fixed;
@@ -53,26 +56,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.85);  /* 浅色模式遮罩，修改透明度(0.85)可调整背景显示程度 */
             z-index: -1;
             transition: background 0.3s ease;
         }
 
+        /* 黑暗模式的背景遮罩 */
         body.dark-mode::after {
-            background: rgba(26, 26, 46, 0.9);
+            background: rgba(26, 26, 46, 0.9);  /* 深色模式遮罩 */
         }
 
         body.dark-mode {
             color: var(--text-light);
         }
 
-        /* Header */
+        /* 网站顶部导航栏样式 */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);  /* 半透明白色背景 */
+            backdrop-filter: blur(10px);  /* 磨砂玻璃效果 */
             padding: 1rem 2rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            position: sticky;  /* 滚动时固定在顶部 */
             top: 0;
             z-index: 1000;
             transition: all 0.3s ease;
@@ -83,7 +87,7 @@
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1200px;  /* 最大宽度，修改这里可以调整内容区域宽度 */
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -92,8 +96,9 @@
             gap: 1rem;
         }
 
+        /* 左上角标题样式 - 修改这里可以改变 "我的个人博客" 的样式 */
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.5rem;  /* 标题大小 */
             font-weight: bold;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
@@ -109,9 +114,10 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2rem;  /* 导航链接之间的间距 */
         }
 
+        /* 导航链接样式（首页、关于） */
         .nav-links a {
             text-decoration: none;
             color: var(--text-dark);
@@ -124,6 +130,7 @@
             color: var(--text-light);
         }
 
+        /* 导航链接下划线动画效果 */
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -137,15 +144,16 @@
 
         .nav-links a:hover::after,
         .nav-links a.active::after {
-            width: 100%;
+            width: 100%;  /* 鼠标悬停或激活时下划线完全显示 */
         }
 
+        /* 黑暗模式切换按钮样式 */
         .theme-toggle {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             border: none;
             color: white;
             padding: 0.6rem 1.2rem;
-            border-radius: 25px;
+            border-radius: 25px;  /* 圆角大小 */
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -153,23 +161,24 @@
         }
 
         .theme-toggle:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px);  /* 鼠标悬停时向上移动 */
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* Hero Section */
+        /* 首页中间的大标题区域 */
         .hero {
             text-align: center;
-            padding: 6rem 2rem;
-            min-height: 50vh;
+            padding: 6rem 2rem;  /* 上下内边距，修改可调整标题区域高度 */
+            min-height: 50vh;  /* 最小高度为屏幕的一半 */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
+        /* 主标题 "我的个人博客" */
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 3.5rem;  /* 标题大小 */
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
@@ -178,11 +187,12 @@
             animation: fadeInUp 0.8s ease;
         }
 
+        /* 副标题 "欢迎来到我的个人博客..." */
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.3rem;  /* 副标题大小 */
             color: var(--text-dark);
-            max-width: 600px;
-            line-height: 1.8;
+            max-width: 600px;  /* 最大宽度 */
+            line-height: 1.8;  /* 行高 */
             animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
@@ -190,24 +200,26 @@
             color: var(--text-light);
         }
 
-        /* Blog Section */
+        /* 博客文章列表区域 */
         .blog-section {
-            max-width: 1200px;
+            max-width: 1200px;  /* 最大宽度 */
             margin: 0 auto;
             padding: 3rem 2rem;
         }
 
+        /* 博客卡片网格布局 - 修改这里可以改变卡片排列方式 */
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));  /* 320px是每个卡片的最小宽度 */
+            gap: 2rem;  /* 卡片之间的间距 */
             animation: fadeIn 1s ease;
         }
 
+        /* 单个博客卡片样式 */
         .blog-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.95);  /* 半透明白色背景 */
             backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border-radius: 15px;  /* 圆角大小 */
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -218,28 +230,33 @@
             background: rgba(22, 33, 62, 0.95);
         }
 
+        /* 鼠标悬停时的卡片效果 */
         .blog-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            transform: translateY(-10px);  /* 向上移动10px */
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);  /* 增强阴影 */
         }
 
+        /* 博客卡片中的图片 */
         .blog-card img {
             width: 100%;
-            height: 220px;
-            object-fit: cover;
+            height: 220px;  /* 图片高度，修改这里可以调整图片显示高度 */
+            object-fit: cover;  /* 图片填充方式 */
             transition: transform 0.3s ease;
         }
 
+        /* 鼠标悬停时图片放大效果 */
         .blog-card:hover img {
-            transform: scale(1.1);
+            transform: scale(1.1);  /* 放大1.1倍 */
         }
 
+        /* 博客卡片的文字内容区域 */
         .blog-card-content {
-            padding: 1.5rem;
+            padding: 1.5rem;  /* 内边距 */
         }
 
+        /* 博客文章标题 */
         .blog-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.4rem;  /* 标题大小 */
             margin-bottom: 0.8rem;
             color: var(--text-dark);
         }
@@ -248,12 +265,14 @@
             color: var(--text-light);
         }
 
+        /* 博客文章摘要 */
         .blog-card p {
-            color: #7f8c8d;
+            color: #7f8c8d;  /* 摘要文字颜色 */
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
+        /* 博客元信息（日期、评论数）区域 */
         .blog-meta {
             display: flex;
             gap: 1rem;
@@ -261,7 +280,7 @@
             color: #95a5a6;
         }
 
-        /* About Page */
+        /* 关于页面区域 */
         .about-section {
             max-width: 800px;
             margin: 0 auto;
@@ -269,6 +288,7 @@
             animation: fadeIn 0.8s ease;
         }
 
+        /* 关于页面内容卡片 */
         .about-content {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -282,6 +302,7 @@
             background: rgba(22, 33, 62, 0.95);
         }
 
+        /* 关于页面标题 */
         .about-content h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
@@ -300,11 +321,24 @@
             color: var(--text-light);
         }
 
+        /* 隐藏元素的类 - 用于页面切换 */
         .hidden {
             display: none;
         }
 
-        /* Animations */
+        /* 加载中提示样式 */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .loading {
+            color: var(--text-light);
+        }
+
+        /* 淡入动画 */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -314,6 +348,7 @@
             }
         }
 
+        /* 向上淡入动画 */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -325,7 +360,7 @@
             }
         }
 
-        /* Responsive */
+        /* 响应式设计 - 手机屏幕适配 */
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -337,7 +372,7 @@
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.5rem;  /* 手机上的标题缩小 */
             }
 
             .hero p {
@@ -345,7 +380,7 @@
             }
 
             .blog-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr;  /* 手机上一列显示 */
             }
 
             .about-content {
@@ -369,7 +404,7 @@
     </header>
 
     <main>
-        <!-- Home Page -->
+        <!-- 首页 -->
         <div id="home-page">
             <section class="hero">
                 <h1>我的个人博客</h1>
@@ -377,89 +412,20 @@
             </section>
 
             <section class="blog-section">
-                <div class="blog-grid">
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800" alt="编程">
-                        <div class="blog-card-content">
-                            <h3>前端开发最佳实践</h3>
-                            <p>探索现代前端开发的核心概念，从 React 到 Vue，从性能优化到用户体验设计，分享我在实际项目中的经验和心得。</p>
-                            <div class="blog-meta">
-                                <span>📅 2024-01-15</span>
-                                <span>💬 8 评论</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800" alt="学习">
-                        <div class="blog-card-content">
-                            <h3>高效学习方法论</h3>
-                            <p>如何在信息爆炸的时代保持高效学习？分享我的学习系统和时间管理技巧，让每一天都充满成长。</p>
-                            <div class="blog-meta">
-                                <span>📅 2024-01-10</span>
-                                <span>💬 12 评论</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800" alt="生活">
-                        <div class="blog-card-content">
-                            <h3>极简生活的艺术</h3>
-                            <p>生活不必复杂，分享我践行极简主义的经历，如何通过简化物品和习惯，获得更多的自由和专注。</p>
-                            <div class="blog-meta">
-                                <span>📅 2024-01-05</span>
-                                <span>💬 15 评论</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="技术">
-                        <div class="blog-card-content">
-                            <h3>AI 时代的编程思维</h3>
-                            <p>人工智能正在改变编程的方式，探讨如何利用 AI 工具提升开发效率，以及程序员需要具备的新技能。</p>
-                            <div class="blog-meta">
-                                <span>📅 2023-12-28</span>
-                                <span>💬 20 评论</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800" alt="读书">
-                        <div class="blog-card-content">
-                            <h3>2024 年度书单推荐</h3>
-                            <p>整理过去一年读过的好书，涵盖技术、哲学、心理学等多个领域，每一本都值得细细品味。</p>
-                            <div class="blog-meta">
-                                <span>📅 2023-12-20</span>
-                                <span>💬 6 评论</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800" alt="团队">
-                        <div class="blog-card-content">
-                            <h3>远程协作的挑战与机遇</h3>
-                            <p>疫情后时代，远程工作成为新常态。分享我们团队在远程协作中的实践，以及如何保持团队凝聚力。</p>
-                            <div class="blog-meta">
-                                <span>📅 2023-12-15</span>
-                                <span>💬 10 评论</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- 加载中提示 -->
+                <div class="loading">正在加载博客文章...</div>
+                <!-- 博客文章将通过 JavaScript 动态加载到这里 -->
+                <div class="blog-grid" id="blog-grid"></div>
             </section>
         </div>
 
-        <!-- About Page -->
+        <!-- 关于页面 -->
         <div id="about-page" class="hidden">
             <section class="about-section">
                 <div class="about-content">
                     <h2>关于我</h2>
                     <p>你好！我是一名热爱技术和生活的全栈开发者，专注于前端开发和用户体验设计。</p>
-                    <p>我相信技术可以改变世界，更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
+                    <p>我相信技术可以改变世界,更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
                     <p><strong>我的技能：</strong></p>
                     <p>💻 前端开发：React、Vue、TypeScript、HTML/CSS<br>
                     🎨 设计工具：Figma、Adobe XD<br>
@@ -477,12 +443,88 @@
     </main>
 
     <script>
-        // Theme toggle
+        // ============================================
+        // 从 posts.json 加载博客数据
+        // 作用：读取 JSON 文件并在页面上显示博客文章
+        // 修改：确保 posts.json 文件在同一目录下
+        // ============================================
+        async function loadBlogPosts() {
+            try {
+                // 发送请求获取 posts.json 文件
+                const response = await fetch('posts.json');
+                
+                // 检查请求是否成功
+                if (!response.ok) {
+                    throw new Error('无法加载博客数据');
+                }
+                
+                // 将响应转换为 JSON 对象
+                const posts = await response.json();
+                
+                // 调用函数显示博客文章
+                displayBlogPosts(posts);
+                
+            } catch (error) {
+                // 如果加载失败，显示错误信息
+                console.error('加载博客文章时出错:', error);
+                document.querySelector('.loading').textContent = '加载失败，请刷新页面重试';
+            }
+        }
+
+        // ============================================
+        // 显示博客文章到页面
+        // 作用：根据 JSON 数据生成 HTML 卡片
+        // 修改：如果要改变卡片的 HTML 结构，修改这里
+        // ============================================
+        function displayBlogPosts(posts) {
+            const blogGrid = document.getElementById('blog-grid');
+            const loading = document.querySelector('.loading');
+            
+            // 隐藏加载提示
+            loading.style.display = 'none';
+            
+            // 清空现有内容
+            blogGrid.innerHTML = '';
+            
+            // 遍历每篇文章，生成对应的 HTML
+            posts.forEach(post => {
+                // 创建博客卡片的 HTML 结构
+                const card = document.createElement('div');
+                card.className = 'blog-card';
+                
+                // 填充卡片内容（使用模板字符串）
+                card.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}">
+                    <div class="blog-card-content">
+                        <h3>${post.title}</h3>
+                        <p>${post.excerpt}</p>
+                        <div class="blog-meta">
+                            <span>📅 ${post.date}</span>
+                            <span>💬 ${post.comments} 评论</span>
+                        </div>
+                    </div>
+                `;
+                
+                // 将卡片添加到页面中
+                blogGrid.appendChild(card);
+            });
+        }
+
+        // ============================================
+        // 黑暗模式切换功能
+        // 作用：切换浅色/深色主题并保存用户偏好
+        // 修改：如果要改变按钮文字，修改下面的 textContent
+        // ============================================
         function toggleTheme() {
+            // 切换 dark-mode 类
             document.body.classList.toggle('dark-mode');
+            
             const btn = document.querySelector('.theme-toggle');
+            
+            // 根据当前模式更新按钮文字
             if (document.body.classList.contains('dark-mode')) {
                 btn.textContent = '☀️ 浅色模式';
+                // 保存用户偏好到浏览器本地存储
                 localStorage.setItem('theme', 'dark');
             } else {
                 btn.textContent = '🌙 黑暗模式';
@@ -490,34 +532,50 @@
             }
         }
 
-        // Load saved theme
+        // ============================================
+        // 页面加载时的初始化
+        // 作用：恢复用户的主题偏好设置
+        // 修改：无需修改
+        // ============================================
         window.addEventListener('DOMContentLoaded', () => {
+            // 从本地存储读取用户之前选择的主题
             const savedTheme = localStorage.getItem('theme');
+            
+            // 如果之前选择了深色模式，应用该模式
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.querySelector('.theme-toggle').textContent = '☀️ 浅色模式';
             }
+            
+            // 加载博客文章
+            loadBlogPosts();
         });
 
-        // Page navigation
+        // ============================================
+        // 页面导航功能（首页/关于页面切换）
+        // 作用：点击导航链接时切换显示的页面
+        // 修改：如果要添加新页面，需要在这里添加对应逻辑
+        // ============================================
         const navLinks = document.querySelectorAll('.nav-link');
         const homePage = document.getElementById('home-page');
         const aboutPage = document.getElementById('about-page');
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
+                e.preventDefault();  // 阻止默认的链接跳转
+                
+                // 获取要显示的页面
                 const page = link.getAttribute('data-page');
                 
-                // Update active state
+                // 更新导航链接的激活状态
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // Show/hide pages
+                // 显示/隐藏对应的页面
                 if (page === 'home') {
                     homePage.classList.remove('hidden');
                     aboutPage.classList.add('hidden');
-                } else {
+                } else if (page === 'about') {
                     homePage.classList.add('hidden');
                     aboutPage.classList.remove('hidden');
                 }
