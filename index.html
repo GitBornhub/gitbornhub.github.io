@@ -1,103 +1,323 @@
-<style>
-    /* ... 保留之前的样式 ... */
-
-    /* 照片墙容器 */
-    #photo-wall {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; /* 放在文字卡片后面 */
-        overflow: hidden;
-        pointer-events: none;
-    }
-
-    .photo-item {
-        position: absolute;
-        width: 150px; /* 照片宽度 */
-        height: auto;
-        padding: 5px;
-        background: white;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border-radius: 4px;
-        opacity: 0;
-        transform: scale(0.5) rotate(-20deg);
-        transition: all 1.5s ease-out;
-    }
-
-    /* 手机端照片调小一点 */
-    @media (max-width: 600px) {
-        .photo-item { width: 100px; }
-    }
-
-    /* 照片出现的动画状态 */
-    .photo-item.show {
-        opacity: 1;
-        transform: scale(1) rotate(var(--r)); /* 使用随机旋转角度 */
-    }
-</style>
-
-<div id="photo-wall"></div>
-
-<script>
-    // 1. 照片库：请在此替换为你自己的图片链接
-    const photos = [
-        "https://images.unsplash.com/photo-1516589174184-c68526614480?w=300",
-        "https://images.unsplash.com/photo-1522673607200-1648832cee98?w=300",
-        "https://images.unsplash.com/photo-1494972308935-1b36639f3ef3?w=300",
-        "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300",
-        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=300",
-        "https://images.unsplash.com/photo-1516589091380-5d8e87df3999?w=300"
-    ];
-
-    const message = "从遇见你的那一刻起，\n我就知道，你是我一直在寻找的星光。\n愿往后余生，冷暖有相知，喜忧有相伴。\n我永远会在你身边。";
-    let i = 0;
-
-    function typeWriter() {
-        if (i < message.length) {
-            document.getElementById("typer").innerHTML += message.charAt(i);
-            i++;
-            setTimeout(typeWriter, 150);
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致最爱的你</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            overflow-x: hidden;
         }
-    }
-
-    // 2. 生成照片墙的函数
-    function createPhotoWall() {
-        const wall = document.getElementById('photo-wall');
-        photos.forEach((src, index) => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.className = 'photo-item';
-            
-            // 随机分配位置（避开中间文字区域）
-            const top = Math.random() * 80 + 5; // 5% - 85%
-            const left = Math.random() * 80 + 5; // 5% - 85%
-            const rotation = (Math.random() - 0.5) * 40; // -20到20度旋转
-
-            img.style.top = `${top}%`;
-            img.style.left = `${left}%`;
-            img.style.setProperty('--r', `${rotation}deg`);
-
-            wall.appendChild(img);
-
-            // 延迟出现，形成流星般散开的效果
-            setTimeout(() => {
-                img.classList.add('show');
-            }, index * 300); 
-        });
-    }
-
-    function startExperience() {
-        // 播放音乐
-        const music = document.getElementById('bgMusic');
-        music.play().catch(e => console.log("Music play blocked"));
-
-        // 隐藏按钮
-        document.getElementById('startBtn').style.display = 'none';
         
-        // 执行照片墙和打字机
-        createPhotoWall();
-        typeWriter();
-    }
-</script>
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 80%;
+            color: white;
+            transition: all 0.5s ease;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        #typer {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 3rem;
+            white-space: pre-wrap;
+        }
+        
+        .btn {
+            margin-top: 2rem;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: white;
+            color: #ff4757;
+        }
+        
+        .heart {
+            color: #ff4757;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 照片墙样式 */
+        .photo-wall {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+            padding: 2rem;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            aspect-ratio: 1;
+        }
+        
+        .photo-item:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .photo-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        /* 照片故事弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-content h2 {
+            color: #ff4757;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-content p {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #ff4757;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="container" id="mainContainer">
+        <h1>致 <span id="name">亲爱的</span> <span class="heart">❤</span></h1>
+        
+        <div id="typer"></div>
+        <button class="btn" onclick="startExperience()" id="startBtn">点击开启</button>
+        
+        <!-- 照片墙 -->
+        <div class="photo-wall" id="photoWall"></div>
+    </div>
+    
+    <!-- 照片故事弹窗 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" alt="">
+            <h2 id="modalTitle"></h2>
+            <p id="modalStory"></p>
+        </div>
+    </div>
+    
+    <script>
+        const message = "从遇见你的那一刻起，\n我就知道，你是我一直在寻找的星光。\n愿往后余生，冷暖有相知，喜忧有相伴。\n我永远会在你身边。";
+        
+        // 照片数据（可自行修改图片链接和故事内容）
+        const photos = [
+            {
+                img: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500',
+                title: '初次相遇',
+                story: '那天阳光正好，你穿着白色的裙子走进咖啡厅。我一抬头，就看到了你明媚的笑容。那一刻，我知道我的心跳乱了节奏。从此，你成为了我生命中最美的意外。'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500',
+                title: '海边漫步',
+                story: '记得那次我们一起去海边，你光着脚丫在沙滩上奔跑，海风吹乱了你的长发。你回头冲我微笑，夕阳的余晖洒在你脸上，那一刻被永远定格在我心里。'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=500',
+                title: '樱花树下',
+                story: '春天我们在樱花树下许下诺言，粉色的花瓣随风飘落，像是在为我们的爱情祝福。你说，希望我们能像樱花一样，每年春天都能重逢，永不分离。'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=500',
+                title: '雨中约定',
+                story: '那场突如其来的大雨，我们躲在屋檐下。你紧紧握着我的手说："无论风雨，我都会陪在你身边。" 雨水打湿了我们的衣服，却打不湿我们的心。'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=500',
+                title: '星空下的告白',
+                story: '在那个满天繁星的夜晚，我鼓起勇气向你告白。你低着头，脸颊泛起红晕，轻轻点了点头。那一刻，整个宇宙的星星都在为我们欢呼。'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1523438097201-512ae7d59c44?w=500',
+                title: '温暖的拥抱',
+                story: '每次你的拥抱，都能治愈我所有的疲惫。你的怀抱是我最温暖的港湾，无论外面的世界多么喧嚣，只要有你在，我就有了全世界。'
+            }
+        ];
+        
+        let i = 0;
+        const speed = 150;
+        
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typer").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // 打字完成后，延迟1秒显示照片墙
+                setTimeout(showPhotoWall, 1000);
+            }
+        }
+        
+        function startExperience() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("需手动触发音乐"));
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('typer').innerHTML = '';
+            i = 0;
+            typeWriter();
+        }
+        
+        function showPhotoWall() {
+            const photoWall = document.getElementById('photoWall');
+            const container = document.getElementById('mainContainer');
+            
+            // 调整容器大小
+            container.style.maxWidth = '90%';
+            container.style.width = '100%';
+            
+            // 生成照片墙
+            photos.forEach((photo, index) => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                photoItem.style.animationDelay = `${index * 0.1}s`;
+                photoItem.innerHTML = `<img src="${photo.img}" alt="${photo.title}">`;
+                photoItem.onclick = () => openModal(index);
+                photoWall.appendChild(photoItem);
+            });
+            
+            photoWall.style.display = 'grid';
+        }
+        
+        function openModal(index) {
+            const modal = document.getElementById('modal');
+            const photo = photos[index];
+            
+            document.getElementById('modalImg').src = photo.img;
+            document.getElementById('modalTitle').textContent = photo.title;
+            document.getElementById('modalStory').textContent = photo.story;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // 点击弹窗外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
