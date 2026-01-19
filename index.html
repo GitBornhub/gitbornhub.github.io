@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>致最爱的你</title>
+    <style>
+        /* 基础样式复刻 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 背景图：可以换成你自己的图片URL */
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            overflow: hidden;
+        }
+
+        /* 中央卡片 */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px); /* 玻璃拟态效果 */
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 80%;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* 打字机文字区域 */
+        #typer {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 3rem;
+            white-space: pre-wrap; /* 保留换行 */
+        }
+
+        /* 底部互动按钮 */
+        .btn {
+            margin-top: 2rem;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: white;
+            color: #ff4757;
+        }
+
+        /* 简单的爱心动画 */
+        .heart {
+            color: #ff4757;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <h1>致 <span id="name">亲爱的</span> <span class="heart">❤</span></h1>
+        
+        <div id="typer"></div>
+
+        <button class="btn" onclick="startExperience()" id="startBtn">点击开启</button>
+    </div>
+
+    <script>
+        // 在这里修改你的文字内容
+        const message = "从遇见你的那一刻起，\n我就知道，你是我一直在寻找的星光。\n愿往后余生，冷暖有相知，喜忧有相伴。\n我永远会在你身边。";
+        
+        let i = 0;
+        const speed = 150; // 打字速度（毫秒）
+
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typer").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        function startExperience() {
+            // 播放音乐（部分浏览器要求用户点击后才能播放）
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("需手动触发音乐"));
+
+            // 隐藏按钮并开始打字
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('typer').innerHTML = '';
+            typeWriter();
+        }
+    </script>
+</body>
+</html>
