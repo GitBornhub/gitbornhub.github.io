@@ -65,25 +65,25 @@
             padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;
         }
 
-        /* --- 首页/Hero 区域 --- */
+        /* --- 首页区域 --- */
         .hero { text-align: center; padding: 5rem 1rem; }
         .hero h1 { font-size: 3rem; margin-bottom: 1rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* --- 博客网格 --- */
         .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
         .blog-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;
         }
 
+        /* --- 博客卡片 (精简版) --- */
         .blog-card {
             background: var(--card-bg); border-radius: 15px; overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s;
         }
         .blog-card:hover { transform: translateY(-5px); }
-        .blog-card img { width: 100%; height: 200px; object-fit: cover; }
-        .blog-card-info { padding: 1.5rem; }
-        .blog-card-info h3 { margin-bottom: 0.5rem; }
-        .blog-meta { font-size: 0.85rem; color: #888; margin-top: 1rem; }
+        .blog-card img { width: 100%; height: 220px; object-fit: cover; }
+        .blog-card-info { padding: 1.2rem; }
+        .blog-card-info h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .blog-meta { font-size: 0.85rem; color: #888; }
 
         /* --- 文章详情 --- */
         .article-page { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; display: none; }
@@ -91,14 +91,13 @@
             display: inline-block; margin-bottom: 1.5rem; padding: 0.5rem 1rem;
             background: var(--gradient); color: white; text-decoration: none; border-radius: 20px;
         }
-        .article-content { background: var(--card-bg); padding: 2rem; border-radius: 15px; line-height: 1.8; }
+        .article-content { background: var(--card-bg); padding: 2.5rem; border-radius: 15px; line-height: 1.8; }
         .article-content img { width: 100%; border-radius: 10px; margin-bottom: 2rem; }
-        .article-body h2 { margin: 1.5rem 0 1rem; color: var(--primary); }
+        .article-body h1 { margin-bottom: 10px; }
+        .article-body h2 { margin: 1.8rem 0 1rem; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; }
         .article-body p { margin-bottom: 1.2rem; }
 
-        /* --- 工具类 --- */
         .hidden { display: none; }
-        .show { display: block; }
 
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
@@ -122,85 +121,56 @@
 <main id="app">
     <div id="home-view">
         <section class="hero">
-            <h1>探索技术与生活的边界</h1>
-            <p>在这里，分享代码、思考与每一个精彩瞬间。</p>
+            <h1>记录与分享</h1>
         </section>
         <div class="container">
-            <div class="blog-grid" id="blog-grid">
-                </div>
+            <div class="blog-grid" id="blog-grid"></div>
         </div>
     </div>
 
     <div id="about-view" class="container hidden">
         <div class="article-content">
             <h1>关于我</h1>
-            <p style="margin-top:1rem">你好！我是一名开发者。这个博客是我用来记录学习笔记和生活感悟的方寸之地。</p>
-            <p>我喜欢简洁的设计、高效的代码和清晨的咖啡。</p>
+            <p style="margin-top:1.5rem">这里是我的个人空间，用于记录技术思考与生活点滴。</p>
+            <p>删繁就简，保持纯粹。</p>
         </div>
     </div>
 
     <div id="article-view" class="article-page">
-        <a href="#" class="back-btn" onclick="renderHome()">← 返回列表</a>
-        <div id="article-detail" class="article-content">
-            </div>
+        <a href="#" class="back-btn" onclick="renderHome()">← 返回</a>
+        <div id="article-detail" class="article-content"></div>
     </div>
 </main>
 
 <script>
-    /* ============================================
-       1. 博客数据 (原本在 posts.json 的内容现在就在这里)
-       ============================================ */
+    // 博客数据 (移除了 excerpt 和 comments)
     const blogData = [
         {
             id: 1,
             title: "语言、思维与我的“避难所”",
-            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800",
-            date: "2026-01-19",
+            image: "https://media-exp1.licdn.com/dms/image/C4D12AQHli1xxwqjhwg/article-cover_image-shrink_600_2000/0/1581465496795?e=2147483647&v=beta&t=Dzxz2jO65v4P_O2ZOiIeI2EMrObcH2fReBMsVLaXz_8?w=800",
+            date: "2024-01-15",
             content: `
-                <p>在语言学课本中，语言有两种最常见的定义：一是符号系统，二是思维的工具。符号系统不难理解，但为什么说语言是思维的工具？</p>
-
-                <p>通常，我们想到语言就会联想到“听说读写”的交流功能。但在这些行为发生之前，大脑已经在利用语言进行逻辑组织。想象一下，如果没有语言，人类的思考或许只能停留于实体物体的排列组合。为了表达这些组合，人们从繁琐的画图演变出简化的符号，这便催生了象形文字。随着人类对世界认识的深化，语言体系变得庞大而严谨，这不仅延续了经验，更塑造了文明。在文字诞生前，经验的传播或许就是真正的“做中学”，那便是教育的雏形。
-
-由此可见，思维与语言是共生的。 若一个人思维敏锐且无表达障碍，其语言组织能力理应不俗。这正是“笔试+面试”选拔模式的科学性所在。然而，人类天生趋向避难就易。动脑思考太累，不如沉溺于爽文和短视频。这种“只输入、不思考、不输出”的行为极易形成路径依赖。一旦离开碎片化信息，就会感到空虚，甚至产生一种“看了别人的总结，知识就属于自己”的错觉。</p>
-
-                <p>这种浅层浏览，锻炼的仅是听力和阅读的皮毛。我在学习英文时便深受其害：水平止步于“能听懂”，却无法边听边思考。即便思考，也是痛苦地将英文转为中文。老师们常说要“用英语思考”，但若在母语环境下都难得进行深度思考，又怎能指望调用一种不熟悉的语言？这便是我英语学习的瓶颈——单词量之外，是思维底层逻辑的断层。 尽管身处母语国家或许能改善状态，但对我而言机会渺茫。</p>
-
-                <p>创建这个博客，源于我观察到的一些“大佬”。他们不仅在技术与生活间游刃有余，还能持续高质量地输出。相比之下，我虽有极客梦，却常止步于起步阶段。在Gemini的帮助下，博客建成了，我却陷入了“无物可发”的窘境。本能地，我将其归咎于生活的平庸，但内核其实是思考的匮乏导致了表达的枯竭。</p>
-
-                <p>过去，我常标榜自己是“i人”，将其作为逃避思考的完美借口。周围人安慰说“内向是天性”，我也心安理得地将其当作懒惰的挡箭牌。诚然，言多必失，甚至可能显得拙劣，但彻底的沉默并非因为清高，而是因为思想的懒散。</p>
+            <p>在语言学课本中，语言有两种最常见的定义：一是符号系统，二是思维的工具。符号系统不难理解，但为什么说语言是思维的工具？
+<p>通常，我们想到语言就会联想到“听说读写”的交流功能。但在这些行为发生之前，大脑已经在利用语言进行逻辑组织。想象一下，如果没有语言，人类的思考或许只能停留于实体物体的排列组合。为了表达这些组合，人们从繁琐的画图演变出简化的符号，这便催生了象形文字。随着人类对世界认识的深化，语言体系变得庞大而严谨，这不仅延续了经验，更塑造了文明。在文字诞生前，经验的传播或许就是真正的“做中学”，那便是教育的雏形。</p>
+<p>由此可见，思维与语言是共生的。 若一个人思维敏锐且无表达障碍，其语言组织能力理应不俗。这正是“笔试+面试”选拔模式的科学性所在。然而，人类天生趋向避难就易。动脑思考太累，不如沉溺于爽文和短视频。这种“只输入、不思考、不输出”的行为极易形成路径依赖。一旦离开碎片化信息，就会感到空虚，甚至产生一种“看了别人的总结，知识就属于自己”的错觉。</p>
+<p>这种浅层浏览，锻炼的仅是听力和阅读的皮毛。我在学习英文时便深受其害：水平止步于“能听懂”，却无法边听边思考。即便思考，也是痛苦地将英文转为中文。老师们常说要“用英语思考”，但若在母语环境下都难得进行深度思考，又怎能指望调用一种不熟悉的语言？这便是我英语学习的瓶颈——单词量之外，是思维底层逻辑的断层。 尽管身处母语国家或许能改善状态，但对我而言机会渺茫。</p>
+<p>创建这个博客，源于我观察到的一些“大佬”。他们不仅在技术与生活间游刃有余，还能持续高质量地输出。相比之下，我虽有极客梦，却常止步于起步阶段。在Gemini的帮助下，博客建成了，我却陷入了“无物可发”的窘境。本能地，我将其归咎于生活的平庸，但内核其实是思考的匮乏导致了表达的枯竭。</p>
+<p>过去，我常标榜自己是“i人”，将其作为逃避思考的完美借口。周围人安慰说“内向是天性”，我也心安理得地将其当作懒惰的挡箭牌。诚然，言多必失，甚至可能显得拙劣，但彻底的沉默并非因为清高，而是因为思想的懒散。</p>
             `
         },
         {
             id: 2,
             title: "极简生活的艺术",
-            excerpt: "生活不必复杂，分享我践行极简主义的经历，如何通过简化物品获得自由。",
             image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
             date: "2024-01-05",
-            comments: 15,
             content: `
-                <h2>为什么选择极简</h2><p>极简主义让我学会区分“想要”和“需要”。丢掉 70% 的无用物品后，我感到前所未有的轻松。</p>
-                <p>数字极简也同样重要：清理手机通知，关掉无意义的信息源。</p>
-            `
-        },
-        {
-            id: 3,
-            title: "AI 时代的编程思维",
-            excerpt: "人工智能正在改变编程的方式，程序员需要具备哪些新技能？",
-            image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800",
-            date: "2023-12-28",
-            comments: 20,
-            content: `
-                <h2>AI 不是敌人</h2><p>学会使用 Copilot 和 ChatGPT 可以让效率提升数倍。但我们要保持对底层架构的思考能力。</p>
-                <p>未来的程序员更像是“系统导演”，而 AI 是高效的“执行员”。</p>
+                <h2>空间极简</h2><p>腾出物理空间，才能留出心理空间。</p>
+                <h2>信息极简</h2><p>专注有深度的阅读，而非碎片化的摄取。</p>
             `
         }
     ];
 
-    /* ============================================
-       2. 核心路由与渲染逻辑
-       ============================================ */
-    
-    // 初始化渲染主页
     function init() {
         const grid = document.getElementById('blog-grid');
         grid.innerHTML = blogData.map((post, index) => `
@@ -208,26 +178,22 @@
                 <img src="${post.image}" alt="${post.title}">
                 <div class="blog-card-info">
                     <h3>${post.title}</h3>
-                    <p>${post.excerpt}</p>
-                    <div class="blog-meta">📅 ${post.date} · 💬 ${post.comments}</div>
+                    <div class="blog-meta">📅 ${post.date}</div>
                 </div>
             </div>
         `).join('');
     }
 
-    // 渲染主页视图
     function renderHome() {
         switchView('home-view');
         updateNav('nav-home');
     }
 
-    // 渲染关于视图
     function renderAbout() {
         switchView('about-view');
         updateNav('nav-about');
     }
 
-    // 渲染文章详情
     function renderArticle(index) {
         const post = blogData[index];
         const detail = document.getElementById('article-detail');
@@ -235,7 +201,7 @@
             <img src="${post.image}" alt="${post.title}">
             <div class="article-body">
                 <h1>${post.title}</h1>
-                <p style="color:#888; margin-bottom:2rem">发布于 ${post.date}</p>
+                <p style="color:#888; margin-bottom:2rem; font-size:0.9rem;">发布时间: ${post.date}</p>
                 ${post.content}
             </div>
         `;
@@ -243,28 +209,23 @@
         window.scrollTo(0, 0);
     }
 
-    // 视图切换助手
     function switchView(viewId) {
-        const views = ['home-view', 'about-view', 'article-view'];
-        views.forEach(v => {
+        ['home-view', 'about-view', 'article-view'].forEach(v => {
             document.getElementById(v).style.display = (v === viewId) ? 'block' : 'none';
         });
     }
 
-    // 导航高亮助手
     function updateNav(navId) {
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
         if(navId) document.getElementById(navId).classList.add('active');
     }
 
-    // 切换主题
     function toggleTheme() {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
         document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
     }
 
-    // 页面加载完成后启动
     window.addEventListener('DOMContentLoaded', init);
 </script>
 
