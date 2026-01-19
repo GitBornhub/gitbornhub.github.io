@@ -104,6 +104,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            cursor: pointer;  /* 点击返回首页 */
         }
 
         nav {
@@ -280,6 +281,116 @@
             color: #95a5a6;
         }
 
+        /* ============================================
+           文章详情页样式 - 显示文章完整内容
+           ============================================ */
+        
+        /* 文章详情页容器 */
+        .article-detail {
+            max-width: 900px;  /* 文章内容最大宽度，修改这里可以调整文章宽度 */
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* 文章详情卡片 */
+        .article-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .article-content {
+            background: rgba(22, 33, 62, 0.95);
+        }
+
+        /* 返回按钮样式 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 文章封面图片 */
+        .article-header-image {
+            width: 100%;
+            height: 400px;  /* 封面图片高度，可以修改 */
+            object-fit: cover;
+        }
+
+        /* 文章主体内容区域 */
+        .article-body {
+            padding: 3rem;  /* 文章内容的内边距 */
+        }
+
+        /* 文章标题 */
+        .article-body h1 {
+            font-size: 2.5rem;  /* 文章标题大小 */
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 文章元信息（日期、评论数） */
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+            color: #95a5a6;
+            font-size: 0.95rem;
+        }
+
+        /* 文章正文内容 */
+        .article-text {
+            line-height: 1.8;  /* 行高，影响阅读舒适度 */
+            font-size: 1.1rem;  /* 正文字体大小 */
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .article-text {
+            color: var(--text-light);
+        }
+
+        /* 文章段落间距 */
+        .article-text p {
+            margin-bottom: 1.5rem;  /* 段落之间的间距 */
+        }
+
+        /* 文章小标题样式 */
+        .article-text h2 {
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .article-text h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+
         /* 关于页面区域 */
         .about-section {
             max-width: 800px;
@@ -386,13 +497,31 @@
             .about-content {
                 padding: 2rem;
             }
+
+            /* 文章详情页手机适配 */
+            .article-header-image {
+                height: 250px;  /* 手机上降低封面图片高度 */
+            }
+
+            .article-body {
+                padding: 2rem;  /* 手机上减少内边距 */
+            }
+
+            .article-body h1 {
+                font-size: 2rem;  /* 手机上缩小文章标题 */
+            }
+
+            .article-text {
+                font-size: 1rem;  /* 手机上缩小正文字体 */
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">我的个人博客</div>
+            <!-- 点击 logo 返回首页 -->
+            <div class="logo" onclick="showHome()">我的个人博客</div>
             <nav>
                 <div class="nav-links">
                     <a href="#" class="nav-link active" data-page="home">首页</a>
@@ -419,13 +548,28 @@
             </section>
         </div>
 
+        <!-- 文章详情页 - 点击文章卡片后显示 -->
+        <div id="article-page" class="hidden">
+            <div class="article-detail">
+                <!-- 返回按钮 -->
+                <a href="#" class="back-button" onclick="showHome(); return false;">
+                    ← 返回文章列表
+                </a>
+                
+                <!-- 文章内容容器 -->
+                <div class="article-content" id="article-content">
+                    <!-- 文章内容将由 JavaScript 动态生成 -->
+                </div>
+            </div>
+        </div>
+
         <!-- 关于页面 -->
         <div id="about-page" class="hidden">
             <section class="about-section">
                 <div class="about-content">
                     <h2>关于我</h2>
                     <p>你好！我是一名热爱技术和生活的全栈开发者，专注于前端开发和用户体验设计。</p>
-                    <p>我相信技术可以改变世界,更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
+                    <p>我相信技术可以改变世界，更相信技术应该服务于人。在这个博客里，我会分享我在编程、学习、生活中的思考和实践。</p>
                     <p><strong>我的技能：</strong></p>
                     <p>💻 前端开发：React、Vue、TypeScript、HTML/CSS<br>
                     🎨 设计工具：Figma、Adobe XD<br>
@@ -443,6 +587,9 @@
     </main>
 
     <script>
+        // 全局变量：存储所有文章数据
+        let allPosts = [];
+
         // ============================================
         // 从 posts.json 加载博客数据
         // 作用：读取 JSON 文件并在页面上显示博客文章
@@ -458,11 +605,11 @@
                     throw new Error('无法加载博客数据');
                 }
                 
-                // 将响应转换为 JSON 对象
-                const posts = await response.json();
+                // 将响应转换为 JSON 对象并存储到全局变量
+                allPosts = await response.json();
                 
                 // 调用函数显示博客文章
-                displayBlogPosts(posts);
+                displayBlogPosts(allPosts);
                 
             } catch (error) {
                 // 如果加载失败，显示错误信息
@@ -472,8 +619,8 @@
         }
 
         // ============================================
-        // 显示博客文章到页面
-        // 作用：根据 JSON 数据生成 HTML 卡片
+        // 显示博客文章列表到页面
+        // 作用：根据 JSON 数据生成文章卡片
         // 修改：如果要改变卡片的 HTML 结构，修改这里
         // ============================================
         function displayBlogPosts(posts) {
@@ -487,7 +634,7 @@
             blogGrid.innerHTML = '';
             
             // 遍历每篇文章，生成对应的 HTML
-            posts.forEach(post => {
+            posts.forEach((post, index) => {
                 // 创建博客卡片的 HTML 结构
                 const card = document.createElement('div');
                 card.className = 'blog-card';
@@ -505,9 +652,79 @@
                     </div>
                 `;
                 
+                // 点击卡片时显示文章详情
+                // index 是文章在数组中的索引位置
+                card.onclick = () => showArticle(index);
+                
                 // 将卡片添加到页面中
                 blogGrid.appendChild(card);
             });
+        }
+
+        // ============================================
+        // 显示文章详情页
+        // 作用：点击文章卡片后显示完整文章内容
+        // 参数：postIndex - 文章在 allPosts 数组中的索引
+        // 修改：要改变文章详情页的布局，修改这里的 HTML 结构
+        // ============================================
+        function showArticle(postIndex) {
+            // 获取对应的文章数据
+            const post = allPosts[postIndex];
+            
+            // 隐藏首页和关于页
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('about-page').classList.add('hidden');
+            
+            // 显示文章详情页
+            const articlePage = document.getElementById('article-page');
+            articlePage.classList.remove('hidden');
+            
+            // 更新导航栏状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // 生成文章详情的 HTML
+            const articleContent = document.getElementById('article-content');
+            articleContent.innerHTML = `
+                <img src="${post.image}" alt="${post.title}" class="article-header-image">
+                <div class="article-body">
+                    <h1>${post.title}</h1>
+                    <div class="article-meta">
+                        <span>📅 发布于 ${post.date}</span>
+                        <span>💬 ${post.comments} 条评论</span>
+                    </div>
+                    <div class="article-text">
+                        ${post.content}
+                    </div>
+                </div>
+            `;
+            
+            // 滚动到页面顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============================================
+        // 返回首页
+        // 作用：从文章详情页或关于页返回首页
+        // 修改：无需修改
+        // ============================================
+        function showHome() {
+            // 隐藏文章详情页和关于页
+            document.getElementById('article-page').classList.add('hidden');
+            document.getElementById('about-page').classList.add('hidden');
+            
+            // 显示首页
+            document.getElementById('home-page').classList.remove('hidden');
+            
+            // 更新导航栏状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector('[data-page="home"]').classList.add('active');
+            
+            // 滚动到页面顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ============================================
@@ -557,8 +774,6 @@
         // 修改：如果要添加新页面，需要在这里添加对应逻辑
         // ============================================
         const navLinks = document.querySelectorAll('.nav-link');
-        const homePage = document.getElementById('home-page');
-        const aboutPage = document.getElementById('about-page');
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -567,18 +782,24 @@
                 // 获取要显示的页面
                 const page = link.getAttribute('data-page');
                 
+                // 隐藏所有页面
+                document.getElementById('home-page').classList.add('hidden');
+                document.getElementById('about-page').classList.add('hidden');
+                document.getElementById('article-page').classList.add('hidden');
+                
                 // 更新导航链接的激活状态
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // 显示/隐藏对应的页面
+                // 显示对应的页面
                 if (page === 'home') {
-                    homePage.classList.remove('hidden');
-                    aboutPage.classList.add('hidden');
+                    document.getElementById('home-page').classList.remove('hidden');
                 } else if (page === 'about') {
-                    homePage.classList.add('hidden');
-                    aboutPage.classList.remove('hidden');
+                    document.getElementById('about-page').classList.remove('hidden');
                 }
+                
+                // 滚动到页面顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
