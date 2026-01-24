@@ -3,232 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人博客</title>
+    <title>充不了理发器 - 纯粹·不妥协</title>
     <style>
-        /* --- 核心变量与基础样式 --- */
         :root {
-            --primary: #4a90e2;
-            --gradient: linear-gradient(135deg, #667eea, #764ba2);
-            --text-dark: #2c3e50;
-            --text-light: #ecf0f1;
-            --bg-overlay: rgba(255, 255, 255, 0.85);
-            --card-bg: rgba(255, 255, 255, 0.95);
-        }
-
-        .dark-mode {
-            --text-dark: #ecf0f1;
-            --bg-overlay: rgba(26, 26, 46, 0.9);
-            --card-bg: rgba(22, 33, 62, 0.95);
+            --bg-black: #000000;
+            --text-gray: #86868b;
+            --apple-blue: #0071e3;
+            --gradient-gold: linear-gradient(180deg, #ffecbb 0%, #d4a76a 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: var(--text-dark);
-            transition: 0.3s;
-            background: url('https://picsum.photos/1920/1080?nature') no-repeat center center fixed;
-            background-size: cover;
-        }
-
-        body::after {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-overlay); z-index: -1;
-        }
-
-        /* --- 导航栏 --- */
-        header {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header-container {
-            max-width: 1100px; margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem; font-weight: bold; cursor: pointer;
-            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        nav { display: flex; gap: 1.5rem; align-items: center; }
-        nav a { text-decoration: none; color: inherit; font-weight: 500; position: relative; }
-        nav a.active::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: var(--gradient);
-        }
-
-        .theme-toggle {
-            background: var(--gradient); border: none; color: white;
-            padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;
-        }
-
-        /* --- 首页区域 --- */
-        .hero { text-align: center; padding: 5rem 1rem; }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
-        .blog-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;
+        body {
+            background-color: var(--bg-black);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Myriad Set Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+            overflow-y: scroll;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 博客卡片 (精简版) --- */
-        .blog-card {
-            background: var(--card-bg); border-radius: 15px; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s;
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
         }
-        .blog-card:hover { transform: translateY(-5px); }
-        .blog-card img { width: 100%; height: 220px; object-fit: cover; }
-        .blog-card-info { padding: 1.2rem; }
-        .blog-card-info h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .blog-meta { font-size: 0.85rem; color: #888; }
 
-        /* --- 文章详情 --- */
-        .article-page { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; display: none; }
-        .back-btn { 
-            display: inline-block; margin-bottom: 1.5rem; padding: 0.5rem 1rem;
-            background: var(--gradient); color: white; text-decoration: none; border-radius: 20px;
+        /* --- 大厂范儿文字样式 --- */
+        .eyebrow {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f5f5f7;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.05em;
         }
-        .article-content { background: var(--card-bg); padding: 2.5rem; border-radius: 15px; line-height: 1.8; }
-        .article-content img { width: 100%; border-radius: 10px; margin-bottom: 2rem; }
-        .article-body h1 { margin-bottom: 10px; }
-        .article-body h2 { margin: 1.8rem 0 1rem; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; }
-        .article-body p { margin-bottom: 1.2rem; }
 
-        .hidden { display: none; }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2rem; }
-            .header-container { flex-direction: column; gap: 1rem; }
+        h1 {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: #fff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, #86868b);
+            -webkit-background-clip: text;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* --- 动画系统 --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section.active .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.2s; }
+        .reveal-delay-2 { transition-delay: 0.4s; }
+
+        /* --- 特殊组件 --- */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 50px;
+            max-width: 800px;
+        }
+
+        .spec-item h3 { font-size: 2.5rem; margin-bottom: 5px; color: #fff; }
+        .spec-item p { font-size: 0.9rem; color: var(--text-gray); text-transform: uppercase; }
+
+        .bg-video-mock {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        /* 交互效果 */
+        h1:hover {
+            filter: brightness(1.2);
+            transition: 0.5s;
+        }
+
+        /* 购买按钮 */
+        .cta-btn {
+            background-color: #fff;
+            color: #000;
+            padding: 12px 28px;
+            border-radius: 980px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-top: 30px;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-container">
-        <div class="logo" onclick="renderHome()">我的个人博客</div>
-        <nav>
-            <a href="#" id="nav-home" class="active" onclick="renderHome()">首页</a>
-            <a href="#" id="nav-about" onclick="renderAbout()">关于</a>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-        </nav>
-    </div>
-</header>
-
-<main id="app">
-    <div id="home-view">
-        <section class="hero">
-            <h1>欢迎来到我的个人博客</h1>
-            <h2>这里记录着我的想法、学习和生活。</h2>
-        </section>
-        <div class="container">
-            <div class="blog-grid" id="blog-grid"></div>
+    <section>
+        <div class="reveal">
+            <h1 style="background: var(--gradient-gold); -webkit-background-clip: text;">理发太贵！</h1>
+            <p class="description">每一口呼吸都在消耗金钱，<br>而你的钱包，已经经不起下一次修剪。</p>
         </div>
-    </div>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F12001949%2Fpexels-photo-12001949.jpeg%3Fcs%3Dsrgb%26dl%3Dpexels-towfiqu-barbhuiya-3440682-12001949.jpg%26fm%3Djpg&f=1&nofb=1&ipt=d6c7a19bb74079033494a71ea5713e2951922a341ee36db8842c7304f3e39228" class="bg-video-mock">
+    </section>
 
-    <div id="about-view" class="container hidden">
-        <div class="article-content">
-            <h1>关于我</h1>
-            <p style="margin-top:1.5rem">这里是我的个人空间，用于记录技术思考与生活点滴。</p>
-            <p>删繁就简，保持纯粹。</p>
+    <section>
+        <div class="reveal">
+            <h1 class="gradient-text">充电太烦！</h1>
+            <p class="description">摆脱杂乱的电线，告别漫长的等待。<br>电力焦虑不应出现在理发的艺术时刻。</p>
         </div>
-    </div>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F618vV6OiWAL._SL1500_.jpg&f=1&nofb=1&ipt=da2e00215dcf0eeaacb04075a73e84c16f34ac45f0f2394fd8935ba090d906bf" class="bg-video-mock">
+    </section>
 
-    <div id="article-view" class="article-page">
-        <a href="#" class="back-btn" onclick="renderHome()">← 返回</a>
-        <div id="article-detail" class="article-content"></div>
-    </div>
-</main>
+    <section>
+        <div class="reveal">
+            <div class="eyebrow">It's here.</div>
+            <h1 style="font-size: 6rem;">充不了</h1>
+            <p class="description" style="color: #fff;">手动理发系统</p>
+            <p class="description" style="margin-top: 20px; font-size: 0.9rem;">一个关于钢铁、刀锋与勇气的传奇故事。</p>
+        </div>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F51fdC2fKJeL._SL1001_.jpg&f=1&nofb=1&ipt=d3fc75495c99c08c7d461c986e7bdc62e16e562f726a0d42463cedf4d8b6e0a6" class="bg-video-mock" style="opacity: 0.6;">
+    </section>
 
-<script>
-    // 博客数据 (移除了 excerpt 和 comments)
-    const blogData = [
-        {
-            id: 1,
-            title: "语言、思维与我的“避难所”",
-            image: "https://media-exp1.licdn.com/dms/image/C4D12AQHli1xxwqjhwg/article-cover_image-shrink_600_2000/0/1581465496795?e=2147483647&v=beta&t=Dzxz2jO65v4P_O2ZOiIeI2EMrObcH2fReBMsVLaXz_8",
-            date: "2026-01-19",
-            content: `
-            <p>在语言学课本中，语言有两种最常见的定义：一是符号系统，二是思维的工具。符号系统不难理解，但为什么说语言是思维的工具？
-<p>通常，我们想到语言就会联想到“听说读写”的交流功能。但在这些行为发生之前，大脑已经在利用语言进行逻辑组织。想象一下，如果没有语言，人类的思考或许只能停留于实体物体的排列组合。为了表达这些组合，人们从繁琐的画图演变出简化的符号，这便催生了象形文字。随着人类对世界认识的深化，语言体系变得庞大而严谨，这不仅延续了经验，更塑造了文明。在文字诞生前，经验的传播或许就是真正的“做中学”，那便是教育的雏形。</p>
-<p>由此可见，思维与语言是共生的。 若一个人思维敏锐且无表达障碍，其语言组织能力理应不俗。这正是“笔试+面试”选拔模式的科学性所在。然而，人类天生趋向避难就易。动脑思考太累，不如沉溺于爽文和短视频。这种“只输入、不思考、不输出”的行为极易形成路径依赖。一旦离开碎片化信息，就会感到空虚，甚至产生一种“看了别人的总结，知识就属于自己”的错觉。</p>
-<p>这种浅层浏览，锻炼的仅是听力和阅读的皮毛。我在学习英文时便深受其害：水平止步于“能听懂”，却无法边听边思考。即便思考，也是痛苦地将英文转为中文。老师们常说要“用英语思考”，但若在母语环境下都难得进行深度思考，又怎能指望调用一种不熟悉的语言？这便是我英语学习的瓶颈——单词量之外，是思维底层逻辑的断层。 尽管身处母语国家或许能改善状态，但对我而言机会渺茫。</p>
-<p>创建这个博客，源于我观察到的一些“大佬”。他们不仅在技术与生活间游刃有余，还能持续高质量地输出。相比之下，我虽有极客梦，却常止步于起步阶段。在Gemini的帮助下，博客建成了，我却陷入了“无物可发”的窘境。本能地，我将其归咎于生活的平庸，但内核其实是思考的匮乏导致了表达的枯竭。</p>
-<p>过去，我常标榜自己是“i人”，将其作为逃避思考的完美借口。周围人安慰说“内向是天性”，我也心安理得地将其当作懒惰的挡箭牌。诚然，言多必失，甚至可能显得拙劣，但彻底的沉默并非因为清高，而是因为思想的懒散。</p>
-            `
-        },
-        {
-            id: 2,
-            title: "极简生活的艺术",
-            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-            date: "2024-01-05",
-            content: `
-                <h2>空间极简</h2><p>腾出物理空间，才能留出心理空间。</p>
-                <h2>信息极简</h2><p>专注有深度的阅读，而非碎片化的摄取。</p>
-            `
-        }
-    ];
-
-    function init() {
-        const grid = document.getElementById('blog-grid');
-        grid.innerHTML = blogData.map((post, index) => `
-            <div class="blog-card" onclick="renderArticle(${index})">
-                <img src="${post.image}" alt="${post.title}">
-                <div class="blog-card-info">
-                    <h3>${post.title}</h3>
-                    <div class="blog-meta">📅 ${post.date}</div>
+    <section style="background: #0a0a0a;">
+        <div class="reveal">
+            <div class="eyebrow">技术领先</div>
+            <h1>回归本质，就是创新。</h1>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h3>0%</h3>
+                    <p>碳排放量</p>
+                </div>
+                <div class="spec-item">
+                    <h3>∞</h3>
+                    <p>理论续航时长</p>
+                </div>
+                <div class="spec-item">
+                    <h3>1:1</h3>
+                    <p>五轴联动手动调节</p>
+                </div>
+                <div class="spec-item">
+                    <h3>45°</h3>
+                    <p>符合人体工程学弧度</p>
                 </div>
             </div>
-        `).join('');
-    }
+        </div>
+    </section>
 
-    function renderHome() {
-        switchView('home-view');
-        updateNav('nav-home');
-    }
+    <section>
+        <div class="reveal">
+            <h1 class="gradient-text">无线，更无限。</h1>
+            <p class="description">采用革命性的“纯手动驱动”协议，<br>无需蓝牙，无需Wi-Fi，无需电线。<br>这是理发器，更是你身体的延伸。</p>
+        </div>
+    </section>
 
-    function renderAbout() {
-        switchView('about-view');
-        updateNav('nav-about');
-    }
+    <section>
+        <div class="reveal">
+            <h1 style="background: linear-gradient(90deg, #62cff4, #2c67ff); -webkit-background-clip: text;">ASMR 级别的解压体验。</h1>
+            <p class="description">每一次手动滑行，都是对头皮的深度按摩。<br>告别刺耳的电机声，回归静谧的剃度时光。</p>
+        </div>
+    </section>
 
-    function renderArticle(index) {
-        const post = blogData[index];
-        const detail = document.getElementById('article-detail');
-        detail.innerHTML = `
-            <img src="${post.image}" alt="${post.title}">
-            <div class="article-body">
-                <h1>${post.title}</h1>
-                <p style="color:#888; margin-bottom:2rem; font-size:0.9rem;">发布时间: ${post.date}</p>
-                ${post.content}
+    <section style="background: #fff; color: #000;">
+        <div class="reveal">
+            <h1 style="background: #000; -webkit-background-clip: text;">充不了理发器</h1>
+            <p class="description" style="color: #1d1d1f;">RMB 9.9 起</p>
+            <p style="font-size: 0.8rem; color: #86868b; margin-top: 10px;">内含：不锈钢主体 x 1，备用刀片 x 2，理发说明书（选配）</p>
+            <a href="#" class="cta-btn" style="background: var(--apple-blue); color: #fff;">立即购买</a>
+            <div style="margin-top: 15px;">
+                <a href="#" style="color: var(--apple-blue); text-decoration: none; font-size: 0.9rem;">了解更多产品参数 ></a>
             </div>
-        `;
-        switchView('article-view');
-        window.scrollTo(0, 0);
-    }
+        </div>
+    </section>
 
-    function switchView(viewId) {
-        ['home-view', 'about-view', 'article-view'].forEach(v => {
-            document.getElementById(v).style.display = (v === viewId) ? 'block' : 'none';
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
-    }
-
-    function updateNav(navId) {
-        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-        if(navId) document.getElementById(navId).classList.add('active');
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
-    }
-
-    window.addEventListener('DOMContentLoaded', init);
-</script>
-
+    </script>
 </body>
 </html>
