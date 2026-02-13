@@ -32,13 +32,23 @@
         let allPosts = []; // 用来存放从 JSON 读取到的所有数据
 
         // 1. 核心步骤：从 JSON 文件获取数据
-        fetch('posts.json')
-            .then(response => response.json()) // 把读取到的数据转成 JSON 格式
-            .then(data => {
-                allPosts = data; 
-                renderList(data); // 拿到数据后，去画出列表
-            });
+fetch('posts.json')
+    .then(response => response.json())
+    .then(data => {
+        // --- 核心排序逻辑开始 ---
+        data.sort((b, a) => {
+            // 将字符串日期转换为 JS 的日期对象进行比较
+            // b - a 是倒序（最新日期在前），a - b 是正序（老文章在前）
+            return new Date(b.date) - new Date(a.date);
+        });
+        // --- 核心排序逻辑结束 ---
 
+        allPosts = data; 
+        renderList(data); // 此时传给页面的已经是排好序的数组了
+    });
+
+
+        
         // 2. 将数据“画”在主页上
         function renderList(posts) {
             const listContainer = document.getElementById('post-list');
