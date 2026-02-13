@@ -91,9 +91,12 @@ html { scroll-behavior: smooth; }
    ============================================= */
 body {
   /* 两个径向渐变叠加，制造光感层次 */
-  background:
-     background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://haowallpaper.com/link/common/file/previewFileImg/17717780106694016') center/cover fixed;
-     background-attachment: fixed;
+ background:
+  radial-gradient(ellipse at 20% 10%,  rgba(120, 180, 255, 0.40) 0%, transparent 50%),
+  radial-gradient(ellipse at 80% 90%,  rgba(180, 120, 255, 0.35) 0%, transparent 50%),
+  radial-gradient(ellipse at 60% 40%,  rgba(100, 220, 210, 0.20) 0%, transparent 45%),
+  linear-gradient(160deg, var(--bg-from) 0%, var(--bg-to) 100%);
+background-attachment: fixed;
 
   color:       var(--text);
   font-family: var(--font-body);
