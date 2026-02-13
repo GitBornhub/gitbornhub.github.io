@@ -1,15 +1,294 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <title>第N次建个人博客</title>
-    <style> body { max-width: 800px; margin: 40px auto; padding: 20px; } </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章标题 — 我的博客</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── 变量 ── */
+    :root {
+      --bg:        #f7f4ef;
+      --bg-nav:    rgba(247, 244, 239, 0.88);
+      --text:      #1a1814;
+      --text-muted:#8a857c;
+      --border:    #ddd9d2;
+      --accent:    #b5603a;
+      --btn-bg:    #ede9e3;
+      --btn-hover: #e0dbd2;
+      --transition: 0.3s ease;
+    }
+    [data-theme="dark"] {
+      --bg:        #16140f;
+      --bg-nav:    rgba(22, 20, 15, 0.88);
+      --text:      #e8e4db;
+      --text-muted:#6b6760;
+      --border:    #2e2b24;
+      --accent:    #d4845a;
+      --btn-bg:    #232018;
+      --btn-hover: #2e2b24;
+    }
+
+    /* ── 基础 ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif SC', 'Georgia', serif;
+      font-size: 1rem;
+      line-height: 1.9;
+      transition: background var(--transition), color var(--transition);
+      min-height: 100vh;
+    }
+
+    /* ── 顶部导航 ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg-nav);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 48px);
+      height: 52px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    /* 返回按钮 */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      transition: color var(--transition), background var(--transition);
+      font-family: 'Lora', serif;
+    }
+    .back-btn:hover {
+      background: var(--btn-hover);
+      color: var(--text);
+    }
+    .back-btn svg { flex-shrink: 0; }
+
+    /* 深浅模式切换 */
+    .theme-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+    .theme-btn:hover {
+      background: var(--btn-hover);
+      color: var(--text);
+    }
+    /* 图标切换 */
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun  { display: block; }
+
+    /* ── 正文区域 ── */
+    main {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: calc(52px + 64px) clamp(20px, 5vw, 32px) 100px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 文章头部 */
+    .post-header { margin-bottom: 48px; }
+
+    .post-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .post-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Lora', serif;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    .post-divider {
+      width: 40px; height: 2px;
+      background: var(--accent);
+      margin: 20px 0 0;
+      border-radius: 2px;
+    }
+
+    /* 正文排版 */
+    .post-body p {
+      margin-bottom: 1.5em;
+      color: var(--text);
+    }
+
+    .post-body h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2.4em 0 0.8em;
+      color: var(--text);
+    }
+
+    .post-body h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 2em 0 0.6em;
+      color: var(--text);
+    }
+
+    .post-body a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .post-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 20px;
+      margin: 1.6em 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .post-body code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88em;
+      background: var(--btn-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .post-body pre {
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 1.6em 0;
+    }
+
+    .post-body pre code {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .post-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.2em 0;
+    }
+
+    /* 底部分割线 */
+    .post-footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-    <a href="../index.html">← 返回主页</a>
-    <hr>
-    <p>我用Halo和WordPress建过几次个人博客，但是由于端口占用、反向代理、VPS故障等原因，所有的文章都消失了，自己也没有备份，于是就转投向Github建立静态个人博客。</p>
+
+  <!-- 顶部导航 -->
+  <nav>
+    <a href="../index.html" class="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      返回主页
+    </a>
+
+    <button class="theme-btn" id="themeToggle" aria-label="切换主题">
+      <!-- 月亮（亮色模式显示） -->
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <!-- 太阳（暗色模式显示） -->
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- 文章主体 -->
+  <main>
+    <header class="post-header">
+      <!-- ✏️ 修改文章标题 -->
+      <h1>第N次建个人博客</h1>
+      <!-- ✏️ 修改发布日期 -->
+      <p class="post-meta">2025 年 02 月 13 日</p>
+      <div class="post-divider"></div>
+    </header>
+
+    <article class="post-body">
+     <p>我用Halo和WordPress建过几次个人博客，但是由于端口占用、反向代理、VPS故障等原因，所有的文章都消失了，自己也没有备份，于是就转投向Github建立静态个人博客。</p>
     <p>用Halo那种一键部署式的博客后，现在我面临的最大困难是HTML和JSON语法的学习，所以我在Gemini的帮助下建立了很粗糙的一个网站，目前仅有文字显示，往好的方面想，确实非常轻量了。好在Gemini给我提供了一个非常简单且有条理的博客源文件目录思路：index.html主页布局，posts.json文章目录索引，posts文件下的html文件作为每篇文章的源文件。如果无论是给主页增加样式，还是增加修改文章，都只需要修改对应的文件就能实现，不会出现修改所有文档的情况。</p>
 <p>我在<a href="about.html">关于这个博客</a>里写了我建博客的原因，主要是为了记录我的想法，就像是日记一样杂乱无章，只是作为一个想法的备份，所以这个博客注定不会被很多人看到。不被看到也没有什么遗憾的，希望即便是我的想法消失了，这些文字还能够存在吧。</p>
     </body>
+    </article>
+
+    <footer class="post-footer">
+      — 感谢阅读
+    </footer>
+  </main>
+
+  <script>
+    const btn = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    // 读取本地存储的主题偏好
+    const saved = localStorage.getItem('theme');
+    if (saved) html.setAttribute('data-theme', saved);
+
+    btn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  </script>
+
+</body>
 </html>
