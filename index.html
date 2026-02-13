@@ -1,147 +1,223 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Promise的博客</title>
+  <!-- ✏️ 替换为你自己的 favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
   <style>
-    /* 定义颜色变量 */
+    /* ── 变量（与文章页完全一致）── */
     :root {
-      --bg: #fafafa;
-      --text: #111;
-      --subtitle: #888;
-      --border: #eee;
-      --date: #aaa;
-      --hover-bg: #f0f0f0;
+      --bg:        #f7f4ef;
+      --bg-nav:    rgba(247, 244, 239, 0.88);
+      --text:      #1a1814;
+      --text-muted:#8a857c;
+      --border:    #ddd9d2;
+      --accent:    #b5603a;
+      --btn-bg:    #ede9e3;
+      --btn-hover: #e0dbd2;
+      --transition: 0.3s ease;
     }
-
-    /* 深色模式变量 */
     [data-theme="dark"] {
-      --bg: #121212;
-      --text: #e0e0e0;
-      --subtitle: #777;
-      --border: #333;
-      --date: #666;
-      --hover-bg: #222;
+      --bg:        #16140f;
+      --bg-nav:    rgba(22, 20, 15, 0.88);
+      --text:      #e8e4db;
+      --text-muted:#6b6760;
+      --border:    #2e2b24;
+      --accent:    #d4845a;
+      --btn-bg:    #232018;
+      --btn-hover: #2e2b24;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ── 基础 ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Georgia', serif;
-      max-width: 640px;
-      margin: 60px auto; /* 移动端适当缩小页边距 */
-      padding: 0 24px;
-      color: var(--text);
       background: var(--bg);
-      transition: background 0.3s, color 0.3s; /* 平滑过渡 */
-    }
-
-    /* 响应式调整：移动端缩小顶部间距 */
-    @media (max-width: 480px) {
-      body { margin: 40px auto; }
-      h1 { font-size: 1.8rem; }
-    }
-
-    /* 模式切换按钮样式 */
-    .theme-toggle {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
       color: var(--text);
-      font-size: 1.2rem;
-      opacity: 0.6;
-      transition: opacity 0.2s;
-    }
-    .theme-toggle:hover { opacity: 1; }
-
-    h1 {
-      font-size: 2rem;
-      font-weight: normal;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
+      font-family: 'Noto Serif SC', 'Georgia', serif;
+      font-size: 1rem;
+      line-height: 1.9;
+      transition: background var(--transition), color var(--transition);
+      min-height: 100vh;
     }
 
-    .subtitle {
-      color: var(--subtitle);
+    /* ── 顶部导航 ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg-nav);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 48px);
+      height: 52px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .site-name {
       font-size: 0.9rem;
-      margin-bottom: 60px;
+      font-family: 'Lora', serif;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      font-style: italic;
     }
 
+    /* 深浅模式切换（与文章页相同） */
+    .theme-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+    .theme-btn:hover { background: var(--btn-hover); color: var(--text); }
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun  { display: block; }
+
+    /* ── 主内容 ── */
+    main {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: calc(52px + 72px) clamp(20px, 5vw, 32px) 100px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 博客头部 */
+    .blog-header { margin-bottom: 56px; }
+
+    .blog-header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .blog-header .subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .header-divider {
+      width: 40px; height: 2px;
+      background: var(--accent);
+      margin-top: 20px;
+      border-radius: 2px;
+    }
+
+    /* 文章列表 */
     .post-list { list-style: none; }
 
     .post-list li {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 14px 0;
+      gap: 16px;
+      padding: 16px 0;
       border-bottom: 1px solid var(--border);
+      transition: border-color var(--transition);
     }
+
+    .post-list li:first-child { border-top: 1px solid var(--border); }
 
     .post-list a {
       color: var(--text);
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 0.97rem;
+      transition: color var(--transition);
     }
 
-    .post-list a:hover { text-decoration: underline; }
+    .post-list a:hover { color: var(--accent); }
 
     .post-date {
-      color: var(--date);
-      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-size: 0.78rem;
       white-space: nowrap;
-      margin-left: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      flex-shrink: 0;
     }
 
-    .loading { color: var(--date); font-size: 0.9rem; }
+    .loading {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-style: italic;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+    }
   </style>
 </head>
 <body>
 
-  <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
-    <span id="theme-icon">🌙</span>
-  </button>
+  <!-- 顶部导航 -->
+  <nav>
+    <span class="site-name">我的博客</span>
 
-  <h1>欢迎来到Promise的博客</h1>
-  <p class="subtitle">记录想法与生活</p>
+    <button class="theme-btn" id="themeToggle" aria-label="切换主题">
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </nav>
 
-  <ul class="post-list" id="post-list">
-    <li class="loading">加载中…</li>
-  </ul>
+  <!-- 主内容 -->
+  <main>
+    <header class="blog-header">
+      <!-- ✏️ 修改博客标题和简介 -->
+      <h1>欢迎来到Promise的博客</h1>
+      <p class="subtitle">记录想法与生活</p>
+      <div class="header-divider"></div>
+    </header>
+
+    <ul class="post-list" id="post-list">
+      <li class="loading">加载中…</li>
+    </ul>
+  </main>
 
   <script>
-    // --- 主题切换逻辑 ---
-    const toggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const htmlElement = document.documentElement;
-
-    // 检查本地存储或系统预设
-    const savedTheme = localStorage.getItem('theme') || 
-                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    
-    if (savedTheme === 'dark') {
-      htmlElement.setAttribute('data-theme', 'dark');
-      themeIcon.textContent = '☀️';
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      const isDark = htmlElement.hasAttribute('data-theme');
-      if (isDark) {
-        htmlElement.removeAttribute('data-theme');
-        themeIcon.textContent = '🌙';
-        localStorage.setItem('theme', 'light');
-      } else {
-        htmlElement.setAttribute('data-theme', 'dark');
-        themeIcon.textContent = '☀️';
-        localStorage.setItem('theme', 'dark');
-      }
+    // 深浅模式（与文章页共享 localStorage，切换后互相不重置）
+    const btn  = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    btn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
     });
 
-    // --- 原有 Fetch 逻辑 ---
+    // 加载文章列表
     fetch('posts.json')
       .then(r => r.json())
       .then(posts => {
