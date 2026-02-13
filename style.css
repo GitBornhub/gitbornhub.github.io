@@ -16,8 +16,8 @@
 /* 亮色模式变量 */
 :root {
   /* 页面背景色（渐变用，见 body） */
---bg-from:    #e8f4f8;
---bg-to:      #f5f0ff;
+  --bg-from:    #e8e0f0;   /* 左上角：淡紫 */
+  --bg-to:      #f0e8dc;   /* 右下角：暖米 */
 
   /* 文字颜色 */
   --text:       #1a1814;
@@ -55,8 +55,8 @@
    暗色玻璃：用低透明度的白色（而非黑色）才能保留玻璃感，
    黑色透明只会显得脏，白色透明才有"玻璃"的通透质感 */
 [data-theme="dark"] {
- --bg-from:    #1c1c2e;
- --bg-to:      #16213e;
+  --bg-from:    #1a1025;   /* 左上角：深紫 */
+  --bg-to:      #0f1a20;   /* 右下角：深青黑 */
 
   --text:       #ede8e0;
   --text-muted: #6e6860;
@@ -91,12 +91,13 @@ html { scroll-behavior: smooth; }
    ============================================= */
 body {
   /* 两个径向渐变叠加，制造光感层次 */
- background:
-  radial-gradient(ellipse at 20% 10%,  rgba(120, 180, 255, 0.40) 0%, transparent 50%),
-  radial-gradient(ellipse at 80% 90%,  rgba(180, 120, 255, 0.35) 0%, transparent 50%),
-  radial-gradient(ellipse at 60% 40%,  rgba(100, 220, 210, 0.20) 0%, transparent 45%),
-  linear-gradient(160deg, var(--bg-from) 0%, var(--bg-to) 100%);
-background-attachment: fixed;
+  background:
+    radial-gradient(ellipse at 15% 20%,  rgba(200, 160, 255, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%,  rgba(255, 180, 120, 0.30) 0%, transparent 55%),
+    linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
+
+  /* 背景固定不随页面滚动，玻璃元素滑过背景时折射感更强 */
+  background-attachment: fixed;
 
   color:       var(--text);
   font-family: var(--font-body);
