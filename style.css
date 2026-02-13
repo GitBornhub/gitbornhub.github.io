@@ -92,8 +92,8 @@ html { scroll-behavior: smooth; }
 body {
   /* 两个径向渐变叠加，制造光感层次 */
   background:
-  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://haowallpaper.com/link/common/file/previewFileImg/17717780106694016') center/cover fixed;
-background-attachment: fixed;
+     background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://haowallpaper.com/link/common/file/previewFileImg/17717780106694016') center/cover fixed;
+     background-attachment: fixed;
 
   color:       var(--text);
   font-family: var(--font-body);
