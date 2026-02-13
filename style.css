@@ -41,8 +41,8 @@
   --accent-glass:  rgba(181, 96, 58, 0.15);    /* 引用块、分隔线等的淡色背景 */
 
   /* 排版 & 尺寸 */
-  --font-body:   'Noto Serif SC', 'Georgia', serif;
-  --font-accent: 'Lora', serif;
+  --font-body: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --font-accent: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --max-width:   660px;
   --nav-height:  56px;
   --radius-lg:   16px;   /* 大圆角，苹果风格 */
@@ -290,7 +290,7 @@ main {
 .blog-header .subtitle {
   font-family: var(--font-accent);
   font-size:   0.88rem;
-  font-style:  italic;
+  font-style: normal;
   color:       var(--text-muted);
 }
 
