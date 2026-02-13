@@ -72,7 +72,7 @@ nav {
 .site-name {
   font-family: var(--font-accent);
   font-size:   0.9rem;
-  font-style:  normal;
+  font-style: normal;
   color:       var(--text-muted);
   letter-spacing: 0.04em;
   text-decoration: none;
