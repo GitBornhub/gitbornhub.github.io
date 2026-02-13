@@ -5,16 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Promise的博客</title>
   <style>
+    /* 定义颜色变量 */
+    :root {
+      --bg: #fafafa;
+      --text: #111;
+      --subtitle: #888;
+      --border: #eee;
+      --date: #aaa;
+      --hover-bg: #f0f0f0;
+    }
+
+    /* 深色模式变量 */
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --subtitle: #777;
+      --border: #333;
+      --date: #666;
+      --hover-bg: #222;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'SimHei', serif;
+      font-family: 'Georgia', serif;
       max-width: 640px;
-      margin: 80px auto;
+      margin: 60px auto; /* 移动端适当缩小页边距 */
       padding: 0 24px;
-      color: #111;
-      background: #fafafa;
+      color: var(--text);
+      background: var(--bg);
+      transition: background 0.3s, color 0.3s; /* 平滑过渡 */
     }
+
+    /* 响应式调整：移动端缩小顶部间距 */
+    @media (max-width: 480px) {
+      body { margin: 40px auto; }
+      h1 { font-size: 1.8rem; }
+    }
+
+    /* 模式切换按钮样式 */
+    .theme-toggle {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      color: var(--text);
+      font-size: 1.2rem;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .theme-toggle:hover { opacity: 1; }
 
     h1 {
       font-size: 2rem;
@@ -24,7 +67,7 @@
     }
 
     .subtitle {
-      color: #888;
+      color: var(--subtitle);
       font-size: 0.9rem;
       margin-bottom: 60px;
     }
@@ -36,11 +79,11 @@
       justify-content: space-between;
       align-items: baseline;
       padding: 14px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border);
     }
 
     .post-list a {
-      color: #111;
+      color: var(--text);
       text-decoration: none;
       font-size: 1rem;
     }
@@ -48,16 +91,20 @@
     .post-list a:hover { text-decoration: underline; }
 
     .post-date {
-      color: #aaa;
+      color: var(--date);
       font-size: 0.8rem;
       white-space: nowrap;
       margin-left: 16px;
     }
 
-    .loading { color: #aaa; font-size: 0.9rem; }
+    .loading { color: var(--date); font-size: 0.9rem; }
   </style>
 </head>
 <body>
+
+  <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+    <span id="theme-icon">🌙</span>
+  </button>
 
   <h1>欢迎来到Promise的博客</h1>
   <p class="subtitle">记录想法与生活</p>
@@ -67,6 +114,34 @@
   </ul>
 
   <script>
+    // --- 主题切换逻辑 ---
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const htmlElement = document.documentElement;
+
+    // 检查本地存储或系统预设
+    const savedTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    if (savedTheme === 'dark') {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = '☀️';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isDark = htmlElement.hasAttribute('data-theme');
+      if (isDark) {
+        htmlElement.removeAttribute('data-theme');
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // --- 原有 Fetch 逻辑 ---
     fetch('posts.json')
       .then(r => r.json())
       .then(posts => {
