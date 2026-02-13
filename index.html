@@ -1,84 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Promise的博客</title>
+    <title>我的个人博客</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; }
-        header { border-bottom: 2px solid #333; margin-bottom: 20px; }
-        .post-item { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer; }
-        .post-item:hover { background: #f9f9f9; }
-        .hidden { display: none; }
-        #back-btn { margin-top: 20px; color: blue; cursor: pointer; }
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; line-height: 1.6; }
+        .post-card { border-bottom: 1px solid #eee; padding: 20px 0; }
+        .post-card a { text-decoration: none; color: #333; font-size: 1.2em; font-weight: bold; }
+        .post-card a:hover { color: #007bff; }
+        .meta { color: #888; font-size: 0.9em; margin-top: 5px; }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>欢迎来到Promise的博客</h1>
-    </header>
-
-    <div id="home-page">
-        <h2>最新文章</h2>
-        <div id="post-list">耐心等待一会哦...</div> </div>
-
-    <div id="post-page" class="hidden">
-        <h2 id="post-title"></h2>
-        <p id="post-content"></p>
-        <div id="back-btn" onclick="showHome()">← 返回主页</div>
-    </div>
+    <h1>最新文章</h1>
+    <div id="blog-list">加载中...</div>
 
     <script>
-        let allPosts = []; // 用来存放从 JSON 读取到的所有数据
+        fetch('posts.json')
+            .then(res => res.json())
+            .then(data => {
+                // 按日期排序（最新在前）
+                data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        // 1. 核心步骤：从 JSON 文件获取数据
-fetch('posts.json')
-    .then(response => response.json())
-    .then(data => {
-        // --- 核心排序逻辑开始 ---
-        data.sort((b, a) => {
-            // 将字符串日期转换为 JS 的日期对象进行比较
-            // b - a 是倒序（最新日期在前），a - b 是正序（老文章在前）
-            return new Date(b.date) - new Date(a.date);
-        });
-        // --- 核心排序逻辑结束 ---
+                const container = document.getElementById('blog-list');
+                container.innerHTML = ''; // 清空加载提示
 
-        allPosts = data; 
-        renderList(data); // 此时传给页面的已经是排好序的数组了
-    });
-
-
-        
-        // 2. 将数据“画”在主页上
-        function renderList(posts) {
-            const listContainer = document.getElementById('post-list');
-            listContainer.innerHTML = ''; // 清空“加载中”
-
-            posts.forEach(post => {
-                const item = document.createElement('div');
-                item.className = 'post-item';
-                // 给每个文章块绑定点击事件，传入它的 ID
-                item.onclick = () => showPost(post.id);
-                item.innerHTML = `<strong>${post.title}</strong> <small>${post.date}</small><br>${post.summary}`;
-                listContainer.appendChild(item);
+                data.forEach(post => {
+                    const html = `
+                        <div class="post-card">
+                            <a href="${post.url}">${post.title}</a>
+                            <div class="meta">发布于：${post.date}</div>
+                            <p>${post.summary}</p>
+                        </div>
+                    `;
+                    container.innerHTML += html;
+                });
             });
-        }
-
-        // 3. 根据 ID 显示全文
-        function showPost(id) {
-            const post = allPosts.find(p => p.id === id); // 在数据里找对应的文章
-            if (post) {
-                document.getElementById('home-page').classList.add('hidden');
-                document.getElementById('post-page').classList.remove('hidden');
-                document.getElementById('post-title').innerText = post.title;
-                document.getElementById('post-content').innerText = post.content;
-            }
-        }
-
-        function showHome() {
-            document.getElementById('home-page').classList.remove('hidden');
-            document.getElementById('post-page').classList.add('hidden');
-        }
     </script>
 </body>
 </html>
