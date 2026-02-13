@@ -1,49 +1,104 @@
 /* =============================================
    style.css — 全站唯一样式文件
+   液态玻璃版本（参考 Apple / Telegram 风格）
    修改此文件，主页和所有文章页同步生效
    ============================================= */
 
 /* ── Google Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap');
 
-/* ── 亮色变量 ── */
+
+/* =============================================
+   CSS 变量
+   液态玻璃的核心是半透明色值，这里集中管理
+   ============================================= */
+
+/* 亮色模式变量 */
 :root {
-  --bg:         #f7f4ef;
-  --bg-nav:     rgba(247, 244, 239, 0.88);
+  /* 页面背景色（渐变用，见 body） */
+  --bg-from:    #e8e0f0;   /* 左上角：淡紫 */
+  --bg-to:      #f0e8dc;   /* 右下角：暖米 */
+
+  /* 文字颜色 */
   --text:       #1a1814;
-  --text-muted: #8a857c;
-  --border:     #ddd9d2;
-  --accent:     #b5603a;
-  --btn-bg:     #ede9e3;
-  --btn-hover:  #e0dbd2;
-  --transition: 0.3s ease;
+  --text-muted: #7a746c;
 
-  /* ── 排版 ── */
-  --font-body:    'Noto Serif SC', 'Georgia', serif;
-  --font-accent:  'Lora', serif;
-  --max-width:    660px;
-  --nav-height:   52px;
+  /* ── 液态玻璃面板核心色值 ──
+     玻璃效果 = 半透明白色填充 + 模糊背景 + 高光描边 + 柔和阴影
+     这四项缺一不可 */
+  --glass-bg:      rgba(255, 255, 255, 0.45);  /* 玻璃面板半透明填充 */
+  --glass-border:  rgba(255, 255, 255, 0.75);  /* 玻璃边缘高光（模拟折射亮边）*/
+  --glass-shadow:  rgba(80, 60, 40, 0.10);     /* 玻璃面板投影 */
+  --glass-shine:   rgba(255, 255, 255, 0.60);  /* 顶部反光条（最亮的那条线）*/
+  --glass-blur:    18px;                        /* 毛玻璃模糊半径 */
+
+  /* 按钮玻璃（比面板稍深，有点击感） */
+  --btn-glass:     rgba(255, 255, 255, 0.35);
+  --btn-hover:     rgba(255, 255, 255, 0.60);
+
+  /* 强调色 */
+  --accent:        #b5603a;
+  --accent-glass:  rgba(181, 96, 58, 0.15);    /* 引用块、分隔线等的淡色背景 */
+
+  /* 排版 & 尺寸 */
+  --font-body:   'Noto Serif SC', 'Georgia', serif;
+  --font-accent: 'Lora', serif;
+  --max-width:   660px;
+  --nav-height:  56px;
+  --radius-lg:   16px;   /* 大圆角，苹果风格 */
+  --radius-md:   10px;
+  --radius-sm:   6px;
+  --transition:  0.3s ease;
 }
 
-/* ── 暗色变量 ── */
+/* 暗色模式变量
+   暗色玻璃：用低透明度的白色（而非黑色）才能保留玻璃感，
+   黑色透明只会显得脏，白色透明才有"玻璃"的通透质感 */
 [data-theme="dark"] {
-  --bg:         #16140f;
-  --bg-nav:     rgba(22, 20, 15, 0.88);
-  --text:       #e8e4db;
-  --text-muted: #6b6760;
-  --border:     #2e2b24;
-  --accent:     #d4845a;
-  --btn-bg:     #232018;
-  --btn-hover:  #2e2b24;
+  --bg-from:    #1a1025;   /* 左上角：深紫 */
+  --bg-to:      #0f1a20;   /* 右下角：深青黑 */
+
+  --text:       #ede8e0;
+  --text-muted: #6e6860;
+
+  --glass-bg:      rgba(255, 255, 255, 0.08);  /* 暗色下玻璃填充要非常淡 */
+  --glass-border:  rgba(255, 255, 255, 0.18);  /* 高光描边依然是白色，只是更暗 */
+  --glass-shadow:  rgba(0, 0, 0, 0.35);
+  --glass-shine:   rgba(255, 255, 255, 0.12);
+  --glass-blur:    20px;
+
+  --btn-glass:     rgba(255, 255, 255, 0.07);
+  --btn-hover:     rgba(255, 255, 255, 0.14);
+
+  --accent:        #d4845a;
+  --accent-glass:  rgba(212, 132, 90, 0.12);
 }
 
-/* ── Reset ── */
+
+/* =============================================
+   Reset & 基础
+   ============================================= */
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
-/* ── Body ── */
+
+/* =============================================
+   Body — 液态渐变背景
+   液态玻璃必须有丰富的背景才能体现透明折射感，
+   纯色背景上的玻璃效果几乎看不出来。
+   这里用固定的径向渐变模拟苹果 iOS 的光晕背景。
+   ============================================= */
 body {
-  background:  var(--bg);
+  /* 两个径向渐变叠加，制造光感层次 */
+  background:
+    radial-gradient(ellipse at 15% 20%,  rgba(200, 160, 255, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%,  rgba(255, 180, 120, 0.30) 0%, transparent 55%),
+    linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
+
+  /* 背景固定不随页面滚动，玻璃元素滑过背景时折射感更强 */
+  background-attachment: fixed;
+
   color:       var(--text);
   font-family: var(--font-body);
   font-size:   1rem;
@@ -52,31 +107,78 @@ body {
   transition:  background var(--transition), color var(--transition);
 }
 
-/* ── 顶部导航 ── */
+
+/* =============================================
+   液态玻璃面板 — 核心 Mixin（复用类）
+   这个 .glass 类是所有玻璃效果的模板，
+   其他元素继承或参考这里的写法
+   ============================================= */
+.glass {
+  background:      var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  /* saturate() 增加饱和度，让玻璃后面的颜色更鲜艳，更像真玻璃 */
+
+  border:          1px solid var(--glass-border);
+  border-radius:   var(--radius-lg);
+
+  /* 多层阴影：第一层是外部投影，第二层是顶部内高光（模拟玻璃厚度） */
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+  /* inset 0 1px 0 — 这条顶部内阴影是液态玻璃最关键的细节，
+     它模拟光线从上方打在玻璃边缘产生的亮线 */
+}
+
+
+/* =============================================
+   顶部导航栏 — 液态玻璃版
+   ============================================= */
 nav {
   position:   fixed;
   top: 0; left: 0; right: 0;
   z-index:    100;
   height:     var(--nav-height);
-  background: var(--bg-nav);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  display:    flex;
-  align-items: center;
+
+  /* 玻璃填充（导航栏用稍深的透明度，保持可读性） */
+  background:      rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+  /* 底部边框改为半透明（避免硬边割裂玻璃感），
+     顶部 inset 高光线让导航栏有玻璃厚度感 */
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow:
+    0 4px 24px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+
+  display:         flex;
+  align-items:     center;
   justify-content: space-between;
-  padding:    0 clamp(20px, 5vw, 48px);
-  transition: background var(--transition), border-color var(--transition);
+  padding:         0 clamp(20px, 5vw, 48px);
+  transition:      background var(--transition), box-shadow var(--transition);
+}
+
+/* 暗色模式导航栏 */
+[data-theme="dark"] nav {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom-color: var(--glass-border);
 }
 
 .site-name {
-  font-family: var(--font-accent);
-  font-size:   0.9rem;
-  font-style: normal;
-  color:       var(--text-muted);
-  letter-spacing: 0.04em;
+  font-family:     var(--font-accent);
+  font-size:       0.9rem;
+  font-style:      italic;
+  color:           var(--text-muted);
+  letter-spacing:  0.04em;
   text-decoration: none;
 }
+
+
+/* =============================================
+   按钮 — 小型液态玻璃胶囊
+   Apple 的玻璃按钮特征：圆角大、边框亮、hover 时更亮
+   ============================================= */
 
 /* 返回按钮（文章页用） */
 .back-btn {
@@ -87,59 +189,95 @@ nav {
   font-size:   0.82rem;
   color:       var(--text-muted);
   text-decoration: none;
-  padding:     6px 12px;
-  border-radius: 6px;
-  background:  var(--btn-bg);
-  border:      1px solid var(--border);
-  transition:  color var(--transition), background var(--transition);
-}
-.back-btn:hover { background: var(--btn-hover); color: var(--text); }
-.back-btn svg   { flex-shrink: 0; }
+  padding:     7px 14px;
+  border-radius: 99px;   /* 完全圆角，胶囊形状，苹果风格 */
 
-/* 深浅模式按钮 */
+  /* 玻璃感：半透明填充 + 高光描边 + 微阴影 */
+  background:  var(--btn-glass);
+  border:      1px solid var(--glass-border);
+  box-shadow:
+    0 2px 8px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition:  all var(--transition);
+}
+.back-btn:hover {
+  background: var(--btn-hover);
+  color:      var(--text);
+  /* hover 时上浮，增加立体感 */
+  transform:  translateY(-1px);
+  box-shadow:
+    0 4px 16px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+}
+.back-btn svg { flex-shrink: 0; }
+
+/* 深浅模式切换按钮 */
 .theme-btn {
   width:  36px; height: 36px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--btn-bg);
-  color:  var(--text-muted);
+  border-radius: 50%;   /* 圆形，苹果风格 */
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition), color var(--transition);
-}
-.theme-btn:hover { background: var(--btn-hover); color: var(--text); }
 
+  background:  var(--btn-glass);
+  border:      1px solid var(--glass-border);
+  box-shadow:
+    0 2px 8px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  color:      var(--text-muted);
+  transition: all var(--transition);
+}
+.theme-btn:hover {
+  background: var(--btn-hover);
+  color:      var(--text);
+  transform:  translateY(-1px);
+  box-shadow:
+    0 4px 16px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+}
+
+/* 深浅模式图标切换 */
 .icon-moon { display: block; }
 .icon-sun  { display: none;  }
 [data-theme="dark"] .icon-moon { display: none;  }
 [data-theme="dark"] .icon-sun  { display: block; }
 
-/* ── 页面主体容器 ── */
+
+/* =============================================
+   主体容器
+   ============================================= */
 main {
   max-width: var(--max-width);
   margin:    0 auto;
   padding:   calc(var(--nav-height) + 64px) clamp(20px, 5vw, 32px) 100px;
-  animation: fadeUp 0.45s ease both;
+  animation: fadeUp 0.5s ease both;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── 装饰分隔线 ── */
+/* 强调色分隔线 */
 .divider {
-  width: 40px; height: 2px;
+  width:         40px;
+  height:        2px;
   background:    var(--accent);
   border-radius: 2px;
   margin-top:    20px;
 }
 
-/* ================================================
-   主页专用样式
-   ================================================ */
 
-.blog-header        { margin-bottom: 56px; }
+/* =============================================
+   主页专用样式
+   ============================================= */
+
+.blog-header { margin-bottom: 56px; }
 
 .blog-header h1 {
   font-size:      clamp(1.8rem, 5vw, 2.4rem);
@@ -152,30 +290,50 @@ main {
 .blog-header .subtitle {
   font-family: var(--font-accent);
   font-size:   0.88rem;
-  font-style:  normal;
+  font-style:  italic;
   color:       var(--text-muted);
 }
 
+/* 文章列表 */
 .post-list { list-style: none; }
 
 .post-list li {
   display:         flex;
   justify-content: space-between;
-  align-items:     baseline;
+  align-items:     center;
   gap:             16px;
-  padding:         16px 0;
-  border-bottom:   1px solid var(--border);
-  transition:      border-color var(--transition);
+  padding:         14px 18px;
+  margin-bottom:   8px;
+  border-radius:   var(--radius-md);
+
+  /* 每一条文章都是一个小玻璃面板 */
+  background:      var(--glass-bg);
+  border:          1px solid var(--glass-border);
+  box-shadow:
+    0 2px 12px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  transition: all var(--transition);
 }
-.post-list li:first-child { border-top: 1px solid var(--border); }
+
+/* hover 时上浮，模拟拾起玻璃片的感觉（Telegram 风格） */
+.post-list li:hover {
+  transform:  translateY(-2px);
+  background: var(--btn-hover);
+  box-shadow:
+    0 8px 24px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+}
 
 .post-list a {
-  color:       var(--text);
+  color:           var(--text);
   text-decoration: none;
-  font-size:   0.97rem;
-  transition:  color var(--transition);
+  font-size:       0.97rem;
+  transition:      color var(--transition);
 }
-.post-list a:hover { color: var(--accent); }
+.post-list li:hover a { color: var(--accent); }
 
 .post-date {
   font-family: var(--font-accent);
@@ -191,15 +349,18 @@ main {
   font-style:  italic;
   font-size:   0.88rem;
   color:       var(--text-muted);
-  padding:     16px 0;
-  border-top:  1px solid var(--border);
+  padding:     20px 18px;
+  border-radius: var(--radius-md);
+  background:  var(--glass-bg);
+  border:      1px solid var(--glass-border);
 }
 
-/* ================================================
-   文章页专用样式
-   ================================================ */
 
-.post-header          { margin-bottom: 48px; }
+/* =============================================
+   文章页专用样式
+   ============================================= */
+
+.post-header { margin-bottom: 48px; }
 
 .post-header h1 {
   font-size:      clamp(1.6rem, 4vw, 2.2rem);
@@ -217,7 +378,7 @@ main {
   letter-spacing: 0.02em;
 }
 
-/* 正文 Markdown 渲染后的样式 */
+/* 正文排版 */
 .post-body p          { margin-bottom: 1.5em; }
 .post-body h2         { font-size: 1.25rem; font-weight: 600; margin: 2.4em 0 0.8em; }
 .post-body h3         { font-size: 1.05rem; font-weight: 600; margin: 2em 0 0.6em; }
@@ -227,68 +388,127 @@ main {
 .post-body li         { margin-bottom: 0.3em; }
 
 .post-body a {
-  color: var(--accent);
+  color:                     var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset:     3px;
 }
 
+/* 引用块 — 液态玻璃面板，带强调色左边框 */
 .post-body blockquote {
-  border-left: 3px solid var(--accent);
-  padding:     4px 0 4px 20px;
-  margin:      1.6em 0;
+  position:      relative;
+  padding:       16px 20px 16px 24px;
+  margin:        1.6em 0;
+  border-radius: var(--radius-md);
+  border-left:   3px solid var(--accent);
+
+  /* 玻璃底色用强调色的淡化版，区别于普通面板 */
+  background:      var(--accent-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top:    1px solid var(--glass-border);
+  border-right:  1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow:
+    0 2px 12px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+
   color:       var(--text-muted);
   font-style:  italic;
 }
 
+/* 行内代码 — 小型玻璃标签 */
 .post-body code {
   font-family:   'Courier New', monospace;
-  font-size:     0.88em;
-  background:    var(--btn-bg);
-  padding:       2px 6px;
-  border-radius: 4px;
-  border:        1px solid var(--border);
+  font-size:     0.86em;
+  padding:       2px 7px;
+  border-radius: var(--radius-sm);
+  background:    var(--glass-bg);
+  border:        1px solid var(--glass-border);
+  box-shadow:    inset 0 1px 0 var(--glass-shine);
 }
 
+/* 代码块 — 磨砂玻璃面板
+   比普通玻璃更模糊（blur 更大），更像磨砂质感 */
 .post-body pre {
-  background:    var(--btn-bg);
-  border:        1px solid var(--border);
-  border-radius: 8px;
-  padding:       16px 20px;
+  border-radius: var(--radius-lg);
+  padding:       18px 22px;
   overflow-x:    auto;
   margin:        1.6em 0;
+
+  background:      rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border:          1px solid var(--glass-border);
+  box-shadow:
+    0 4px 20px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
 }
-.post-body pre code { background: none; border: none; padding: 0; }
+[data-theme="dark"] .post-body pre {
+  background: rgba(255, 255, 255, 0.05);
+}
+.post-body pre code {
+  /* 代码块内的 code 标签去掉自身样式，由 pre 统一处理 */
+  background: none;
+  border:     none;
+  box-shadow: none;
+  padding:    0;
+  font-size:  0.88em;
+}
 
 .post-body img {
   max-width:     100%;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   margin:        1.2em 0;
+  /* 图片也加玻璃阴影，与整体风格统一 */
+  box-shadow:    0 8px 32px var(--glass-shadow);
 }
 
 .post-body hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 2em 0;
+  border:     none;
+  border-top: 1px solid var(--glass-border);
+  margin:     2em 0;
 }
 
+/* 表格 — 玻璃面板容器 */
 .post-body table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.6em 0;
-  font-size: 0.92rem;
+  width:           100%;
+  border-collapse: separate;   /* separate 才能让 border-radius 生效 */
+  border-spacing:  0;
+  margin:          1.6em 0;
+  font-size:       0.92rem;
+  border-radius:   var(--radius-md);
+  overflow:        hidden;     /* 裁剪圆角内的内容 */
+  background:      var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border:          1px solid var(--glass-border);
+  box-shadow:
+    0 4px 16px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
 }
 .post-body th,
 .post-body td {
-  text-align: left;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
+  text-align:    left;
+  padding:       10px 14px;
+  border-bottom: 1px solid var(--glass-border);
 }
-.post-body th { color: var(--text-muted); font-weight: 600; }
+.post-body tr:last-child td { border-bottom: none; }
+.post-body th {
+  color:       var(--text-muted);
+  font-weight: 600;
+  /* 表头背景稍深，区分层次 */
+  background:  rgba(255, 255, 255, 0.20);
+}
+[data-theme="dark"] .post-body th {
+  background: rgba(255, 255, 255, 0.06);
+}
 
+/* 文章页底部 */
 .post-footer {
   margin-top:  64px;
   padding-top: 24px;
-  border-top:  1px solid var(--border);
+  /* 底部分隔线也用玻璃边框色，保持一致 */
+  border-top:  1px solid var(--glass-border);
   font-family: var(--font-accent);
   font-style:  italic;
   font-size:   0.8rem;
