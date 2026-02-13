@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加载中… — Promise的博客</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      返回主页
+    </a>
+    <button class="theme-btn" id="themeToggle" aria-label="切换主题">
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </nav>
+
+  <main>
+    <header class="post-header">
+      <h1 id="post-title">加载中…</h1>
+      <p class="post-meta" id="post-date"></p>
+      <div class="divider"></div>
+    </header>
+
+    <article class="post-body" id="post-body">
+    </article>
+
+    <footer class="post-footer">— 感谢阅读</footer>
+  </main>
+
+  <!--
+    marked.js：轻量 Markdown 解析库（CDN，约 45KB）
+    如需离线使用，可下载到本地：https://cdn.jsdelivr.net/npm/marked/marked.min.js
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (function () {
+      // 从 URL 参数 ?p=xxx.md 获取文章文件名
+      const params   = new URLSearchParams(location.search);
+      const filename = params.get('p');
+
+      if (!filename) {
+        document.getElementById('post-title').textContent = '未指定文章';
+        return;
+      }
+
+      // 文章文件与 post.html 同在 posts/ 目录
+      fetch(filename)
+        .then(r => {
+          if (!r.ok) throw new Error('not found');
+          return r.text();
+        })
+        .then(md => {
+          // 解析 YAML Front Matter（--- 包裹的头部元数据）
+          const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
+          let title = filename.replace('.md', '');
+          let date  = '';
+          let body  = md;
+
+          if (fmMatch) {
+            const fm = fmMatch[1];
+            const t  = fm.match(/^title:\s*(.+)$/m);
+            const d  = fm.match(/^date:\s*(.+)$/m);
+            if (t) title = t[1].replace(/^['"]|['"]$/g, '');
+            if (d) date  = d[1].trim();
+            body = md.slice(fmMatch[0].length);
+          }
+
+          // 更新页面
+          document.title = title + ' — Promise的博客';
+          document.getElementById('post-title').textContent = title;
+          document.getElementById('post-date').textContent  = date;
+          document.getElementById('post-body').innerHTML    = marked.parse(body);
+        })
+        .catch(() => {
+          document.getElementById('post-title').textContent = '文章未找到';
+          document.getElementById('post-body').innerHTML =
+            '<p>无法加载文章，请检查文件是否存在。</p>';
+        });
+    })();
+  </script>
+
+</body>
+</html>
