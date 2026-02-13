@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>我的个人博客</title>
+    <title>我的 JSON 动态博客</title>
     <style>
-        /* CSS：负责装修 */
         body { font-family: sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; }
         header { border-bottom: 2px solid #333; margin-bottom: 20px; }
-        .post-item { cursor: pointer; color: blue; text-decoration: underline; margin-bottom: 10px; }
-        .hidden { display: none; } /* 隐藏不显示的元素 */
-        #back-btn { margin-top: 20px; display: inline-block; cursor: pointer; color: green; }
+        .post-item { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer; }
+        .post-item:hover { background: #f9f9f9; }
+        .hidden { display: none; }
+        #back-btn { margin-top: 20px; color: blue; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -20,10 +20,7 @@
 
     <div id="home-page">
         <h2>最新文章</h2>
-        <div class="post-item" onclick="showPost('第N次尝试写博客', '之前用Halo和WordPress试着建过博客网站，但是VPS商家出了问题，所有的数据全部丢失，只好转向更可靠的Github　Pages来记录我的日常。<br>我不确定这是个更好的选择，但是自己重头开始写网页还是更加有成就感，所以一点点手打设计学习还是很不错的体验。')">2026-02-13 - 自己试着用HTML写博客</div>
-        <div class="post-item" onclick="showPost('第一篇汇总', '这是第一篇文章的全内容。HTML其实很简单！')">2026-02-12 - 学习HTML心得</div>
-        <div class="post-item" onclick="showPost('我的生活', '今天天气不错，我打算开始写博客了。')">2026-02-11 - 日常随笔</div>
-    </div>
+        <div id="post-list">加载中...</div> </div>
 
     <div id="post-page" class="hidden">
         <h2 id="post-title"></h2>
@@ -32,18 +29,43 @@
     </div>
 
     <script>
-        // JS：负责交互逻辑
-        function showPost(title, content) {
-            // 1. 隐藏列表页，显示详情页
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('post-page').classList.remove('hidden');
-            // 2. 把内容填进去
-            document.getElementById('post-title').innerText = title;
-            document.getElementById('post-content').innerText = content;
+        let allPosts = []; // 用来存放从 JSON 读取到的所有数据
+
+        // 1. 核心步骤：从 JSON 文件获取数据
+        fetch('posts.json')
+            .then(response => response.json()) // 把读取到的数据转成 JSON 格式
+            .then(data => {
+                allPosts = data; 
+                renderList(data); // 拿到数据后，去画出列表
+            });
+
+        // 2. 将数据“画”在主页上
+        function renderList(posts) {
+            const listContainer = document.getElementById('post-list');
+            listContainer.innerHTML = ''; // 清空“加载中”
+
+            posts.forEach(post => {
+                const item = document.createElement('div');
+                item.className = 'post-item';
+                // 给每个文章块绑定点击事件，传入它的 ID
+                item.onclick = () => showPost(post.id);
+                item.innerHTML = `<strong>${post.title}</strong> <small>${post.date}</small><br>${post.summary}`;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // 3. 根据 ID 显示全文
+        function showPost(id) {
+            const post = allPosts.find(p => p.id === id); // 在数据里找对应的文章
+            if (post) {
+                document.getElementById('home-page').classList.add('hidden');
+                document.getElementById('post-page').classList.remove('hidden');
+                document.getElementById('post-title').innerText = post.title;
+                document.getElementById('post-content').innerText = post.content;
+            }
         }
 
         function showHome() {
-            // 切换回来
             document.getElementById('home-page').classList.remove('hidden');
             document.getElementById('post-page').classList.add('hidden');
         }
