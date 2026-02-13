@@ -152,7 +152,7 @@ main {
 .blog-header .subtitle {
   font-family: var(--font-accent);
   font-size:   0.88rem;
-  font-style:  italic;
+  font-style:  normal;
   color:       var(--text-muted);
 }
 
