@@ -1,41 +1,88 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>我的个人博客</title>
-    <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; line-height: 1.6; }
-        .post-card { border-bottom: 1px solid #eee; padding: 20px 0; }
-        .post-card a { text-decoration: none; color: #333; font-size: 1.2em; font-weight: bold; }
-        .post-card a:hover { color: #007bff; }
-        .meta { color: #888; font-size: 0.9em; margin-top: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的博客</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Georgia', serif;
+      max-width: 640px;
+      margin: 80px auto;
+      padding: 0 24px;
+      color: #111;
+      background: #fafafa;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 60px;
+    }
+
+    .post-list { list-style: none; }
+
+    .post-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .post-list a {
+      color: #111;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .post-list a:hover { text-decoration: underline; }
+
+    .post-date {
+      color: #aaa;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      margin-left: 16px;
+    }
+
+    .loading { color: #aaa; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
-    <h1>最新文章</h1>
-    <div id="blog-list">加载中...</div>
 
-    <script>
-        fetch('posts.json')
-            .then(res => res.json())
-            .then(data => {
-                // 按日期排序（最新在前）
-                data.sort((a, b) => new Date(b.date) - new Date(a.date));
+  <h1>我的博客</h1>
+  <p class="subtitle">记录想法与生活</p>
 
-                const container = document.getElementById('blog-list');
-                container.innerHTML = ''; // 清空加载提示
+  <ul class="post-list" id="post-list">
+    <li class="loading">加载中…</li>
+  </ul>
 
-                data.forEach(post => {
-                    const html = `
-                        <div class="post-card">
-                            <a href="${post.url}">${post.title}</a>
-                            <div class="meta">发布于：${post.date}</div>
-                            <p>${post.summary}</p>
-                        </div>
-                    `;
-                    container.innerHTML += html;
-                });
-            });
-    </script>
+  <script>
+    fetch('posts.json')
+      .then(r => r.json())
+      .then(posts => {
+        const list = document.getElementById('post-list');
+        list.innerHTML = posts.map(p => `
+          <li>
+            <a href="posts/${p.file}">${p.title}</a>
+            <span class="post-date">${p.date}</span>
+          </li>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('post-list').innerHTML =
+          '<li class="loading">暂无文章</li>';
+      });
+  </script>
+
 </body>
 </html>
