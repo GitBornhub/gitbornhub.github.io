@@ -92,9 +92,7 @@ html { scroll-behavior: smooth; }
 body {
   /* 两个径向渐变叠加，制造光感层次 */
   background:
-    radial-gradient(ellipse at 15% 20%,  rgba(200, 160, 255, 0.35) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 80%,  rgba(255, 180, 120, 0.30) 0%, transparent 55%),
-    linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
+    background: url('../background.jpg') center/cover fixed;
 
   /* 背景固定不随页面滚动，玻璃元素滑过背景时折射感更强 */
   background-attachment: fixed;
