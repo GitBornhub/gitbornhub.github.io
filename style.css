@@ -91,8 +91,7 @@ html { scroll-behavior: smooth; }
    ============================================= */
 body {
   /* 两个径向渐变叠加，制造光感层次 */
-  background:
-    background: url('../background.png') center/cover fixed;
+  background: url('../background.png') center/cover fixed;
 
   /* 背景固定不随页面滚动，玻璃元素滑过背景时折射感更强 */
   background-attachment: fixed;
