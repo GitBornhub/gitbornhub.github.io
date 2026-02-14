@@ -1,242 +1,63 @@
-/* style.css - 极简版 */
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
-
-:root {
-  --bg:        #fdfdfd;
-  --text:      #1f1f1f;
-  --text2:     #555;
-  --border:    #e0e0e0;
-  --accent:    #0066cc;
-  --accent-h:  #0055aa;
-  --card-bg:   #ffffff;
-  --nav-bg:    #ffffff;
-  --shadow:    0 1px 3px rgba(0,0,0,0.08);
-  --transition: 0.2s ease;
-  --radius:    8px;
-}
-
-[data-theme="dark"] {
-  --bg:        #0f1117;
-  --text:      #e5e7eb;
-  --text2:     #9ca3af;
-  --border:    #374151;
-  --accent:    #60a5fa;
-  --accent-h:  #3b82f6;
-  --card-bg:   #1f2937;
-  --nav-bg:    #111827;
-  --shadow:    0 1px 4px rgba(0,0,0,0.4);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* 基础重置 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
-  min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
+  /* 现代无衬线字体方案：类似苹方 */
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  line-height: 1.6;
+  color: #222;       /* 深木炭黑，比纯黑更高级 */
+  background: #fdfdfd; /* 极淡的纸张色，不刺眼 */
+  max-width: 600px;  /* 窄版布局，适合阅读 */
+  margin: 0 auto;
+  padding: 80px 24px;
 }
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 100;
-  transition: background 0.3s, border-color 0.3s;
+/* 顶部间距适配移动端 */
+@media (max-width: 480px) {
+  body { padding: 40px 20px; }
 }
 
-.site-name {
-  font-size: 1.15rem;
+header { margin-bottom: 60px; }
+
+h1 {
+  font-size: 1.75rem;
   font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
 }
 
-.nav-actions button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  font-size: 1.3rem;
-  color: var(--text2);
-  transition: color 0.2s;
-}
-
-.nav-actions button:hover {
-  color: var(--text);
-}
-
-main {
-  max-width: 760px;
-  margin: 80px auto 40px;
-  padding: 0 20px;
-}
-
-header.blog-header {
-  margin-bottom: 2.5rem;
-  text-align: center;
-}
-
-header.blog-header h1 {
-  font-size: 2.1rem;
-  margin-bottom: 0.5rem;
-}
-
-header.blog-header .subtitle {
-  color: var(--text2);
-  font-size: 1.05rem;
-}
-
-ul.post-list {
-  list-style: none;
-}
-
-ul.post-list li {
-  margin-bottom: 1.2rem;
-  padding: 1rem;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-ul.post-list li:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow);
-}
-
-ul.post-list a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 1.15rem;
-  font-weight: 500;
-  display: block;
-}
-
-ul.post-list a:hover {
-  color: var(--accent);
-}
-
-ul.post-list .post-date {
+.subtitle {
+  color: #888;
   font-size: 0.9rem;
-  color: var(--text2);
-  margin-top: 0.3rem;
-  display: block;
 }
 
-.post-header {
-  margin-bottom: 2.5rem;
-  text-align: center;
+/* 列表样式 */
+.post-list { list-style: none; }
+
+.post-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.post-header h1 {
-  font-size: 2.4rem;
-  line-height: 1.25;
-  margin-bottom: 0.6rem;
-}
-
-.post-header .post-meta {
-  color: var(--text2);
-  font-size: 0.95rem;
-}
-
-.post-body {
-  font-size: 1.05rem;
-}
-
-.post-body h2, .post-body h3 {
-  margin: 2.2rem 0 1rem;
-  line-height: 1.3;
-}
-
-.post-body h2 { font-size: 1.65rem; }
-.post-body h3 { font-size: 1.35rem; }
-
-.post-body p {
-  margin-bottom: 1.4rem;
-}
-
-.post-body a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.post-body a:hover {
-  color: var(--accent-h);
-}
-
-.post-body blockquote {
-  margin: 1.8rem 0;
-  padding-left: 1.2rem;
-  border-left: 3px solid var(--accent);
-  color: var(--text2);
-  font-size: 1.02rem;
-}
-
-.post-body pre, .post-body code {
-  background: var(--border);
-  padding: 0.25em 0.45em;
-  border-radius: 4px;
-  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-  font-size: 0.92rem;
-}
-
-.post-body pre {
-  padding: 1rem;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-.post-body img {
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  margin: 1.5rem 0;
-  display: block;
-}
-
-.post-footer {
-  text-align: center;
-  margin: 4rem 0 2rem;
-  color: var(--text2);
-  font-size: 0.95rem;
-}
-
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text2);
+.post-list a {
+  color: #222;
   text-decoration: none;
-  font-size: 0.95rem;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  transition: all 0.2s;
+  font-size: 1.05rem;
+  transition: opacity 0.2s;
 }
 
-.back-btn:hover {
-  color: var(--text);
-  background: var(--border);
+.post-list a:hover {
+  opacity: 0.6; /* 简单的悬停反馈 */
 }
 
-/* 移动端微调 */
-@media (max-width: 640px) {
-  main { margin-top: 70px; padding: 0 16px; }
-  .post-header h1 { font-size: 1.9rem; }
-  nav { padding: 0 16px; }
+.post-date {
+  color: #bbb;
+  font-size: 0.85rem;
+  margin-left: 16px;
+  font-variant-numeric: tabular-nums; /* 让日期数字对齐更整齐 */
 }
+
+.loading { color: #ccc; font-style: italic; }
