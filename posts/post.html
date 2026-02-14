@@ -1,83 +1,33 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="light">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>加载中… — Promise的博客</title>
-  <link rel="stylesheet" href="../style.css">
+  <title>文章标题 - 我的博客</title>
+  <link rel="stylesheet" href="../style.css"> <style>
+    /* 文章页特有样式 */
+    article { line-height: 1.8; }
+    article p { margin-bottom: 1.5rem; }
+    .back-link { 
+      display: inline-block;
+      margin-bottom: 40px;
+      color: #888;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { color: #222; }
+    .post-meta { color: #bbb; font-size: 0.9rem; margin-bottom: 20px; }
+  </style>
 </head>
 <body>
 
-  <nav>
-    <a href="../index.html" class="back-btn">← 返回主页</a>
-    <div class="nav-actions">
-      <button id="themeToggle" title="切换深色/浅色模式">☀︎</button>
-    </div>
-  </nav>
+  <a href="../index.html" class="back-link">← 返回首页</a>
 
-  <main>
-    <header class="post-header">
-      <h1 id="post-title">加载中…</h1>
-      <p class="post-meta" id="post-date"></p>
-    </header>
-
-    <article class="post-body" id="post-body"></article>
-
-    <div class="post-footer">— 感谢阅读 —</div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    // 主题切换（同 index）
-    const html = document.documentElement;
-    const saved = localStorage.getItem('theme');
-    if (saved) html.setAttribute('data-theme', saved);
-
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-
-    // 加载文章
-    const params = new URLSearchParams(location.search);
-    const file = params.get('p');
-
-    if (!file) {
-      document.getElementById('post-title').textContent = '未指定文章';
-      return;
-    }
-
-    fetch(file)
-      .then(r => {
-        if (!r.ok) throw new Error('文件不存在');
-        return r.text();
-      })
-      .then(md => {
-        let title = decodeURIComponent(file.replace(/\.md$/i, ''));
-        let date = '';
-        let content = md;
-
-        const fm = md.match(/^---\n([\s\S]*?)\n---\n/);
-        if (fm) {
-          const lines = fm[1].split('\n');
-          for (const line of lines) {
-            if (line.startsWith('title:')) title = line.replace(/^title:\s*/, '').trim();
-            if (line.startsWith('date:'))  date  = line.replace(/^date:\s*/, '').trim();
-          }
-          content = md.slice(fm[0].length);
-        }
-
-        document.title = title + ' — Promise的博客';
-        document.getElementById('post-title').textContent = title;
-        document.getElementById('post-date').textContent = date;
-        document.getElementById('post-body').innerHTML = marked.parse(content);
-      })
-      .catch(err => {
-        document.getElementById('post-title').textContent = '文章加载失败';
-        document.getElementById('post-body').innerHTML = `<p>${err.message}</p>`;
-      });
-  </script>
+  <article>
+    <div class="post-meta">发布于 2024-05-20</div>
+    <h1>文章标题</h1>
+    <p>这里是你的正文内容。简洁的排版能让读者更专注于文字本身。</p>
+    </article>
 
 </body>
 </html>
