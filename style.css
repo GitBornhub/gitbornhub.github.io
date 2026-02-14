@@ -866,7 +866,7 @@ main {
 /* ── Material Body ──
    M3 背景是干净的 surface 色，没有渐变，没有光晕 */
 [data-style="material"] body {
-  background-color:            var(--md-surface);
+  background-color: var(--md-surface);
   background-attachment: unset;
   color:                 var(--md-on-surface);
   font-family:           var(--font-body);
