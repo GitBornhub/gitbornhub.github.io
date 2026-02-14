@@ -26,7 +26,7 @@
      --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('bg.jpg');
    ============================================= */
 :root {
-  --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('background.png') center center no-repeat;   /* ← 在这里改背景 */
+  --wallpaper: none;   /* ← 在这里改背景 */
 }
 
 
@@ -410,14 +410,31 @@ main {
 /* =============================================
    主页专用样式
    ============================================= */
-.blog-header { margin-bottom: 56px; }
+.blog-header {
+  margin-bottom: 36px;
+  /* 标题与副标题在同一行，副标题用分隔符隔开 */
+  display:       flex;
+  align-items:   baseline;
+  gap:           12px;
+  flex-wrap:     wrap;
+}
 
 .blog-header h1 {
-  font-size:      clamp(1.8rem, 5vw, 2.4rem);
+  font-size:      clamp(1.4rem, 4vw, 2rem);
   font-weight:    600;
   letter-spacing: -0.02em;
   line-height:    1.2;
-  margin-bottom:  10px;
+  margin-bottom:  0;   /* 同行时不需要底部间距 */
+  flex-shrink:    0;
+}
+
+/* 标题与副标题之间的竖线分隔符 */
+.blog-header .sep {
+  color:       var(--glass-border);
+  font-size:   1.2rem;
+  font-weight: 200;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .blog-header .subtitle {
@@ -425,6 +442,7 @@ main {
   font-size:   0.88rem;
   font-style:  italic;
   color:       var(--text-muted);
+  line-height: 1.2;
 }
 
 /* 文章列表 — 每一条都是完整的液态玻璃面板 */
@@ -949,12 +967,14 @@ main {
 /* ── Material 主页博客标题区 ── */
 [data-style="material"] .blog-header h1 {
   color: var(--md-on-surface);
-  letter-spacing: -0.01em;
+}
+[data-style="material"] .blog-header .sep {
+  color: var(--md-outline);
 }
 [data-style="material"] .blog-header .subtitle {
-  font-style: normal;
+  font-style:  normal;
   font-family: var(--font-accent);
-  color:      var(--md-on-surface-var);
+  color:       var(--md-on-surface-var);
 }
 
 /* M3 divider：用主色替代强调色，颜色更规范 */
@@ -1115,34 +1135,36 @@ main {
 
 /* =============================================
    信息卡片 — Glass 风格
+   三个独立卡片：时间卡、进度卡、格言卡
+   与文章列表卡片完全相同的玻璃规则，保持视觉统一
    ============================================= */
 
+/* 卡片公共基础：与 .post-list li 相同的玻璃配方 */
 .info-card {
   position:      relative;
-  margin-bottom: 36px;
-  padding:       20px 24px 16px;
-  border-radius: var(--radius-xl);
+  margin-bottom: 10px;   /* 卡片间距与文章列表一致（8px） */
+  padding:       16px 20px;
+  border-radius: var(--radius-lg);
   overflow:      hidden;
 
-  /* 液态玻璃三层 */
   background:      var(--glass-fill);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(16px) saturate(var(--glass-saturate));
   border:          1px solid var(--glass-border);
   box-shadow:
-    0 8px 32px var(--glass-shadow),
+    0 2px 12px var(--glass-shadow),
     inset 0 1px 0 var(--glass-shine);
 }
 
-/* 顶部高光伪元素 */
+/* 顶部高光伪元素（与文章列表 li::before 一致） */
 .info-card::before {
   content:  '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height:   40%;
+  height:   45%;
   background: linear-gradient(to bottom, rgba(255,255,255,0.20), transparent);
   pointer-events: none;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 /* 底部反光 */
@@ -1153,6 +1175,11 @@ main {
   height:   1px;
   background: var(--glass-rim);
   pointer-events: none;
+}
+
+/* 最后一个卡片下方留出与文章列表的间距 */
+.info-card:last-of-type {
+  margin-bottom: 36px;
 }
 
 /* ── 第一行：时间 + 日期 ── */
@@ -1320,20 +1347,24 @@ main {
 
 /* =============================================
    信息卡片 — Material Design 3 适配
+   与 MD 文章列表卡片相同：Filled Card，28px 圆角，无阴影边框
    ============================================= */
 
-/* M3 Filled Card */
 [data-style="material"] .info-card {
   background:      var(--md-surface-2);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border:          none;
   border-radius:   var(--md-shape-xl);
-  box-shadow:      var(--md-elev-1);
+  box-shadow:      none;
 }
 [data-style="material"] .info-card::before,
 [data-style="material"] .info-card::after {
   display: none;
+}
+[data-style="material"] .info-card:hover {
+  box-shadow: var(--md-elev-2);
+  transform:  translateY(-1px);
 }
 
 /* M3 时间使用主色 */
@@ -1356,18 +1387,17 @@ main {
   background: var(--md-primary);
 }
 [data-style="material"] .info-bar--warn {
-  background: #e8710a;   /* M3 Error/Warning 色 */
+  background: #e8710a;
 }
 [data-style="material"] .info-bar--day {
   background: var(--md-primary);
-  opacity:    0.7;       /* 稍淡以区分两条 */
+  opacity:    0.7;
 }
 
-/* M3 换一条按钮 — Icon Button */
+/* M3 换一条按钮 */
 [data-style="material"] .info-quote-refresh {
   background:    transparent;
   border:        none;
-  border-radius: 50%;
   color:         var(--md-on-surface-var);
 }
 [data-style="material"] .info-quote-refresh:hover {
@@ -1376,4 +1406,15 @@ main {
 }
 [data-style="material"][data-theme="dark"] .info-quote-refresh:hover {
   background: rgba(226,226,230,0.08);
+}
+
+/* M3 blog-header 分隔符颜色 */
+[data-style="material"] .blog-header .sep {
+  color: var(--md-outline);
+}
+[data-style="material"] .blog-header h1 {
+  color: var(--md-on-surface);
+}
+[data-style="material"] .blog-header .subtitle {
+  color: var(--md-on-surface-var);
 }
