@@ -2,32 +2,28 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>我的个人博客</title>
+    <title>我的博客</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>My Simple Blog</h1>
-    </header>
+    <h1>文章列表</h1>
+    <div id="list">加载中...</div>
 
-    <main id="post-list">
-        </main>
-
-<script>
-    fetch('posts.json')
-        .then(res => res.json())
-        .then(data => {
-            const container = document.getElementById('post-list');
-            data.forEach(post => {
-                const item = document.createElement('div');
-                item.className = 'post-item';
-                item.innerHTML = `
-                    <span>${post.date}</span>
-                    <a href="posts/post.html?file=${post.file}">${post.title}</a>
-                `;
-                container.appendChild(item);
-            });
-        });
-</script>
+    <script>
+        fetch('posts.json')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.forEach(item => {
+                    // 核心：跳转到 posts 目录下的 post.html，并带上文件名参数
+                    html += `<div style="margin-bottom:10px;">
+                        <span>${item.date}</span> - 
+                        <a href="posts/post.html?file=${item.file}">${item.title}</a>
+                    </div>`;
+                });
+                document.getElementById('list').innerHTML = html;
+            })
+            .catch(e => document.getElementById('list').innerHTML = "列表加载失败，请检查 posts.json");
+    </script>
 </body>
 </html>
