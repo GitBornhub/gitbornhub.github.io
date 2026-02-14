@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的博客</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>我的个人博客</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>My Simple Blog</h1>
+    </header>
 
-  <header>
-    <h1>我的博客</h1>
-    <p class="subtitle">记录想法与生活</p>
-  </header>
+    <main id="post-list">
+        </main>
 
-  <main>
-    <ul class="post-list" id="post-list">
-      <li class="loading">正在加载文章...</li>
-    </ul>
-  </main>
-
-  <script>
-    fetch('posts.json')
-      .then(r => r.json())
-      .then(posts => {
-        const list = document.getElementById('post-list');
-        list.innerHTML = posts.map(p => `
-          <li>
-            <a href="posts/${p.file}">${p.title}</a>
-            <span class="post-date">${p.date}</span>
-          </li>
-        `).join('');
-      })
-      .catch(() => {
-        document.getElementById('post-list').innerHTML = '<li class="loading">暂无文章</li>';
-      });
-  </script>
-
+    <script>
+        // 读取索引文件并显示
+        fetch('posts.json')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('post-list');
+                data.forEach(post => {
+                    const item = document.createElement('div');
+                    item.className = 'post-item';
+                    item.innerHTML = `
+                        <span>${post.date}</span>
+                        <a href="post.html?file=${post.file}">${post.title}</a>
+                    `;
+                    container.appendChild(item);
+                });
+            });
+    </script>
 </body>
 </html>
