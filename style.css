@@ -1,6 +1,30 @@
-body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #333; }
-a { color: #007bff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-nav { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-code { background: #f4f4f4; padding: 2px 4px; }
+body { 
+    font-family: -apple-system, sans-serif; 
+    /* 核心适配：电脑上最大 800px，手机上自动适应 */
+    max-width: 800px; 
+    width: 90% ; /* 手机端两侧留出一点缝隙，更美观 */
+    margin: 20px auto; 
+    line-height: 1.6; 
+    color: #333; 
+    word-wrap: break-word; /* 防止长单词撑破屏幕 */
+}
+
+/* 确保图片和代码块不会超出手机屏幕 */
+img { 
+    max-width: 100%; 
+    height: auto; 
+}
+
+pre { 
+    background: #f4f4f4; 
+    padding: 15px; 
+    border-radius: 5px; 
+    overflow-x: auto; /* 代码太长时允许左右滑动，而不是撑开网页 */
+    font-size: 14px;  /* 手机端代码稍微小一点 */
+}
+
+/* 让列表在手机上更容易点击 */
+.post-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
