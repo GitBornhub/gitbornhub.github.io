@@ -12,25 +12,18 @@
 <body>
 
   <nav>
-    <!-- ✏️ 修改导航栏博客名 -->
     <span class="site-name">Promise的博客</span>
-
     <div class="nav-actions">
-      <!-- 风格切换按钮 -->
       <button class="style-btn" id="styleToggle" aria-label="切换风格">
-        <!-- 当前 glass，按钮显示"切换到 Material" -->
         <span class="label-material" style="display:none">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
           MD主题
         </span>
-        <!-- 当前 material，按钮显示"切换到 Glass" -->
         <span class="label-glass">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3 Q16 12 12 21"/><path d="M12 3 Q8 12 12 21"/><path d="M3 12 Q12 8 21 12"/></svg>
           液态玻璃
         </span>
       </button>
-
-      <!-- 深浅模式切换按钮 -->
       <button class="theme-btn" id="themeToggle" aria-label="切换主题">
         <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -39,6 +32,54 @@
   </nav>
 
   <main>
+
+    <!-- ═══════════════════════════════════════
+         时间信息卡片
+         ═══════════════════════════════════════ -->
+    <div class="info-card">
+
+      <!-- 第一行：时间 + 日期 -->
+      <div class="info-top">
+        <span class="info-time" id="info-time">--:--:--</span>
+        <span class="info-date" id="info-date">----年--月--日 ---</span>
+      </div>
+
+      <div class="info-divider"></div>
+
+      <!-- 第二行：年份进度 -->
+      <div class="info-progress-row">
+        <span class="info-progress-label" id="label-year">2026 已过去</span>
+        <div class="info-bar-wrap">
+          <div class="info-bar" id="bar-year"></div>
+        </div>
+        <span class="info-progress-val" id="val-year">--%</span>
+      </div>
+
+      <!-- 第三行：今日进度 -->
+      <div class="info-progress-row">
+        <span class="info-progress-label" id="label-day">今天 已过去</span>
+        <div class="info-bar-wrap">
+          <div class="info-bar info-bar--day" id="bar-day"></div>
+        </div>
+        <span class="info-progress-val" id="val-day">--%</span>
+      </div>
+
+      <div class="info-divider"></div>
+
+      <!-- 第四行：格言 -->
+      <div class="info-quote-row">
+        <span class="info-quote-text" id="info-quote">…</span>
+        <button class="info-quote-refresh" id="quote-refresh" aria-label="换一条">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- /info-card -->
+
+    <!-- 博客标题 -->
     <header class="blog-header">
       <!-- ✏️ 修改博客标题和简介 -->
       <h1>欢迎来到Promise的博客</h1>
@@ -46,31 +87,172 @@
       <div class="divider"></div>
     </header>
 
+    <!-- 文章列表 -->
     <ul class="post-list" id="post-list">
       <li class="status-msg">加载中…</li>
     </ul>
+
   </main>
 
   <script>
-    fetch('posts.json')
-      .then(r => r.json())
-      .then(posts => {
-        const list = document.getElementById('post-list');
-        if (!posts.length) {
-          list.innerHTML = '<li class="status-msg">暂无文章</li>';
-          return;
-        }
-        list.innerHTML = posts.map(p => `
-          <li>
-            <a href="posts/post.html?p=${p.file}">${p.title}</a>
-            <span class="post-date">${p.date}</span>
-          </li>
-        `).join('');
-      })
-      .catch(() => {
-        document.getElementById('post-list').innerHTML =
-          '<li class="status-msg">加载失败，请检查 posts.json</li>';
-      });
+  /* ─────────────────────────────────────────
+     格言库（内置，零依赖，每天按日期哈希取一条）
+     ✏️ 可以自己增删句子
+     ───────────────────────────────────────── */
+  const QUOTES = [
+    { text: '生命不在于活得长，而在于活得有意义。', author: '亚里士多德' },
+    { text: '你今天的努力，是明天惊喜的伏笔。', author: '' },
+    { text: '不要等待机会，而要创造机会。', author: '林肯' },
+    { text: '每一个不曾起舞的日子，都是对生命的辜负。', author: '尼采' },
+    { text: '人生最重要的不是所站的位置，而是所朝的方向。', author: '霍姆斯' },
+    { text: '走得最慢的人，只要不丧失目标，也比漫无目的的人走得快。', author: '莱辛' },
+    { text: '世界上只有一种英雄主义，就是看清生活的真相之后依然热爱生活。', author: '罗曼·罗兰' },
+    { text: '你必须非常努力，才能看起来毫不费力。', author: '' },
+    { text: '种一棵树最好的时间是十年前，其次是现在。', author: '中国谚语' },
+    { text: '我们的生命就像一段旅途，不在于目的地，而在于沿途的风景。', author: '' },
+    { text: '做你害怕做的事，然后你会发现恐惧确实会消失。', author: '爱默生' },
+    { text: '知识是对事物的理解，而智慧是对生活的理解。', author: '' },
+    { text: '不是因为有希望才坚持，而是坚持了才会有希望。', author: '' },
+    { text: '每天进步一点点，坚持下去就是质变。', author: '' },
+    { text: '你所浪费的今天，是昨天死去的人奢望的明天。', author: '' },
+    { text: '读书不是为了拿文凭或者发财，而是成为一个有温度、懂情趣、会思考的人。', author: '爱因斯坦' },
+    { text: '生活中没有捷径，但有正确的方向。', author: '' },
+    { text: '纸上得来终觉浅，绝知此事要躬行。', author: '陆游' },
+    { text: '千里之行，始于足下。', author: '老子' },
+    { text: '学而不思则罔，思而不学则殆。', author: '孔子' },
+    { text: '路漫漫其修远兮，吾将上下而求索。', author: '屈原' },
+    { text: '天行健，君子以自强不息。', author: '《周易》' },
+    { text: '己所不欲，勿施于人。', author: '孔子' },
+    { text: '敏而好学，不耻下问。', author: '孔子' },
+    { text: '业精于勤，荒于嬉；行成于思，毁于随。', author: '韩愈' },
+  ];
+
+  /* 按日期哈希取今日格言（同一天始终显示同一条） */
+  function getDailyQuote() {
+    const d = new Date();
+    const key = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    return QUOTES[key % QUOTES.length];
+  }
+
+  /* 随机取一条（排除当前） */
+  let currentQuoteIdx = -1;
+  function getRandomQuote() {
+    let idx;
+    do { idx = Math.floor(Math.random() * QUOTES.length); }
+    while (idx === currentQuoteIdx && QUOTES.length > 1);
+    currentQuoteIdx = idx;
+    return QUOTES[idx];
+  }
+
+  /* 渲染格言 */
+  function renderQuote(q) {
+    const el = document.getElementById('info-quote');
+    el.innerHTML = q.author
+      ? `「${q.text}」<em class="info-quote-author">— ${q.author}</em>`
+      : `「${q.text}」`;
+  }
+
+  /* ─────────────────────────────────────────
+     时间 & 进度更新
+     ───────────────────────────────────────── */
+  const WEEKDAYS = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const now  = new Date();
+    const year = now.getFullYear();
+    const mon  = now.getMonth() + 1;
+    const day  = now.getDate();
+    const h    = now.getHours();
+    const m    = now.getMinutes();
+    const s    = now.getSeconds();
+
+    /* 时间 */
+    document.getElementById('info-time').textContent =
+      `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+    /* 日期 */
+    document.getElementById('info-date').textContent =
+      `${year}年${pad(mon)}月${pad(day)}日 ${WEEKDAYS[now.getDay()]}`;
+
+    /* ── 年份进度 ── */
+    const yearStart = new Date(year, 0, 1);
+    const yearEnd   = new Date(year + 1, 0, 1);
+    const yearMs    = yearEnd - yearStart;
+    const passedMs  = now - yearStart;
+    const yearPct   = passedMs / yearMs;
+
+    const passedDays = Math.floor(passedMs / 86400000);
+    const passedH    = Math.floor((passedMs % 86400000) / 3600000);
+    const passedMin  = Math.floor((passedMs % 3600000) / 60000);
+    const passedSec  = Math.floor((passedMs % 60000) / 1000);
+
+    document.getElementById('label-year').textContent =
+      `${year} 已过去 ${passedDays}天 ${passedH}时 ${passedMin}分 ${passedSec}秒`;
+    document.getElementById('val-year').textContent =
+      (yearPct * 100).toFixed(1) + '%';
+    document.getElementById('bar-year').style.width =
+      (yearPct * 100).toFixed(2) + '%';
+
+    /* 进度超过 50% 时进度条变色（提示感） */
+    const barYear = document.getElementById('bar-year');
+    barYear.classList.toggle('info-bar--warn', yearPct > 0.5);
+
+    /* ── 今日进度 ── */
+    const dayMs  = h * 3600000 + m * 60000 + s * 1000;
+    const dayPct = dayMs / 86400000;
+
+    document.getElementById('label-day').textContent = '今天 已过去';
+    document.getElementById('val-day').textContent =
+      (dayPct * 100).toFixed(1) + '%';
+    document.getElementById('bar-day').style.width =
+      (dayPct * 100).toFixed(2) + '%';
+  }
+
+  /* ─────────────────────────────────────────
+     初始化
+     ───────────────────────────────────────── */
+  // 今日格言
+  const daily = getDailyQuote();
+  currentQuoteIdx = QUOTES.indexOf(daily);
+  renderQuote(daily);
+
+  // 换一条按钮
+  document.getElementById('quote-refresh').addEventListener('click', function () {
+    renderQuote(getRandomQuote());
+    // 小动画：旋转图标
+    this.style.transition = 'transform 0.4s ease';
+    this.style.transform  = 'rotate(360deg)';
+    setTimeout(() => { this.style.transition = ''; this.style.transform = ''; }, 400);
+  });
+
+  // 启动时钟
+  tick();
+  setInterval(tick, 1000);
+
+  /* ─────────────────────────────────────────
+     文章列表加载
+     ───────────────────────────────────────── */
+  fetch('posts.json')
+    .then(r => r.json())
+    .then(posts => {
+      const list = document.getElementById('post-list');
+      if (!posts.length) {
+        list.innerHTML = '<li class="status-msg">暂无文章</li>';
+        return;
+      }
+      list.innerHTML = posts.map(p => `
+        <li>
+          <a href="posts/post.html?p=${p.file}">${p.title}</a>
+          <span class="post-date">${p.date}</span>
+        </li>
+      `).join('');
+    })
+    .catch(() => {
+      document.getElementById('post-list').innerHTML =
+        '<li class="status-msg">加载失败，请检查 posts.json</li>';
+    });
   </script>
 
 </body>
