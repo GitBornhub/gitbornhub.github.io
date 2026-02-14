@@ -1,5 +1,5 @@
 body { 
-    font-family: Verdana; 
+    font-family: Verdana, sans-serif;
     /* 核心适配：电脑上最大 800px，手机上自动适应 */
     max-width: 800px; 
     width: 90% ; /* 手机端两侧留出一点缝隙，更美观 */
