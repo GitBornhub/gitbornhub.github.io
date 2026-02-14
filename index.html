@@ -1,61 +1,38 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="light">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promise的博客</title>
+  <title>我的博客</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <nav>
-    <a href="#" class="site-name">Promise的博客</a>
-    <div class="nav-actions">
-      <button id="themeToggle" title="切换深色/浅色模式">☀︎</button>
-    </div>
-  </nav>
+  <header>
+    <h1>我的博客</h1>
+    <p class="subtitle">记录想法与生活</p>
+  </header>
 
   <main>
-    <header class="blog-header">
-      <h1>最新文章</h1>
-      <p class="subtitle">记录想法与生活</p>
-    </header>
-
     <ul class="post-list" id="post-list">
-      <li class="status-msg">加载中…</li>
+      <li class="loading">正在加载文章...</li>
     </ul>
   </main>
 
   <script>
-    // 主题切换
-    const html = document.documentElement;
-    const saved = localStorage.getItem('theme');
-    if (saved) html.setAttribute('data-theme', saved);
-
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-
-    // 文章列表（示例，可替换为 fetch posts.json）
     fetch('posts.json')
       .then(r => r.json())
       .then(posts => {
         const list = document.getElementById('post-list');
-        if (!posts.length) {
-          list.innerHTML = '<li>暂无文章</li>';
-          return;
-        }
         list.innerHTML = posts.map(p => `
           <li>
-            <a href="posts/post.html?p=${p.file}">${p.title}</a>
-            <span class="post-date">${p.date || ''}</span>
+            <a href="posts/${p.file}">${p.title}</a>
+            <span class="post-date">${p.date}</span>
           </li>
         `).join('');
       })
       .catch(() => {
-        document.getElementById('post-list').innerHTML = '<li>加载失败</li>';
+        document.getElementById('post-list').innerHTML = '<li class="loading">暂无文章</li>';
       });
   </script>
 
