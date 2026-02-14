@@ -1,102 +1,54 @@
 /* =============================================
-   style.css — 全站唯一样式文件（液态玻璃增强版）
-   参考来源：Apple WWDC 2025、CSS-Tricks 分析、
-            kevinbism/liquid-glass-effect 实现方案
-   修改此文件，主页和所有文章页同步生效
+   style.css — 液态玻璃主题（已移除 Material 风格）
    ============================================= */
 
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap');
+/* Google Fonts 已移除，因为我们优先使用系统字体栈 */
 
-
-/* =============================================
-   ★ 壁纸设置区 ★
-   只需修改这里就能更换整个网站的背景
-
-   用法一：纯渐变背景（默认）
-     --wallpaper: none;
-     同时修改下方 --bg-gradient-* 变量调整渐变颜色
-
-   用法二：图片背景（PNG / JPG 均支持）
-     把图片放在仓库根目录，例如 bg.jpg
-     --wallpaper: url('../bg.jpg');
-     （style.css 在根目录，所以路径直接写文件名即可：url('bg.jpg')）
-
-   用法三：图片 + 半透明蒙版（图片太亮时用）
-     --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('bg.jpg');
-   ============================================= */
 :root {
-  --wallpaper: none;   /* ← 在这里改背景 */
-}
+  --wallpaper: none;
 
+  /* 字体：接近苹方风格的无衬线字体栈，完全禁用斜体 */
+  --font-body:    system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  --font-accent:  system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
 
-/* =============================================
-   CSS 变量 — 亮色模式
-   ============================================= */
-:root {
-  /* 渐变背景的三个光晕颜色（wallpaper 为 none 时生效） */
-  --bg-base:       #dce8f5;              /* 底色：冷蓝白 */
-  --bg-orb-1:      rgba(150, 190, 255, 0.50);  /* 光晕 1：蓝色（左上） */
-  --bg-orb-2:      rgba(190, 140, 255, 0.40);  /* 光晕 2：紫色（右下） */
-  --bg-orb-3:      rgba(120, 230, 210, 0.25);  /* 光晕 3：青绿（中部），iOS 经典点缀色 */
-
-  /* 文字 */
   --text:          #18181b;
   --text-muted:    #71717a;
 
-  /* ── Apple 液态玻璃三层结构 ──
-     Layer 1 — Illumination（漫射底层）：最下面一层，提供整体的半透明填充
-     Layer 2 — Shadow（阴影层）：外部投影，让面板悬浮于背景之上
-     Layer 3 — Highlight（高光层）：顶部最亮的那条线，模拟光线打在玻璃上沿
-     三层缺一不可，否则只是普通的毛玻璃而非液态玻璃 */
-
-  /* Illumination — 面板主体半透明填充 */
   --glass-fill:     rgba(255, 255, 255, 0.42);
-
-  /* Shadow — 外部投影颜色 */
   --glass-shadow:   rgba(60, 80, 120, 0.12);
-
-  /* Highlight — 顶部高光 + 边框高光 */
-  --glass-shine:    rgba(255, 255, 255, 0.80);  /* 顶部内高光（最亮） */
-  --glass-border:   rgba(255, 255, 255, 0.65);  /* 边框描边 */
-
-  /* 底部反光（kevinbism 方案的关键细节）：
-     玻璃底部有一条比顶部稍暗的反光，模拟光线从底部折射出来 */
+  --glass-shine:    rgba(255, 255, 255, 0.80);
+  --glass-border:   rgba(255, 255, 255, 0.65);
   --glass-rim:      rgba(255, 255, 255, 0.30);
-
-  /* 模糊半径：值越大越磨砂，越小越透明清晰 */
   --glass-blur:     20px;
-
-  /* 饱和度增强：让玻璃后面的颜色更鲜艳，是液态感的关键 */
   --glass-saturate: 200%;
 
-  /* 按钮用（比面板略深，hover 时更亮） */
   --btn-fill:       rgba(255, 255, 255, 0.32);
   --btn-hover:      rgba(255, 255, 255, 0.62);
 
-  /* 强调色（橙棕，与冷蓝背景形成互补对比） */
   --accent:         #c06040;
   --accent-glass:   rgba(192, 96, 64, 0.12);
 
-  /* 排版 & 尺寸 */
-  --font-body:    'Noto Serif SC', 'Georgia', serif;
-  --font-accent:  'Lora', serif;
-  --max-width:    660px;
+  --max-width:    720px;   /* 稍宽一点，更适合现代手机横屏 */
   --nav-height:   56px;
-  --radius-xl:    20px;   /* 超大圆角，苹果 visionOS 风格 */
-  --radius-lg:    14px;
-  --radius-md:    10px;
-  --radius-sm:    6px;
+  --radius-xl:    24px;
+  --radius-lg:    16px;
+  --radius-md:    12px;
+  --radius-sm:    8px;
   --transition:   0.28s ease;
 }
 
+/* 全局强制正体，禁用任何斜体 */
+* {
+  font-style: normal !important;
+}
 
-/* =============================================
-   CSS 变量 — 暗色模式
-   暗色玻璃的核心原则：
-   填充色用极低透明度的白色（不要用黑色），
-   黑色透明只会显得脏，白色微透才有通透感
-   ============================================= */
+em, i, .info-quote-text, .info-date, .post-date, .blog-header .subtitle,
+.post-body em, .post-body i, blockquote {
+  font-style: normal !important;
+  font-weight: 500;   /* 用稍粗字体代替斜体强调 */
+}
+
+/* 暗色模式（保持你上次微调后的舒适版本） */
 [data-theme="dark"] {
   --bg-base:       #080c12;
   --bg-orb-1:      rgba(70, 110, 210, 0.32);
@@ -121,752 +73,149 @@
   --accent-glass:  rgba(208, 112, 80, 0.08);
 }
 
-
-/* =============================================
-   Reset
-   ============================================= */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-
-/* =============================================
-   Body — 背景层
-   背景丰富度直接决定液态玻璃的视觉效果：
-   越丰富的背景，玻璃的折射感越明显
-   ============================================= */
-body {
-  /*
-    背景分两种情况：
-    1. --wallpaper 为 none 时：显示多层径向渐变光晕（iOS 风格）
-    2. --wallpaper 设置了图片时：图片覆盖在渐变之上
-
-    写法说明：CSS background 是从上到下叠加的，
-    最先写的在最上面，所以图片要写在渐变前面
-  */
-  background:
-    var(--wallpaper),                                                        /* 壁纸层（none 时不显示） */
-    radial-gradient(ellipse 70% 60% at 10% 15%,  var(--bg-orb-1) 0%, transparent 100%),  /* 光晕 1 */
-    radial-gradient(ellipse 65% 55% at 90% 85%,  var(--bg-orb-2) 0%, transparent 100%),  /* 光晕 2 */
-    radial-gradient(ellipse 50% 40% at 55% 45%,  var(--bg-orb-3) 0%, transparent 100%),  /* 光晕 3 */
-    var(--bg-base);                                                          /* 底色兜底 */
-
-  /* 背景固定不滚动：页面内容滑过背景时，玻璃折射感最强 */
-  background-attachment: fixed;
-  background-size: cover;
-
-  color:       var(--text);
-  font-family: var(--font-body);
-  font-size:   1rem;
-  line-height: 1.9;
-  min-height:  100vh;
-  transition:  color var(--transition);
-  /* 注意：background 不加 transition，防止切换深浅模式时背景闪烁 */
-}
-
-
-/* =============================================
-   导航栏 — Apple 三层液态玻璃实现
-   这是整个方案中最完整的玻璃效果示范
-   ============================================= */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index:  100;
-  height:   var(--nav-height);
-
-  /*
-    Layer 1 — Illumination（漫射底层）
-    半透明白色填充 + backdrop-filter 模糊后面的内容
-    saturate() 增强饱和度，让背景色透过玻璃更鲜艳
-  */
-  background:      var(--glass-fill);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(1.04);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(1.04);
-
-  /*
-    Layer 2 — Shadow（底部投影，让导航栏悬浮在内容上方）
-    Layer 3 — Highlight（inset 顶部高光线，模拟光线打在玻璃上沿）
-    box-shadow 同时承担这两层的作用
-  */
-  box-shadow:
-    0 1px 0   var(--glass-border),         /* 底部边框（替代 border-bottom，更柔和） */
-    0 4px 24px var(--glass-shadow),         /* 外投影（Shadow 层） */
-    inset 0 1px 0 var(--glass-shine);      /* 顶部内高光（Highlight 层，最关键的细节） */
-
-  display:         flex;
-  align-items:     center;
-  justify-content: space-between;
-  padding:         0 clamp(20px, 5vw, 48px);
-
-  transition: background var(--transition), box-shadow var(--transition);
-}
-
-[data-theme="dark"] nav {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* 导航栏底部：用伪元素做一条精致的玻璃折射底边
-   这是 kevinbism 方案中最出彩的细节之一 */
-nav::after {
-  content:  '';
-  position: absolute;
-  bottom:   0; left: 0; right: 0;
-  height:   1px;
-  /* 底部边框从中间向两端渐隐，比直线边框更有液体流动感 */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    var(--glass-border) 20%,
-    var(--glass-border) 80%,
-    transparent 100%
-  );
-}
-
-.site-name {
-  font-family:     var(--font-accent);
-  font-size:       0.9rem;
-  font-style:      normal;
-  color:           var(--text-muted);
-  letter-spacing:  0.04em;
-  text-decoration: none;
-}
-
-
-/* =============================================
-   玻璃面板 — 通用实现（三层结构 + 伪元素高光）
-   用 position: relative + ::before/::after 实现
-   Apple 描述的完整三层结构
-
-   使用方式：给容器加 class="glass-panel"
-   ============================================= */
-.glass-panel {
-  position: relative;
-  /* Layer 1 — Illumination */
-  background:      var(--glass-fill);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(---glass-blur)) saturate(var(--glass-saturate));
-  border:          1px solid var(--glass-border);
-  border-radius:   var(--radius-lg);
-  /* Layer 2 — Shadow */
-  box-shadow:
-    0 8px 32px var(--glass-shadow),
-    0 2px  8px rgba(0,0,0,0.06),
-    inset 0 1px 0 var(--glass-shine);   /* Layer 3 — Highlight 顶部高光 */
-  overflow: hidden;  /* 让伪元素不超出圆角 */
-}
-
-/* ::before — Highlight 顶部反光层
-   用渐变模拟玻璃顶部接收光线时的亮部区域
-   这是让玻璃看起来"有厚度"的关键 */
-.glass-panel::before {
-  content:  '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height:   40%;             /* 只覆盖面板上半部分 */
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.22) 0%,   /* 顶部最亮 */
-    rgba(255, 255, 255, 0.00) 100%  /* 向下渐隐 */
-  );
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  pointer-events: none;  /* 不响应鼠标事件 */
-  z-index: 0;
-}
-
-/* ::after — 底部反光（rim light）
-   模拟光线从玻璃底部折射出来的微弱反光
-   这是 kevinbism 方案特有的细节，让玻璃更有立体感 */
-.glass-panel::after {
-  content:  '';
-  position: absolute;
-  bottom: 0; left: 10%; right: 10%;
-  height:   1px;
-  background: var(--glass-rim);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 确保面板内部内容在伪元素上方显示 */
-.glass-panel > * { position: relative; z-index: 1; }
-
-
-/* =============================================
-   按钮 — 胶囊形液态玻璃
-   ============================================= */
-
-/* 返回按钮 */
-.back-btn {
-  position:    relative;
-  display:     inline-flex;
-  align-items: center;
-  gap:         6px;
-  font-family: var(--font-accent);
-  font-size:   0.82rem;
-  color:       var(--text-muted);
-  text-decoration: none;
-  padding:     7px 15px;
-  border-radius: 99px;
-
-  background:  var(--btn-fill);
+/* 玻璃风格的主题切换按钮（圆形 + 玻璃效果） */
+.theme-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--btn-fill);
   backdrop-filter: blur(12px) saturate(var(--glass-saturate));
   -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-  border:      1px solid var(--glass-border);
-  box-shadow:
+  border: 1px solid var(--glass-border);
+  box-shadow: 
     0 2px 10px var(--glass-shadow),
-    inset 0 1px 0 var(--glass-shine);   /* 顶部高光 */
-
-  transition:  all var(--transition);
+    inset 0 1px 0 var(--glass-shine),
+    inset 0 -1px 2px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.back-btn:hover {
+.theme-btn:hover {
   background: var(--btn-hover);
-  color:      var(--text);
-  box-shadow:
+  transform: scale(1.08);
+  box-shadow: 
     0 4px 16px var(--glass-shadow),
     inset 0 1px 0 var(--glass-shine);
 }
 
-
-/* =============================================
-   Main — 页面主体容器
-   ============================================= */
-main {
-  max-width:  var(--max-width);
-  margin:     0 auto;
-  padding:    calc(var(--nav-height) + 36px) clamp(20px, 5vw, 48px) 80px;
+/* 图标内部玻璃感设计 */
+.theme-icon {
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-
-/* =============================================
-   博客标题 — 首页大标题
-   ============================================= */
-.blog-header {
-  display:         flex;
-  align-items:     baseline;
-  gap:             12px;
-  margin-bottom:   32px;
-  white-space:     nowrap;
-  overflow:        hidden;
-  text-overflow:   ellipsis;
+[data-theme="dark"] .theme-icon-sun,
+[data-theme="light"] .theme-icon-moon {
+  opacity: 0;
+  transform: scale(0.7) rotate(-15deg);
 }
 
-.blog-header h1 {
-  font-family: var(--font-accent);
-  font-size:   clamp(1.5rem, 6vw, 2.4rem);
-  font-weight: 400;
-  font-style:  normal;
-  color:       var(--text);
-  line-height: 1;
+[data-theme="dark"] .theme-icon-moon,
+[data-theme="light"] .theme-icon-sun {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 
-.blog-header .subtitle {
-  font-family: var(--font-accent);
-  font-size:   clamp(0.9rem, 3vw, 1.1rem);
-  font-style:  italic;
-  color:       var(--text-muted);
-  line-height: 1;
-}
+/* 移动端适配 */
+@media (max-width: 640px) {
+  :root {
+    --max-width: 100%;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --nav-height: 52px;
+  }
 
-.blog-header .sep {
-  font-size:   clamp(1.2rem, 4vw, 1.8rem);
-  color:       var(--text-muted);
-  opacity:     0.3;
-  line-height: 1;
-}
+  body {
+    font-size: 1.05rem;
+    line-height: 1.72;
+  }
 
+  main {
+    padding: calc(var(--nav-height) + 16px) 16px 64px;
+  }
 
-/* =============================================
-   文章列表 — 首页文章卡片
-   ============================================= */
-.post-list {
-  list-style: none;
-}
+  nav {
+    padding: 0 16px;
+  }
 
-.post-list li {
-  position:      relative;
-  margin-bottom: 8px;
-  padding:       16px 20px;
-  border-radius: var(--radius-lg);
-  overflow:      hidden;
+  .site-name {
+    font-size: 1rem;
+  }
 
-  background:      var(--glass-fill);
-  backdrop-filter: blur(16px) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(16px) saturate(var(--glass-saturate));
-  border:          1px solid var(--glass-border);
-  box-shadow:
-    0 2px 12px var(--glass-shadow),
-    inset 0 1px 0 var(--glass-shine);
-  transition: box-shadow var(--transition), transform var(--transition);
-}
+  .theme-btn {
+    width: 40px;
+    height: 40px;
+  }
 
-.post-list li:hover {
-  box-shadow:
-    0 6px 24px var(--glass-shadow),
-    inset 0 1px 0 var(--glass-shine);
-  transform: translateY(-2px);
-}
+  .theme-icon {
+    width: 22px;
+    height: 22px;
+  }
 
-/* 顶部高光（与 .glass-panel::before 一致） */
-.post-list li::before {
-  content:  '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height:   45%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.20), transparent);
-  pointer-events: none;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  z-index: 0;
-}
+  .info-card {
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 16px;
+  }
 
-/* 底部反光 */
-.post-list li::after {
-  content:  '';
-  position: absolute;
-  bottom: 0; left: 10%; right: 10%;
-  height:   1px;
-  background: var(--glass-rim);
-  pointer-events: none;
-  z-index: 0;
-}
+  .info-time {
+    font-size: clamp(1.5rem, 9vw, 2.1rem);
+  }
 
-/* 确保卡片内容在伪元素上方 */
-.post-list li > * { position: relative; z-index: 1; }
+  .info-progress-row {
+    gap: 8px;
+  }
 
-/* 文章标题链接 */
-.post-list a {
-  font-family:    var(--font-body);
-  font-size:      1.05rem;
-  font-weight:    600;
-  color:          var(--text);
-  text-decoration: none;
-  display:        block;
-  line-height:    1.5;
-  transition:     color var(--transition);
-}
+  .info-bar-wrap {
+    flex: 0 0 96px;
+  }
 
-.post-list a:hover {
-  color: var(--accent);
-}
+  .post-list li {
+    padding: 14px 16px;
+    border-radius: 16px;
+  }
 
-/* 文章日期 */
-.post-date {
-  font-family: var(--font-accent);
-  font-size:   0.82rem;
-  font-style:  italic;
-  color:       var(--text-muted);
-  display:     block;
-  margin-top:  4px;
-}
+  .post-list a {
+    font-size: 1.08rem;
+    line-height: 1.45;
+  }
 
-/* 状态消息（加载中/失败） */
-.status-msg {
-  text-align: center;
-  color:      var(--text-muted);
-  font-style: italic;
-  padding:    20px 0;
-}
+  .post-header h1 {
+    font-size: clamp(1.7rem, 7.5vw, 2.5rem);
+    line-height: 1.28;
+  }
 
+  .post-body {
+    font-size: 1.04rem;
+    line-height: 1.78;
+  }
 
-/* =============================================
-   文章页 — 标题
-   ============================================= */
-.post-header {
-  margin-bottom: 48px;
-}
+  .post-body h2 { font-size: 1.48rem; margin-top: 2.2em; }
+  .post-body h3 { font-size: 1.28rem; margin-top: 1.9em; }
+  .post-body h4 { font-size: 1.12rem; }
 
-.post-header h1 {
-  font-family: var(--font-accent);
-  font-size:   clamp(1.8rem, 8vw, 3rem);
-  font-weight: 400;
-  font-style:  normal;
-  color:       var(--text);
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
+  .post-body pre,
+  .post-body code {
+    font-size: 0.94em;
+  }
 
-.post-meta {
-  font-family: var(--font-accent);
-  font-size:   0.9rem;
-  font-style:  italic;
-  color:       var(--text-muted);
-  margin-bottom: 16px;
-}
+  .blog-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
 
-.divider {
-  height:     1px;
-  background: linear-gradient(to right, transparent, var(--glass-border) 20%, var(--glass-border) 80%, transparent);
-  margin:     24px 0;
-}
+  .blog-header h1 {
+    font-size: clamp(1.5rem, 6.5vw, 2.1rem);
+  }
 
-
-/* =============================================
-   文章页 — 正文
-   ============================================= */
-.post-body {
-  max-width: var(--max-width);
-  margin:    0 auto;
-}
-
-.post-body h2,
-.post-body h3,
-.post-body h4 {
-  font-family: var(--font-accent);
-  font-weight: 400;
-  margin-top:  2.5em;
-  margin-bottom: 0.8em;
-  color:       var(--text);
-}
-
-.post-body h2 { font-size: 1.6rem; }
-.post-body h3 { font-size: 1.3rem; }
-.post-body h4 { font-size: 1.1rem; }
-
-.post-body p {
-  margin-bottom: 1.6em;
-}
-
-.post-body ul,
-.post-body ol {
-  margin-left:   1.8em;
-  margin-bottom: 1.6em;
-}
-
-.post-body li {
-  margin-bottom: 0.6em;
-}
-
-.post-body a {
-  color:           var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:      color var(--transition);
-}
-
-.post-body a:hover {
-  color: #a05030;
-}
-
-.post-body blockquote {
-  position:       relative;
-  margin:         1.8em 0;
-  padding:        1.2em 1.6em 1.2em 2.4em;
-  background:     var(--accent-glass);
-  border-radius:  var(--radius-md);
-  font-style:     italic;
-  color:          var(--text-muted);
-  border-left:    4px solid var(--accent);
-}
-
-.post-body blockquote::before {
-  content:  '“';
-  position: absolute;
-  left:     0.8em;
-  top:      0.6em;
-  font-size: 2em;
-  color:    var(--accent);
-  opacity:  0.24;
-}
-
-.post-body code {
-  font-family:     monospace;
-  font-size:       0.9em;
-  background:      var(--glass-fill);
-  padding:         0.2em 0.4em;
-  border-radius:   var(--radius-sm);
-  border:          1px solid var(--glass-border);
-  box-shadow:      inset 0 1px 0 var(--glass-shine);
-}
-
-.post-body pre {
-  position:        relative;
-  margin:          1.8em 0;
-  padding:         1.4em;
-  background:      var(--glass-fill);
-  backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-  border:          1px solid var(--glass-border);
-  border-radius:   var(--radius-md);
-  overflow-x:      auto;
-  box-shadow:      0 4px 16px var(--glass-shadow);
-}
-
-.post-body pre code {
-  background: none;
-  padding:    0;
-  border:     none;
-  box-shadow: none;
-  font-size:  0.9em;
-  color:      inherit;
-}
-
-.post-body img {
-  max-width:     100%;
-  height:        auto;
-  display:       block;
-  margin:        2em auto;
-  border-radius: var(--radius-md);
-  box-shadow:    0 8px 32px var(--glass-shadow);
-  border:        1px solid var(--glass-border);
-}
-
-.post-body hr {
-  border:        none;
-  height:        1px;
-  background:    var(--glass-border);
-  margin:        2.5em 0;
-  opacity:       0.5;
-}
-
-.post-body table {
-  width:           100%;
-  border-collapse: collapse;
-  margin:          1.8em 0;
-  background:      var(--glass-fill);
-  backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturate));
-  border:          1px solid var(--glass-border);
-  border-radius:   var(--radius-md);
-  box-shadow:      0 4px 16px var(--glass-shadow);
-  overflow:        hidden;
-}
-
-.post-body th,
-.post-body td {
-  padding:       0.8em 1.2em;
-  text-align:    left;
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.post-body th {
-  background: var(--accent-glass);
-  font-weight: 600;
-}
-
-.post-body tbody tr:last-child td {
-  border-bottom: none;
-}
-
-
-/* =============================================
-   文章页 — 页脚
-   ============================================= */
-.post-footer {
-  text-align:  center;
-  font-style:  italic;
-  color:       var(--text-muted);
-  margin-top:  4em;
-  padding-top: 2em;
-  border-top:  1px solid var(--glass-border);
-}
-
-
-/* =============================================
-   信息卡片 — Glass 风格
-   三个独立卡片：时间卡、进度卡、格言卡
-   与文章列表卡片完全相同的玻璃规则，保持视觉统一
-   ============================================= */
-
-/* 卡片公共基础：与 .post-list li 相同的玻璃配方 */
-.info-card {
-  position:      relative;
-  margin-bottom: 10px;   /* 卡片间距与文章列表一致（8px） */
-  padding:       16px 20px;
-  border-radius: var(--radius-lg);
-  overflow:      hidden;
-
-  background:      var(--glass-fill);
-  backdrop-filter: blur(16px) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(16px) saturate(var(--glass-saturate));
-  border:          1px solid var(--glass-border);
-  box-shadow:
-    0 2px 12px var(--glass-shadow),
-    inset 0 1px 0 var(--glass-shine);
-}
-
-/* 顶部高光伪元素（与文章列表 li::before 一致） */
-.info-card::before {
-  content:  '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height:   45%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.20), transparent);
-  pointer-events: none;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-/* 底部反光 */
-.info-card::after {
-  content:  '';
-  position: absolute;
-  bottom: 0; left: 10%; right: 10%;
-  height:   1px;
-  background: var(--glass-rim);
-  pointer-events: none;
-}
-
-/* 最后一个卡片下方留出与文章列表的间距 */
-.info-card:last-of-type {
-  margin-bottom: 36px;
-}
-
-/* ── 第一行：时间 + 日期 ── */
-.info-top {
-  display:         flex;
-  align-items:     baseline;
-  justify-content: space-between;
-  gap:             12px;
-  margin-bottom:   14px;
-  position:        relative;
-  z-index:         1;
-}
-
-/* 大时间数字 */
-.info-time {
-  font-family:    var(--font-accent);
-  font-size:      clamp(1.6rem, 5vw, 2.2rem);
-  font-weight:    400;
-  font-style:     normal;
-  letter-spacing: 0.04em;
-  color:          var(--text);
-  /* 等宽数字，防止秒数变化时布局抖动 */
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-
-/* 日期文字 */
-.info-date {
-  font-family: var(--font-accent);
-  font-size:   0.82rem;
-  font-style:  italic;
-  color:       var(--text-muted);
-  white-space: nowrap;
-  line-height: 1;
-}
-
-/* ── 卡片内分隔线（渐变淡出，与导航栏底边一致） ── */
-.info-divider {
-  height:     1px;
-  margin:     12px 0;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--glass-border) 20%,
-    var(--glass-border) 80%,
-    transparent
-  );
-  position:   relative;
-  z-index:    1;
-}
-
-/* ── 进度行 ── */
-.info-progress-row {
-  display:         flex;
-  align-items:     center;
-  gap:             10px;
-  margin-bottom:   8px;
-  position:        relative;
-  z-index:         1;
-}
-
-/* 左侧标签（固定宽度防止进度条宽度跳动） */
-.info-progress-label {
-  font-family: var(--font-accent);
-  font-size:   0.72rem;
-  font-style:  normal;
-  color:       var(--text-muted);
-  white-space: nowrap;
-  min-width:   0;
-  flex:        1 1 auto;
-  /* 文字过长时截断 */
-  overflow:    hidden;
-  text-overflow: ellipsis;
-}
-
-/* 进度条容器 */
-.info-bar-wrap {
-  flex:          0 0 120px;
-  height:        5px;
-  border-radius: 99px;
-  background:    rgba(0,0,0,0.08);
-  overflow:      hidden;
-}
-[data-theme="dark"] .info-bar-wrap {
-  background: rgba(255,255,255,0.10);
-}
-
-/* 进度条填充（年份，默认蓝色渐变） */
-.info-bar {
-  height:        100%;
-  border-radius: 99px;
-  background:    linear-gradient(to right, #60a5fa, var(--accent));
-  transition:    width 0.5s ease;
-  min-width:     4px;
-}
-
-/* 超过 50% 变为橙红，提示时间流逝感 */
-.info-bar--warn {
-  background: linear-gradient(to right, #f59e0b, #ef4444);
-}
-
-/* 今日进度（蓝紫渐变，与年份区分） */
-.info-bar--day {
-  background: linear-gradient(to right, #818cf8, #60a5fa);
-}
-
-/* 右侧百分比数字 */
-.info-progress-val {
-  font-family:    var(--font-accent);
-  font-size:      0.72rem;
-  font-style:     normal;
-  color:          var(--text-muted);
-  min-width:      38px;
-  text-align:     right;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── 格言行 ── */
-.info-quote-row {
-  display:         flex;
-  align-items:     flex-start;
-  justify-content: space-between;
-  gap:             10px;
-  position:        relative;
-  z-index:         1;
-}
-
-.info-quote-text {
-  font-family:  var(--font-accent);
-  font-size:    0.82rem;
-  font-style:   italic;
-  color:        var(--text-muted);
-  line-height:  1.6;
-  flex:         1;
-}
-
-.info-quote-author {
-  font-style:   normal;
-  font-size:    0.75rem;
-  opacity:      0.7;
-  margin-left:  4px;
-}
-
-/* 换一条按钮 */
-.info-quote-refresh {
-  flex-shrink:   0;
-  width:         26px;
-  height:        26px;
-  border-radius: 50%;
-  border:        1px solid var(--glass-border);
-  background:    var(--btn-fill);
-  color:         var(--text-muted);
-  cursor:        pointer;
-  display:       flex;
-  align-items:   center;
-  justify-content: center;
-  transition:    background var(--transition), color var(--transition);
-  margin-top:    1px;
-}
-.info-quote-refresh:hover {
-  background: var(--btn-hover);
-  color:      var(--text);
+  .blog-header .subtitle {
+    font-size: 1rem;
+  }
 }
