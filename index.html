@@ -13,22 +13,21 @@
     <main id="post-list">
         </main>
 
-    <script>
-        // 读取索引文件并显示
-        fetch('posts.json')
-            .then(res => res.json())
-            .then(data => {
-                const container = document.getElementById('post-list');
-                data.forEach(post => {
-                    const item = document.createElement('div');
-                    item.className = 'post-item';
-                    item.innerHTML = `
-                        <span>${post.date}</span>
-                        <a href="post.html?file=${post.file}">${post.title}</a>
-                    `;
-                    container.appendChild(item);
-                });
+<script>
+    fetch('posts.json')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('post-list');
+            data.forEach(post => {
+                const item = document.createElement('div');
+                item.className = 'post-item';
+                item.innerHTML = `
+                    <span>${post.date}</span>
+                    <a href="posts/post.html?file=${post.file}">${post.title}</a>
+                `;
+                container.appendChild(item);
             });
-    </script>
+        });
+</script>
 </body>
 </html>
