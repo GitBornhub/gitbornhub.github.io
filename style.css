@@ -26,7 +26,7 @@
      --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('bg.jpg');
    ============================================= */
 :root {
-  --wallpaper: url('background.png') center center no-repeat;   /* ← 在这里改背景 */
+  --wallpaper: none;   /* ← 在这里改背景 */
 }
 
 
@@ -709,4 +709,405 @@ main {
   content:  '— 感谢阅读';  /* 如需自定义，在 HTML 里直接写内容即可覆盖 */
   position: absolute;
   top:       24px;
+}
+
+
+/* =============================================
+   导航栏右侧按钮组
+   ============================================= */
+.nav-actions {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+}
+
+/* 风格切换按钮（Glass 默认状态，与 theme-btn 视觉一致） */
+.style-btn {
+  position:    relative;
+  display:     inline-flex;
+  align-items: center;
+  cursor:      pointer;
+  font-family: var(--font-accent);
+  font-size:   0.78rem;
+  font-style:  normal;
+  color:       var(--text-muted);
+  padding:     0 12px;
+  height:      32px;
+  border-radius: 99px;
+  gap:         5px;
+  overflow:    hidden;
+
+  background:  var(--btn-fill);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border:      1px solid var(--glass-border);
+  box-shadow:
+    0 2px 10px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+
+  transition: all var(--transition);
+}
+.style-btn::before {
+  content:  '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height:   50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.22), transparent);
+  pointer-events: none;
+  border-radius: 99px 99px 0 0;
+}
+.style-btn:hover {
+  background: var(--btn-hover);
+  color:      var(--text);
+  transform:  translateY(-1px);
+}
+
+/* label 内部排列 */
+.label-glass,
+.label-material {
+  display:     flex;
+  align-items: center;
+  gap:         5px;
+}
+
+
+/* =============================================
+   ██████████████████████████████████████████
+   Material Design 3 风格覆盖层
+   所有规则以 [data-style="material"] 开头，
+   只在用户切换到 Material 时生效，
+   不影响默认的液态玻璃风格
+
+   规范依据：Material Design 3（M3）
+   https://m3.material.io/
+   核心特征：
+   - 色调曲面（Tonal Surface）：用主色调的浅色版本作为面板背景
+   - 无毛玻璃：background 用实色，不用 backdrop-filter
+   - 海拔系统（Elevation）：用 box-shadow 的层次表达高度
+   - 状态层（State Layer）：hover/press 用半透明叠加层
+   - 形状（Shape）：圆角规范：small=4px medium=12px large=16px
+   - 排版：使用 Roboto 字体族
+   ██████████████████████████████████████████
+   ============================================= */
+
+/* ── Material 字体 ── */
+[data-style="material"] {
+  --font-body:   'Noto Serif SC', Georgia, serif; /* 中文保持不变 */
+  --font-accent: 'Roboto', 'Helvetica Neue', sans-serif; /* 英文 UI 换成 Roboto */
+}
+
+/* ── Material 亮色色彩系统（M3 Blue seed color）──
+   M3 颜色角色命名规范：
+   primary / on-primary / primary-container / on-primary-container
+   surface / on-surface / surface-variant / outline 等 */
+[data-style="material"] {
+  --md-primary:           #1a73e8;   /* Google Blue，M3 主色 */
+  --md-on-primary:        #ffffff;
+  --md-primary-container: #d3e3fd;   /* 主色的浅色容器 */
+  --md-surface:           #f8f9fa;   /* M3 Surface：极浅灰白 */
+  --md-surface-1:         #f0f4ff;   /* Surface + Elevation 1（略带主色调） */
+  --md-surface-2:         #e8eeff;   /* Surface + Elevation 2 */
+  --md-on-surface:        #1f1f1f;
+  --md-on-surface-var:    #44474e;   /* on-surface-variant，次级文字 */
+  --md-outline:           #c4c7cf;   /* 分隔线、边框 */
+  --md-outline-var:       #e2e5ed;   /* 更浅的分隔线 */
+  --md-shadow:            rgba(0, 0, 0, 0.10);
+
+  /* 海拔阴影（M3 Elevation Tones）：
+     level0=无阴影 level1=极浅 level2=浅 level3=中 */
+  --md-elev-1: 0 1px 2px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+  --md-elev-2: 0 1px 2px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.08);
+  --md-elev-3: 0 2px 4px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.08);
+
+  /* M3 形状规范 */
+  --md-shape-sm: 4px;
+  --md-shape-md: 12px;
+  --md-shape-lg: 16px;
+  --md-shape-xl: 28px;   /* Card、Dialog 用的大圆角 */
+}
+
+/* ── Material 暗色色彩系统 ── */
+[data-style="material"][data-theme="dark"] {
+  --md-primary:           #a8c7fa;   /* 暗色下 primary 变浅，保证对比度 */
+  --md-on-primary:        #062e6f;
+  --md-primary-container: #0842a0;
+  --md-surface:           #1a1c1e;
+  --md-surface-1:         #22252a;
+  --md-surface-2:         #282c34;
+  --md-on-surface:        #e2e2e6;
+  --md-on-surface-var:    #c4c6cf;
+  --md-outline:           #44474e;
+  --md-outline-var:       #2e3038;
+  --md-shadow:            rgba(0, 0, 0, 0.40);
+
+  --md-elev-1: 0 1px 3px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.25);
+  --md-elev-2: 0 2px 6px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.28);
+  --md-elev-3: 0 4px 12px rgba(0,0,0,0.40), 0 2px 6px rgba(0,0,0,0.32);
+}
+
+/* ── Material Body ──
+   M3 背景是干净的 surface 色，没有渐变，没有光晕 */
+[data-style="material"] body {
+  background:            var(--md-surface) !important;
+  background-attachment: unset !important;
+  color:                 var(--md-on-surface);
+  font-family:           var(--font-body);
+}
+
+/* ── Material 导航栏（Top App Bar）──
+   M3 Top App Bar：纯色背景、底部分隔线、无毛玻璃 */
+[data-style="material"] nav {
+  background:      var(--md-surface-1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid var(--md-outline-var);
+  box-shadow:    var(--md-elev-1) !important;
+}
+[data-style="material"] nav::after {
+  display: none;   /* 去掉玻璃风格的渐变底边 */
+}
+
+/* ── Material 风格切换按钮（在 Material 模式下变成 M3 Filled Tonal Button）── */
+[data-style="material"] .style-btn {
+  background:      var(--md-primary-container);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          none;
+  box-shadow:      none;
+  color:           var(--md-primary);
+  border-radius:   var(--md-shape-xl);
+  font-family:     var(--font-accent);
+  font-weight:     500;
+  letter-spacing:  0.01em;
+}
+[data-style="material"] .style-btn::before { display: none; }
+[data-style="material"] .style-btn:hover {
+  background: #c2d8fc;
+  transform:  none;
+  box-shadow: var(--md-elev-1);
+}
+[data-style="material"][data-theme="dark"] .style-btn {
+  background: var(--md-primary-container);
+  color:      var(--md-on-surface);
+}
+
+/* ── Material 主题按钮（Icon Button）── */
+[data-style="material"] .theme-btn {
+  background:      transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          none;
+  box-shadow:      none;
+  border-radius:   50%;
+  color:           var(--md-on-surface-var);
+  transition:      background var(--transition);
+}
+[data-style="material"] .theme-btn::before { display: none; }
+[data-style="material"] .theme-btn:hover {
+  /* M3 State Layer：hover 用 8% 透明度的 on-surface 色叠加 */
+  background: rgba(31, 31, 31, 0.08);
+  transform:  none;
+  box-shadow: none;
+  color:      var(--md-on-surface);
+}
+[data-style="material"][data-theme="dark"] .theme-btn:hover {
+  background: rgba(226, 226, 230, 0.08);
+}
+
+/* ── Material 返回按钮（Text Button with icon）── */
+[data-style="material"] .back-btn {
+  background:      transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          none;
+  box-shadow:      none;
+  border-radius:   var(--md-shape-xl);
+  color:           var(--md-primary);
+  font-family:     var(--font-accent);
+  font-weight:     500;
+  letter-spacing:  0.01em;
+  padding:         8px 12px;
+}
+[data-style="material"] .back-btn::before { display: none; }
+[data-style="material"] .back-btn:hover {
+  /* State Layer */
+  background: rgba(26, 115, 232, 0.08);
+  transform:  none;
+  box-shadow: none;
+  color:      var(--md-primary);
+}
+
+/* ── Material site-name ── */
+[data-style="material"] .site-name {
+  font-style: normal;
+  font-family: var(--font-accent);
+  font-weight: 500;
+  color:      var(--md-on-surface);
+  letter-spacing: 0;
+}
+
+/* ── Material 主页博客标题区 ── */
+[data-style="material"] .blog-header h1 {
+  color: var(--md-on-surface);
+  letter-spacing: -0.01em;
+}
+[data-style="material"] .blog-header .subtitle {
+  font-style: normal;
+  font-family: var(--font-accent);
+  color:      var(--md-on-surface-var);
+}
+
+/* M3 divider：用主色替代强调色，颜色更规范 */
+[data-style="material"] .divider {
+  background: var(--md-primary);
+}
+
+/* ── Material 文章列表（M3 Card）──
+   M3 有三种 Card：Elevated / Filled / Outlined
+   这里用 Filled Card（有背景色，无边框阴影较轻）*/
+[data-style="material"] .post-list li {
+  background:      var(--md-surface-2);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border:          none;
+  border-radius:   var(--md-shape-xl);   /* M3 Card 用 28px 圆角 */
+  box-shadow:      none;
+  transition:      background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+[data-style="material"] .post-list li::before { display: none; }
+
+/* M3 Card hover：State Layer + 抬升到 Elevation 2 */
+[data-style="material"] .post-list li:hover {
+  background: var(--md-surface-2);
+  box-shadow: var(--md-elev-2);
+  transform:  translateY(-1px);   /* M3 的位移更克制，只有 1px */
+}
+
+[data-style="material"] .post-list a {
+  color: var(--md-on-surface);
+  font-family: var(--font-body);
+}
+[data-style="material"] .post-list li:hover a {
+  color: var(--md-primary);
+}
+
+[data-style="material"] .post-date {
+  font-style:  normal;
+  font-family: var(--font-accent);
+  color:       var(--md-on-surface-var);
+}
+
+[data-style="material"] .status-msg {
+  background:  var(--md-surface-1);
+  border:      1px solid var(--md-outline-var);
+  box-shadow:  none;
+  font-style:  normal;
+  font-family: var(--font-accent);
+  color:       var(--md-on-surface-var);
+}
+
+/* ── Material 文章标题区 ── */
+[data-style="material"] .post-header h1 {
+  color: var(--md-on-surface);
+}
+[data-style="material"] .post-meta {
+  font-style:  normal;
+  font-family: var(--font-accent);
+  color:       var(--md-on-surface-var);
+}
+
+/* ── Material 正文区（去掉玻璃底，改为干净背景）── */
+[data-style="material"] .post-body {
+  background:      transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          none;
+  box-shadow:      none;
+  padding:         0;
+  border-radius:   0;
+}
+
+[data-style="material"] .post-body a {
+  color: var(--md-primary);
+}
+
+/* M3 Blockquote：Outlined Card 风格 */
+[data-style="material"] .post-body blockquote {
+  background:      var(--md-surface-1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top:      1px solid var(--md-outline-var);
+  border-right:    1px solid var(--md-outline-var);
+  border-bottom:   1px solid var(--md-outline-var);
+  border-left:     3px solid var(--md-primary);   /* 主色左边框 */
+  box-shadow:      none;
+  font-style:      normal;
+  color:           var(--md-on-surface-var);
+  border-radius:   0 var(--md-shape-md) var(--md-shape-md) 0;
+}
+[data-style="material"] .post-body blockquote::before { display: none; }
+
+/* M3 inline code */
+[data-style="material"] .post-body code {
+  background:  var(--md-surface-2);
+  border:      1px solid var(--md-outline-var);
+  box-shadow:  none;
+  border-radius: var(--md-shape-sm);
+  font-size:   0.85em;
+  color:       var(--md-primary);
+}
+
+/* M3 代码块（Surface Container，Elevation 1）*/
+[data-style="material"] .post-body pre {
+  background:      var(--md-surface-2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          1px solid var(--md-outline-var);
+  box-shadow:      var(--md-elev-1);
+  border-radius:   var(--md-shape-lg);
+}
+[data-style="material"] .post-body pre::before { display: none; }
+[data-style="material"] .post-body pre code {
+  background: none;
+  border:     none;
+  box-shadow: none;
+  color:      var(--md-on-surface);
+}
+
+/* M3 图片：去掉玻璃描边，用标准阴影 */
+[data-style="material"] .post-body img {
+  box-shadow:    var(--md-elev-2);
+  border-radius: var(--md-shape-lg);
+}
+
+/* M3 hr */
+[data-style="material"] .post-body hr {
+  background: var(--md-outline-var);
+}
+
+/* M3 表格（Outlined）*/
+[data-style="material"] .post-body table {
+  background:      var(--md-surface-1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          1px solid var(--md-outline-var);
+  box-shadow:      none;
+  border-radius:   var(--md-shape-lg);
+}
+[data-style="material"] .post-body th,
+[data-style="material"] .post-body td {
+  border-bottom: 1px solid var(--md-outline-var);
+}
+[data-style="material"] .post-body th {
+  background: var(--md-primary-container);
+  color:      var(--md-primary);
+}
+[data-style="material"][data-theme="dark"] .post-body th {
+  background: var(--md-primary-container);
+  color:      var(--md-on-surface);
+}
+
+/* M3 文章底部 */
+[data-style="material"] .post-footer {
+  background: var(--md-outline-var);
 }
