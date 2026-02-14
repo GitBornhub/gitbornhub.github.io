@@ -1111,3 +1111,269 @@ main {
 [data-style="material"] .post-footer {
   background: var(--md-outline-var);
 }
+
+
+/* =============================================
+   信息卡片 — Glass 风格
+   ============================================= */
+
+.info-card {
+  position:      relative;
+  margin-bottom: 36px;
+  padding:       20px 24px 16px;
+  border-radius: var(--radius-xl);
+  overflow:      hidden;
+
+  /* 液态玻璃三层 */
+  background:      var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border:          1px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-shine);
+}
+
+/* 顶部高光伪元素 */
+.info-card::before {
+  content:  '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height:   40%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.20), transparent);
+  pointer-events: none;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+/* 底部反光 */
+.info-card::after {
+  content:  '';
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%;
+  height:   1px;
+  background: var(--glass-rim);
+  pointer-events: none;
+}
+
+/* ── 第一行：时间 + 日期 ── */
+.info-top {
+  display:         flex;
+  align-items:     baseline;
+  justify-content: space-between;
+  gap:             12px;
+  margin-bottom:   14px;
+  position:        relative;
+  z-index:         1;
+}
+
+/* 大时间数字 */
+.info-time {
+  font-family:    var(--font-accent);
+  font-size:      clamp(1.6rem, 5vw, 2.2rem);
+  font-weight:    400;
+  font-style:     normal;
+  letter-spacing: 0.04em;
+  color:          var(--text);
+  /* 等宽数字，防止秒数变化时布局抖动 */
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* 日期文字 */
+.info-date {
+  font-family: var(--font-accent);
+  font-size:   0.82rem;
+  font-style:  italic;
+  color:       var(--text-muted);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── 卡片内分隔线（渐变淡出，与导航栏底边一致） ── */
+.info-divider {
+  height:     1px;
+  margin:     12px 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--glass-border) 20%,
+    var(--glass-border) 80%,
+    transparent
+  );
+  position:   relative;
+  z-index:    1;
+}
+
+/* ── 进度行 ── */
+.info-progress-row {
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  margin-bottom:   8px;
+  position:        relative;
+  z-index:         1;
+}
+
+/* 左侧标签（固定宽度防止进度条宽度跳动） */
+.info-progress-label {
+  font-family: var(--font-accent);
+  font-size:   0.72rem;
+  font-style:  normal;
+  color:       var(--text-muted);
+  white-space: nowrap;
+  min-width:   0;
+  flex:        1 1 auto;
+  /* 文字过长时截断 */
+  overflow:    hidden;
+  text-overflow: ellipsis;
+}
+
+/* 进度条容器 */
+.info-bar-wrap {
+  flex:          0 0 120px;
+  height:        5px;
+  border-radius: 99px;
+  background:    rgba(0,0,0,0.08);
+  overflow:      hidden;
+}
+[data-theme="dark"] .info-bar-wrap {
+  background: rgba(255,255,255,0.10);
+}
+
+/* 进度条填充（年份，默认蓝色渐变） */
+.info-bar {
+  height:        100%;
+  border-radius: 99px;
+  background:    linear-gradient(to right, #60a5fa, var(--accent));
+  transition:    width 0.5s ease;
+  min-width:     4px;
+}
+
+/* 超过 50% 变为橙红，提示时间流逝感 */
+.info-bar--warn {
+  background: linear-gradient(to right, #f59e0b, #ef4444);
+}
+
+/* 今日进度（蓝紫渐变，与年份区分） */
+.info-bar--day {
+  background: linear-gradient(to right, #818cf8, #60a5fa);
+}
+
+/* 右侧百分比数字 */
+.info-progress-val {
+  font-family:    var(--font-accent);
+  font-size:      0.72rem;
+  font-style:     normal;
+  color:          var(--text-muted);
+  min-width:      38px;
+  text-align:     right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 格言行 ── */
+.info-quote-row {
+  display:         flex;
+  align-items:     flex-start;
+  justify-content: space-between;
+  gap:             10px;
+  position:        relative;
+  z-index:         1;
+}
+
+.info-quote-text {
+  font-family:  var(--font-accent);
+  font-size:    0.82rem;
+  font-style:   italic;
+  color:        var(--text-muted);
+  line-height:  1.6;
+  flex:         1;
+}
+
+.info-quote-author {
+  font-style:   normal;
+  font-size:    0.75rem;
+  opacity:      0.7;
+  margin-left:  4px;
+}
+
+/* 换一条按钮 */
+.info-quote-refresh {
+  flex-shrink:   0;
+  width:         26px;
+  height:        26px;
+  border-radius: 50%;
+  border:        1px solid var(--glass-border);
+  background:    var(--btn-fill);
+  color:         var(--text-muted);
+  cursor:        pointer;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  transition:    background var(--transition), color var(--transition);
+  margin-top:    1px;
+}
+.info-quote-refresh:hover {
+  background: var(--btn-hover);
+  color:      var(--text);
+}
+
+
+/* =============================================
+   信息卡片 — Material Design 3 适配
+   ============================================= */
+
+/* M3 Filled Card */
+[data-style="material"] .info-card {
+  background:      var(--md-surface-2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border:          none;
+  border-radius:   var(--md-shape-xl);
+  box-shadow:      var(--md-elev-1);
+}
+[data-style="material"] .info-card::before,
+[data-style="material"] .info-card::after {
+  display: none;
+}
+
+/* M3 时间使用主色 */
+[data-style="material"] .info-time {
+  color: var(--md-primary);
+}
+
+/* M3 分隔线 */
+[data-style="material"] .info-divider {
+  background: var(--md-outline-var);
+}
+
+/* M3 进度条容器 */
+[data-style="material"] .info-bar-wrap {
+  background: var(--md-outline-var);
+}
+
+/* M3 进度条 — 使用主色 */
+[data-style="material"] .info-bar {
+  background: var(--md-primary);
+}
+[data-style="material"] .info-bar--warn {
+  background: #e8710a;   /* M3 Error/Warning 色 */
+}
+[data-style="material"] .info-bar--day {
+  background: var(--md-primary);
+  opacity:    0.7;       /* 稍淡以区分两条 */
+}
+
+/* M3 换一条按钮 — Icon Button */
+[data-style="material"] .info-quote-refresh {
+  background:    transparent;
+  border:        none;
+  border-radius: 50%;
+  color:         var(--md-on-surface-var);
+}
+[data-style="material"] .info-quote-refresh:hover {
+  background: rgba(31,31,31,0.08);
+  color:      var(--md-primary);
+}
+[data-style="material"][data-theme="dark"] .info-quote-refresh:hover {
+  background: rgba(226,226,230,0.08);
+}
