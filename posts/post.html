@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>加载中… — 我的博客</title>
+  <title>加载中… — Promise的博客</title>
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../style.css">
   <script src="../theme.js"></script>
@@ -21,11 +21,11 @@
       <button class="style-btn" id="styleToggle" aria-label="切换风格">
         <span class="label-material" style="display:none">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-          Material
+          MD主题
         </span>
         <span class="label-glass">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3 Q16 12 12 21"/><path d="M12 3 Q8 12 12 21"/><path d="M3 12 Q12 8 21 12"/></svg>
-          Glass
+          液态玻璃
         </span>
       </button>
 
@@ -90,7 +90,7 @@
             body = md.slice(fmMatch[0].length);
           }
 
-          document.title = title + ' — 我的博客';
+          document.title = title + ' — Promise的博客';
           document.getElementById('post-title').textContent = title;
           document.getElementById('post-date').textContent  = date;
           document.getElementById('post-body').innerHTML    = marked.parse(body);
