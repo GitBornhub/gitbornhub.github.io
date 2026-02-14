@@ -26,7 +26,7 @@
      --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('bg.jpg');
    ============================================= */
 :root {
-  --wallpaper: none;   /* ← 在这里改背景 */
+  --wallpaper: url('background.png');   /* ← 在这里改背景 */
 }
 
 
