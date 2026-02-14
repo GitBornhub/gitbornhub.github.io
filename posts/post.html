@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文章标题 - 我的博客</title>
-  <link rel="stylesheet" href="../style.css"> <style>
-    /* 文章页特有样式 */
-    article { line-height: 1.8; }
-    article p { margin-bottom: 1.5rem; }
-    .back-link { 
-      display: inline-block;
-      margin-bottom: 40px;
-      color: #888;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .back-link:hover { color: #222; }
-    .post-meta { color: #bbb; font-size: 0.9rem; margin-bottom: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>正在载入...</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+    <nav><a href="index.html">← 返回首页</a></nav>
+    
+    <article id="content">
+        </article>
 
-  <a href="../index.html" class="back-link">← 返回首页</a>
+    <script>
+        // 获取 URL 里的文件名参数，例如 post.html?file=hello-world.md
+        const params = new URLSearchParams(window.location.search);
+        const fileName = params.get('file');
 
-  <article>
-    <div class="post-meta">发布于 2024-05-20</div>
-    <h1>文章标题</h1>
-    <p>这里是你的正文内容。简洁的排版能让读者更专注于文字本身。</p>
-    </article>
-
+        if (fileName) {
+            fetch(`posts/${fileName}`)
+                .then(res => res.text())
+                .then(text => {
+                    document.getElementById('content').innerHTML = marked.parse(text);
+                    // 顺便把网页标题改掉
+                    document.title = fileName.replace('.md', '');
+                });
+        }
+    </script>
 </body>
 </html>
