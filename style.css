@@ -26,7 +26,7 @@
      --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('bg.jpg');
    ============================================= */
 :root {
-  --wallpaper: none;   /* ← 在这里改背景 */
+  --wallpaper: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('background.png') center center no-repeat;   /* ← 在这里改背景 */
 }
 
 
@@ -440,7 +440,7 @@ main {
 .blog-header .subtitle {
   font-family: var(--font-accent);
   font-size:   0.88rem;
-  font-style:  italic;
+  font-style:  normal;
   color:       var(--text-muted);
   line-height: 1.2;
 }
@@ -541,7 +541,7 @@ main {
 
 .post-meta {
   font-family:    var(--font-accent);
-  font-style:     italic;
+  font-style:     normal;
   font-size:      0.8rem;
   color:          var(--text-muted);
   letter-spacing: 0.02em;
