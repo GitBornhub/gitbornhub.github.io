@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="light">
+<html lang="zh" data-theme="light" data-style="glass">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>加载中… — Promise的博客</title>
+  <title>加载中… — 我的博客</title>
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../style.css">
   <script src="../theme.js"></script>
@@ -15,10 +15,26 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       返回主页
     </a>
-    <button class="theme-btn" id="themeToggle" aria-label="切换主题">
-      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
+
+    <div class="nav-actions">
+      <!-- 风格切换按钮 -->
+      <button class="style-btn" id="styleToggle" aria-label="切换风格">
+        <span class="label-material" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Material
+        </span>
+        <span class="label-glass">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3 Q16 12 12 21"/><path d="M12 3 Q8 12 12 21"/><path d="M3 12 Q12 8 21 12"/></svg>
+          Glass
+        </span>
+      </button>
+
+      <!-- 深浅模式切换按钮 -->
+      <button class="theme-btn" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
   </nav>
 
   <main>
@@ -27,21 +43,13 @@
       <p class="post-meta" id="post-date"></p>
       <div class="divider"></div>
     </header>
-
-    <article class="post-body" id="post-body">
-    </article>
-
+    <article class="post-body" id="post-body"></article>
     <footer class="post-footer">— 感谢阅读</footer>
   </main>
 
-  <!--
-    marked.js：轻量 Markdown 解析库（CDN，约 45KB）
-    如需离线使用，可下载到本地：https://cdn.jsdelivr.net/npm/marked/marked.min.js
-  -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     (function () {
-      // 从 URL 参数 ?p=xxx.md 获取文章文件名
       const params   = new URLSearchParams(location.search);
       const filename = params.get('p');
 
@@ -50,16 +58,26 @@
         return;
       }
 
-      // 文章文件与 post.html 同在 posts/ 目录
+      if (location.protocol === 'file:') {
+        document.getElementById('post-title').textContent = '请通过服务器访问';
+        document.getElementById('post-body').innerHTML =
+          '<p>直接双击打开 HTML 文件时，浏览器会阻止加载外部文件。</p>' +
+          '<p>请使用以下任一方式：</p>' +
+          '<ul><li>部署到 GitHub Pages 后访问</li>' +
+          '<li>VS Code 安装 <strong>Live Server</strong> 插件，右键点击 index.html → Open with Live Server</li></ul>';
+        return;
+      }
+
       fetch(filename)
         .then(r => {
-          if (!r.ok) throw new Error('not found');
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const ct = r.headers.get('content-type') || '';
+          if (ct.includes('text/html')) throw new Error('got-html');
           return r.text();
         })
         .then(md => {
-          // 解析 YAML Front Matter（--- 包裹的头部元数据）
-          const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
-          let title = filename.replace('.md', '');
+          const fmMatch = md.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
+          let title = decodeURIComponent(filename.replace(/\.md$/i, ''));
           let date  = '';
           let body  = md;
 
@@ -67,21 +85,27 @@
             const fm = fmMatch[1];
             const t  = fm.match(/^title:\s*(.+)$/m);
             const d  = fm.match(/^date:\s*(.+)$/m);
-            if (t) title = t[1].replace(/^['"]|['"]$/g, '');
+            if (t) title = t[1].trim().replace(/^['"]|['"]$/g, '');
             if (d) date  = d[1].trim();
             body = md.slice(fmMatch[0].length);
           }
 
-          // 更新页面
-          document.title = title + ' — Promise的博客';
+          document.title = title + ' — 我的博客';
           document.getElementById('post-title').textContent = title;
           document.getElementById('post-date').textContent  = date;
           document.getElementById('post-body').innerHTML    = marked.parse(body);
         })
-        .catch(() => {
-          document.getElementById('post-title').textContent = '文章未找到';
+        .catch(err => {
+          document.getElementById('post-title').textContent = '文章加载失败';
           document.getElementById('post-body').innerHTML =
-            '<p>无法加载文章，请检查文件是否存在。</p>';
+            '<p>无法加载文章文件 <code>' + filename + '</code></p>' +
+            '<p>请检查：</p>' +
+            '<ul>' +
+            '<li>文件是否存在于 <code>posts/</code> 目录下</li>' +
+            '<li><code>posts.json</code> 中的 <code>file</code> 字段是否只写文件名，不要带路径前缀</li>' +
+            '<li>文件名大小写是否完全一致</li>' +
+            '</ul>' +
+            '<p style="color:var(--text-muted);font-size:0.85em">错误详情：' + err.message + '</p>';
         });
     })();
   </script>
