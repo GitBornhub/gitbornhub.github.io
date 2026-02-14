@@ -2,28 +2,33 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>正在载入...</title>
+    <title>文章阅读</title>
     <link rel="stylesheet" href="../style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <nav><a href="index.html">← 返回首页</a></nav>
+    <nav><a href="../index.html">← 返回首页</a></nav>
     
     <article id="content">
         </article>
 
     <script>
-        // 获取 URL 里的文件名参数，例如 post.html?file=hello-world.md
         const params = new URLSearchParams(window.location.search);
         const fileName = params.get('file');
 
         if (fileName) {
-            fetch(`posts/${fileName}`)
-                .then(res => res.text())
+            // 因为 post.html 和 .md 文件都在 posts 文件夹内
+            // 所以直接 fetch(fileName) 即可
+            fetch(fileName)
+                .then(res => {
+                    if (!res.ok) throw new Error("文件未找到");
+                    return res.text();
+                })
                 .then(text => {
                     document.getElementById('content').innerHTML = marked.parse(text);
-                    // 顺便把网页标题改掉
-                    document.title = fileName.replace('.md', '');
+                })
+                .catch(err => {
+                    document.getElementById('content').innerHTML = "加载失败：" + err.message;
                 });
         }
     </script>
