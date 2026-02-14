@@ -1418,3 +1418,8 @@ main {
 [data-style="material"] .blog-header .subtitle {
   color: var(--md-on-surface-var);
 }
+
+[data-page="post"] body {
+  background-position: center center;
+  background-attachment: fixed;
+}
