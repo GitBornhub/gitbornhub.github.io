@@ -1,32 +1,53 @@
 body { 
-    font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    /* 核心适配：电脑上最大 800px，手机上自动适应 */
+    /* 1. 优先使用等宽字体模仿打字机效果，后备你喜欢的 Atkinson */
+    font-family: 'Courier New', Courier, 'Atkinson Hyperlegible', monospace;
+    
+    /* 2. 响应式布局 */
     max-width: 800px; 
-    width: 90% ; /* 手机端两侧留出一点缝隙，更美观 */
-    margin: 20px auto; 
+    width: 90%; 
+    margin: 40px auto; /* 增加上下间距，视觉更平衡 */
+    
     font-size: 18px;
     line-height: 1.6; 
-    color: #333; 
-    word-wrap: break-word; /* 防止长单词撑破屏幕 */
-    background-image: "background.png" center center no-repeat;
+    color: #000; /* 纯黑文字对比度更高 */
+    word-wrap: break-word; 
+
+    /* 3. 修正背景图片语法 */
+    background: url("background.png") no-repeat center center fixed;
+    background-size: cover; /* 确保背景图铺满 */
 }
 
-/* 确保图片和代码块不会超出手机屏幕 */
+/* 4. 链接样式：参考你给的图片，紫色且带下划线 */
+a {
+    color: #551a8b;
+    text-decoration: underline;
+}
+
+/* 确保图片和代码块不会超出屏幕 */
 img { 
     max-width: 100%; 
     height: auto; 
+    display: block;
+    margin: 10px 0;
 }
 
 pre { 
-    background: #f4f4f4; 
+    background: #f9f9f9; 
     padding: 15px; 
-    border-radius: 5px; 
-    overflow-x: auto; /* 代码太长时允许左右滑动，而不是撑开网页 */
-    font-size: 14px;  /* 手机端代码稍微小一点 */
+    border: 1px solid #ccc; /* 增加边框更像文档 */
+    border-radius: 0px; /* 去掉圆角，更复古 */
+    overflow-x: auto; 
+    font-size: 14px;  
 }
 
-/* 让列表在手机上更容易点击 */
+/* 文章列表排版 */
 .post-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    list-style: none;
+}
+
+/* 模拟图片中的列表前缀 */
+.post-item::before {
+    content: "◦ ";
+    color: #333;
 }
