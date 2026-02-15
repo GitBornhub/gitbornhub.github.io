@@ -2,7 +2,7 @@
 body {
     background: url("background.png") no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Courier New', Courier, monospace; /* 复古等宽字体 */
+    font-family: 'Atkinson Hyperlegible', monospace;
     margin: 0;
     padding: 0;
     display: flex;
@@ -12,7 +12,7 @@ body {
 
 /* 方案 2 的核心：容器化（纸张效果） */
 .container {
-    background-color: rgba(255, 255, 255, 0.50); /* 95% 不透明白，保护视力 */
+    background-color: rgba(255, 255, 255, 0.60); /* 95% 不透明白，保护视力 */
     max-width: 800px;
     width: 90%;
     margin: 40px 10px; /* 上下外边距 */
