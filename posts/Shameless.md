@@ -19,3 +19,9 @@ I am definitely a coward compared to those characters in Shameless.
 Risk comes with opportunity.
 I lose opportunity to find soul lover when avoiding risks.
 Not bad, anyway.
+
+Frank is a real asshole, leaving his kids alone facing all diffiuities for living.
+There are really too much stress on Fiona, luckily with two borthers.
+Philip is a genuiens burried in sucked family.
+Someone said that there is no good guy in the series.
+I won't expect too many senorios normal people might do.
