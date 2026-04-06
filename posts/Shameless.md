@@ -25,3 +25,5 @@ There are really too much stress on Fiona, luckily with two borthers.
 Philip is a genuiens burried in sucked family.
 Someone said that there is no good guy in the series.
 I won't expect too many senorios normal people might do.
+
+However, some education method for kids isn't appropriate
