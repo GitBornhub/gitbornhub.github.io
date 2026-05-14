@@ -157,3 +157,63 @@
 | 1/8" | 1/8英寸 |
 | continuous steel bar | 通长钢条 |
 | continuous steel bar reinforcement | 通长加强钢条 |
+
+
+
+
+
+
+# 幕墙工程中英对照术语表
+
+| 类别 | 中文术语 | 英文术语 (Standard/Professional) |
+| --- | --- | --- |
+| **1. 框架与龙骨** | 幕墙龙骨系统 | Curtain wall keel system |
+|  | 竖框（立柱） | Mullion |
+|  | 横框（横梁） | Transom |
+|  | 竖框插芯 | Mullion splice / Insert sleeve |
+|  | 钢龙骨立柱 | Steel keel mullion |
+|  | 竖框钢方管 | Steel square tube for vertical frame |
+|  | 热浸镀锌钢管 | Hot-dip galvanized steel pipe |
+|  | 铝合金水槽料 | Aluminum gutter profile |
+|  | 夹胶钢化玻璃肋 | Laminated tempered glass fin |
+| **2. 连接与紧固件** | 螺栓组件 | Bolt assembly |
+|  | 螺钉 / 螺栓 | Screw / Bolt |
+|  | 不锈钢自攻钉 | Stainless steel self-tapping screw |
+|  | 十字自钻自攻螺钉 | Cross head self-drilling self-tapping screw |
+|  | 抽芯铝铆钉 | Aluminum blind rivet |
+|  | 铝合金角码 | Aluminum angle bracket |
+|  | 连接角钢 | Connecting angle steel |
+|  | 不锈钢销 | Stainless steel pin |
+|  | 射钉 | Power actuated fastener (Shooting nail) |
+|  | 不锈钢背栓 | Undercut anchor / Stone back bolt |
+|  | 不锈钢驳接爪 | Stainless steel spider fitting |
+|  | 单元体挂件/转接件 | Unitized bracket / Unit adapter |
+| **3. 面板与密封** | 铝单板（氟碳喷涂） | Fluorocarbon coated aluminum solid panel |
+|  | 铝合金压板 | Aluminum pressure plate / Clamping plate |
+|  | 竖向/横向扣板 | Vertical / Horizontal cover plate (Capping) |
+|  | 硅酮耐候密封胶 | Silicone weatherproof sealant |
+|  | 泡沫棒 | Backer rod |
+|  | 硅胶垫片 | Silicone gasket |
+|  | 分缝件胶条 | Joint sealing rubber strip |
+|  | 闭孔海绵 | Closed-cell sponge |
+|  | 铝箔背封 | Aluminum foil vapor barrier / Back sealing |
+| **4. 防雷与保温** | 防雷铜索连接件 | Lightning protection copper cable connector |
+|  | 柔性导电铜索 | Flexible conductive copper cable |
+|  | 避雷钢筋 | Lightning protection steel bar |
+|  | 保温棉（岩棉/矿棉） | Thermal insulation (Rock wool / Mineral wool) |
+|  | 挤塑保温板 (XPS) | Extruded polystyrene board (XPS board) |
+|  | 镀锌钢板 | Galvanized steel plate |
+|  | 保温钉 | Insulation fastener / Fixing nail |
+| **5. 绘图与结构** | 横剖图 / 竖剖图 | Horizontal / Vertical section drawing |
+|  | 轴侧图 | Axonometric drawing |
+|  | 土建/主体结构 | Primary structure / Civil structure |
+|  | 阴角 / 阳角 | Internal corner / External corner |
+|  | 加强肋板 | Stiffener plate / Rib plate |
+|  | 注胶孔 | Sealing injection hole |
+
+---
+
+### 核心短句背诵 (Construction Detail)
+
+* **中文：** 相邻两块岩棉接缝处用50mm宽铝箔胶带粘接。
+* **英文：** Seal the joints between adjacent rock wool boards with 50mm wide aluminum foil tape.
