@@ -1,67 +1,44 @@
-:root {
-  max-width: 100%;
-
-  border-radius: 12px;
+/* 基础背景设置 */
+body {
+    background: url("background.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Courier New', Courier, monospace; /* 复古等宽字体 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    min-height: 100vh;
 }
 
-.markdown-body pre {
-  overflow-x: auto;
-
-  padding: 18px;
-  border-radius: 12px;
-
-  font-size: 14px;
+/* 方案 2 的核心：容器化（纸张效果） */
+.container {
+    background-color: rgba(255, 255, 255, 0.95); /* 95% 不透明白，保护视力 */
+    max-width: 800px;
+    width: 90%;
+    margin: 40px 10px; /* 上下外边距 */
+    padding: 40px;      /* 内部留白，像纸张边缘 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 阴影增加立体感 */
+    min-height: calc(100vh - 80px); /* 保证纸张撑开 */
+    box-sizing: border-box;
 }
 
-.markdown-body code {
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    Menlo,
-    monospace;
+/* 标题与文字样式 */
+h1 { font-size: 2em; border-bottom: 2px solid #000; padding-bottom: 10px; }
+a { color: #551a8b; text-decoration: underline; }
+a:hover { background: #eee; }
+p, div { font-size: 18px; line-height: 1.6; color: #000; }
+
+/* 列表适配 */
+.post-item { margin-bottom: 12px; }
+.post-item span { color: #666; margin-right: 10px; }
+
+/* 移动端特殊处理 */
+@media (max-width: 600px) {
+    .container { padding: 20px; margin: 20px 5px; }
+    h1 { font-size: 1.5em; }
 }
 
-.markdown-body blockquote {
-  margin: 1.6em 0;
-  padding-left: 18px;
-
-  border-left: 3px solid var(--border);
-
-  color: var(--muted);
-}
-
-.markdown-body ul,
-.markdown-body ol {
-  padding-left: 1.4em;
-}
-
-.markdown-body hr {
-  border: none;
-  border-top: 1px solid var(--border);
-
-  margin: 3em 0;
-}
-
-@media (max-width: 768px) {
-
-  .container {
-    padding: 56px 20px;
-  }
-
-  .hero h1 {
-    font-size: 34px;
-  }
-
-  .article-container article h1 {
-    font-size: 36px;
-  }
-
-  .post-link h2 {
-    font-size: 24px;
-  }
-
-  .markdown-body {
-    font-size: 17px;
-  }
-}
+/* Markdown 内容样式 */
+pre { background: #f4f4f4; padding: 15px; overflow-x: auto; border: 1px solid #ccc; }
+code { font-family: monospace; background: #f4f4f4; }
+img { max-width: 100%; height: auto; }
