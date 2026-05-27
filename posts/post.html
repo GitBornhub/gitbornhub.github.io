@@ -1,34 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promise's Blog</title>
-    <link rel="icon" type="image/png" href="../favicon.png">
-    <link rel="stylesheet" href="../style.css"> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post</title>
+
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/common.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/github.min.css">
 </head>
 <body>
-    <div class="container">
-        <nav><a href="../index.html">← Back to Main</a></nav>
-        <article id="content">
-            </article>
-    </div>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const file = params.get('file');
+  <div class="container article-container">
 
-        if (file) {
-            fetch(file)
-                .then(res => res.text())
-                .then(md => {
-                    document.getElementById('content').innerHTML = marked.parse(md);
-                    document.title = file.replace('.md', '');
-                })
-                .catch(() => {
-                    document.getElementById('content').innerHTML = "Failed";
-                });
+    <nav class="top-nav">
+      <a href="index.html">← Home</a>
+    </nav>
+
+    <article>
+      <h1 id="post-title"></h1>
+      <div id="post-date" class="meta"></div>
+
+      <div id="content" class="markdown-body"></div>
+    </article>
+
+  </div>
+
+  <script>
+    const md = window.markdownit({
+      html: true,
+      linkify: true,
+      typographer: true,
+      highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return '<pre class="hljs"><code>' +
+              hljs.highlight(str, { language: lang }).value +
+              '</code></pre>';
+          } catch (__) {}
         }
-    </script>
+
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+      }
+    });
+
+    async function loadPost() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+
+      const postsRes = await fetch('posts.json');
+      const posts = await postsRes.json();
+
+      const post = posts.find(p => p.slug === slug);
+
+      if (!post) {
+        document.getElementById('content').innerHTML = '<p>Post not found.</p>';
+        return;
+      }
+
+      document.title = post.title;
+      document.getElementById('post-title').innerText = post.title;
+      document.getElementById('post-date').innerText = post.date;
+
+      const mdRes = await fetch(`posts/${slug}.md`);
+      const mdText = await mdRes.text();
+
+      document.getElementById('content').innerHTML = md.render(mdText);
+
+      hljs.highlightAll();
+    }
+
+    loadPost();
+  </script>
+
 </body>
 </html>
