@@ -1,405 +1,44 @@
-/* ========== 根样式与全局变量 ========== */
-:root {
-    --primary-color: #551a8b;
-    --text-color: #000;
-    --text-light: #666;
-    --bg-white: rgba(255, 255, 255, 0.95);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --transition: all 0.3s ease;
-    --font-sans: "幼圆", "Comic Sans MS", cursive, sans-serif;
-    --font-mono: "Courier New", monospace;
-}
-
-/* ========== HTML & Body 基础设置 ========== */
-html {
-    background: url("https://haowallpaper.com/link//common/file/previewFileImg/18834482406280576") no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: #f5f5f5; /* 备用背景色，图片未加载时 */
-}
-
+/* 基础背景设置 */
 body {
+    background: url("background.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: "Trebuchet MS", Helvetica, sans-serif; /* 复古等宽字体 */
     margin: 0;
     padding: 0;
-    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* 改进顶部对齐 */
-    font-family: var(--font-sans);
-    background: transparent;
-    color: var(--text-color);
+    justify-content: center; /* 水平居中 */
+    min-height: 100vh;
 }
 
-/* ========== 容器样式 ========== */
+/* 方案 2 的核心：容器化（纸张效果） */
 .container {
-    background-color: var(--bg-white);
+    background-color: rgba(255, 255, 255, 0.95); /* 95% 不透明白，保护视力 */
     max-width: 800px;
     width: 90%;
-    margin: 40px 10px;
-    padding: 40px;
-    box-shadow: var(--shadow);
-    min-height: calc(100vh - 120px);
-    box-sizing: border-box;
-    border-radius: 8px; /* 圆角增加现代感 */
-}
-
-/* ========== 标题样式 ========== */
-h1 {
-    font-size: 2em;
-    border-bottom: 2px solid var(--text-color);
-    padding-bottom: 10px;
-    margin-top: 0;
-    margin-bottom: 1.5em;
-}
-
-h2, h3, h4, h5, h6 {
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-}
-
-/* ========== 链接样式 ========== */
-a {
-    color: var(--primary-color);
-    text-decoration: underline;
-    transition: var(--transition);
-}
-
-a:hover {
-    background: #eee;
-    border-radius: 4px;
-    padding: 2px 4px;
-}
-
-a:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* ========== 文本与段落 ========== */
-p, div {
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--text-color);
-}
-
-strong, b {
-    font-weight: 600;
-}
-
-em, i {
-    font-style: italic;
-}
-
-/* ========== 列表样式 ========== */
-.post-item {
-    margin-bottom: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.post-item:last-child {
-    border-bottom: none;
-}
-
-.post-item span {
-    color: var(--text-light);
-    margin-right: 10px;
-    font-weight: 500;
-}
-
-ul, ol {
-    padding-left: 1.5em;
-}
-
-li {
-    margin-bottom: 8px;
-}
-
-/* ========== 代码块与内联代码 ========== */
-pre {
-    background: #f4f4f4;
-    padding: 15px;
-    overflow-x: auto;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-code {
-    font-family: var(--font-mono);
-    background: #f4f4f4;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.9em;
-}
-
-pre code {
-    background: transparent;
-    padding: 0;
-}
-
-/* ========== 图片优化 ========== */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-    margin: 1em 0;
-}
-
-/* ========== 表格样式 ========== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5em 0;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background: #f9f9f9;
-    font-weight: 600;
-}
-
-tr:hover {
-    background: #fafafa;
-}
-
-/* ========== 块级引用 ========== */
-blockquote {
-    border-left: 4px solid var(--primary-color);
-    padding-left: 15px;
-    margin-left: 0;
-    color: var(--text-light);
-    font-style: italic;
-}
-
-/* ========== 按钮样式 ========== */
-button, input[type="button"], input[type="submit"] {
-    background: var(--primary-color);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: var(--font-sans);
-    font-size: 16px;
-    transition: var(--transition);
-}
-
-button:hover, input[type="button"]:hover, input[type="submit"]:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(85, 26, 139, 0.3);
-}
-
-/* ========== 表单元素 ========== */
-input[type="text"],
-input[type="email"],
-input[type="search"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: var(--font-sans);
-    font-size: 16px;
+    margin: 40px 10px; /* 上下外边距 */
+    padding: 40px;      /* 内部留白，像纸张边缘 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 阴影增加立体感 */
+    min-height: calc(100vh - 80px); /* 保证纸张撑开 */
     box-sizing: border-box;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="search"]:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(85, 26, 139, 0.1);
-}
+/* 标题与文字样式 */
+h1 { font-size: 2em; border-bottom: 2px solid #000; padding-bottom: 10px; }
+a { color: #551a8b; text-decoration: underline; }
+a:hover { background: #eee; }
+p, div { font-size: 18px; line-height: 1.6; color: #000; }
 
-/* ========== 平板设备优化 (768px 以下) ========== */
-@media (max-width: 768px) {
-    html {
-        background-attachment: scroll; /* 某些旧版手机性能更好 */
-    }
+/* 列表适配 */
+.post-item { margin-bottom: 12px; }
+.post-item span { color: #666; margin-right: 10px; }
 
-    body {
-        padding: 0;
-    }
-
-    .container {
-        padding: 20px;
-        margin: 20px 5px;
-        min-height: calc(100vh - 40px);
-    }
-
-    h1 {
-        font-size: 1.8em;
-    }
-
-    p, div {
-        font-size: 16px;
-    }
-
-    pre {
-        padding: 12px;
-        font-size: 12px;
-    }
-}
-
-/* ========== 小屏幕优化 (600px 以下) ========== */
+/* 移动端特殊处理 */
 @media (max-width: 600px) {
-    .container {
-        padding: 15px;
-        margin: 15px 0;
-        width: 100%;
-        min-height: calc(100vh - 30px);
-    }
-
-    h1 {
-        font-size: 1.5em;
-        border-bottom-width: 1px;
-    }
-
-    h2 {
-        font-size: 1.3em;
-    }
-
-    p, div {
-        font-size: 16px;
-    }
-
-    .post-item {
-        padding: 6px 0;
-    }
-
-    table {
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 8px;
-    }
+    .container { padding: 20px; margin: 20px 5px; }
+    h1 { font-size: 1.5em; }
 }
 
-/* ========== 超小屏幕优化 (400px 以下) ========== */
-@media (max-width: 400px) {
-    h1 {
-        font-size: 1.3em;
-    }
-
-    p, div {
-        font-size: 15px;
-    }
-
-    .container {
-        padding: 12px;
-    }
-}
-
-/* ========== 打印样式 ========== */
-@media print {
-    html {
-        background: white;
-    }
-
-    body {
-        background: white;
-    }
-
-    .container {
-        box-shadow: none;
-        background: white;
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-
-    a {
-        color: var(--primary-color);
-        text-decoration: none;
-    }
-
-    a::after {
-        content: " (" attr(href) ")";
-    }
-}
-
-/* ========== 深色模式支持 ========== */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --text-color: #e0e0e0;
-        --text-light: #999;
-        --bg-white: rgba(30, 30, 30, 0.95);
-    }
-
-    html {
-        background-color: #1a1a1a;
-    }
-
-    .container {
-        background-color: var(--bg-white);
-        color: var(--text-color);
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        color: var(--text-color);
-    }
-
-    pre, code {
-        background: #2a2a2a;
-        color: #e0e0e0;
-    }
-
-    table {
-        border-color: #444;
-    }
-
-    th {
-        background: #2a2a2a;
-    }
-
-    tr:hover {
-        background: #282828;
-    }
-
-    blockquote {
-        color: #aaa;
-    }
-
-    input, textarea {
-        background: #2a2a2a;
-        color: #e0e0e0;
-        border-color: #444;
-    }
-}
-
-/* ========== 无障碍 & 性能优化 ========== */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ========== 高对比度模式支持 ========== */
-@media (prefers-contrast: more) {
-    :root {
-        --primary-color: #3d0052;
-    }
-
-    a {
-        text-decoration: underline;
-        font-weight: 600;
-    }
-
-    h1 {
-        border-bottom-width: 3px;
-    }
-}
+/* Markdown 内容样式 */
+pre { background: #f4f4f4; padding: 15px; overflow-x: auto; border: 1px solid #ccc; }
+code { font-family: monospace; background: #f4f4f4; }
+img { max-width: 100%; height: auto; }
