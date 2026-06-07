@@ -1,13 +1,24 @@
-/* 基础背景设置 */
-body {
-    background: url("background.png") no-repeat center center fixed;
+html {
+    background: url("background.png") no-repeat center center;
     background-size: cover;
-    font-family: "幼圆", Comic Sans MS, cursive, sans-serif; /* 复古等宽字体 */
+    background-attachment: fixed;
+}
+
+body {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; /* 水平居中 */
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    font-family: "幼圆", "Comic Sans MS", cursive, sans-serif;
+    background: transparent;
+}
+
+/* 移动端优化 */
+@media screen and (max-width: 768px) {
+    html {
+        background-attachment: fixed; /* 多数新版手机已支持 */
+    }
 }
 
 /* 方案 2 的核心：容器化（纸张效果） */
