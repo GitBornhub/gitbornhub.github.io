@@ -1,7 +1,7 @@
 /* 基础背景设置 */
 body {
     background: url("background.png") no-repeat center center fixed;
-    background-size: cover;
+    background-size: contain;
     font-family: "Comic Sans MS", cursive, sans-serif; /* 复古等宽字体 */
     margin: 0;
     padding: 0;
