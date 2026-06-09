@@ -1,60 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
+<html lang="zh">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post</title>
 
-<meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Article</title>
-
-<link rel="stylesheet" href="../style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/common.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/github.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在加载...</title>
+    <link rel="stylesheet" href="../style.css"> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-
 <body>
 
-<main class="post">
+  <div class="container article-container">
 
-    <a href="../index.html" class="back">
-        ← Back
-    </a>
+    <nav class="top-nav">
+      <a href="index.html">← Home</a>
+    </nav>
 
-    <div id="article"></div>
+    <article>
+      <h1 id="post-title"></h1>
+      <div id="post-date" class="meta"></div>
 
-</main>
+      <div id="content" class="markdown-body"></div>
+    </article>
 
-<script>
+  </div>
 
-const params = new URLSearchParams(window.location.search);
+  <script>
+    const md = window.markdownit({
+      html: true,
+      linkify: true,
+      typographer: true,
+      highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return '<pre class="hljs"><code>' +
+              hljs.highlight(str, { language: lang }).value +
+              '</code></pre>';
+          } catch (__) {}
+    <div class="container">
+        <nav><a href="../index.html">← 返回首页</a></nav>
+        <article id="content">
+            </article>
+    </div>
 
-const file = params.get("file");
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const file = params.get('file');
 
-fetch(file)
-.then(response => response.text())
-.then(md => {
+        if (file) {
+            fetch(file)
+                .then(res => res.text())
+                .then(md => {
+                    document.getElementById('content').innerHTML = marked.parse(md);
+                    document.title = file.replace('.md', '');
+                })
+                .catch(() => {
+                    document.getElementById('content').innerHTML = "文章加载失败。";
+                });
+}
 
-    const lines = md.split("\n");
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+      }
+    });
 
-    const title = lines[0].replace("# ","");
+    async function loadPost() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
 
-    const content = marked.parse(md);
+      const postsRes = await fetch('posts.json');
+      const posts = await postsRes.json();
 
-    document.title = title;
+      const post = posts.find(p => p.slug === slug);
 
-    document.getElementById("article").innerHTML = `
-        <h1 class="post-title">${title}</h1>
-        <div class="post-content">
-            ${content}
-        </div>
-    `;
-});
+      if (!post) {
+        document.getElementById('content').innerHTML = '<p>Post not found.</p>';
+        return;
+      }
 
-</script>
+      document.title = post.title;
+      document.getElementById('post-title').innerText = post.title;
+      document.getElementById('post-date').innerText = post.date;
 
+      const mdRes = await fetch(`posts/${slug}.md`);
+      const mdText = await mdRes.text();
+
+      document.getElementById('content').innerHTML = md.render(mdText);
+
+      hljs.highlightAll();
+    }
+
+    loadPost();
+  </script>
+
+    </script>
 </body>
-
 </html>
