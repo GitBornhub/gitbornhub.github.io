@@ -1,44 +1,201 @@
-/* 基础背景设置 */
-body {
-    background: url("background.png") no-repeat center center fixed;
-    background-size: cover;
-    font-family: "Trebuchet MS", Helvetica, sans-serif; /* 复古等宽字体 */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    min-height: 100vh;
+:root{
+
+    --bg:#ffffff;
+    --card:#ffffff;
+    --text:#111111;
+    --secondary:#666666;
+    --border:#e8e8e8;
+
+    --max-width:760px;
 }
 
-/* 方案 2 的核心：容器化（纸张效果） */
-.container {
-    background-color: rgba(255, 255, 255, 0.95); /* 95% 不透明白，保护视力 */
-    max-width: 800px;
-    width: 90%;
-    margin: 40px 10px; /* 上下外边距 */
-    padding: 40px;      /* 内部留白，像纸张边缘 */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 阴影增加立体感 */
-    min-height: calc(100vh - 80px); /* 保证纸张撑开 */
-    box-sizing: border-box;
+@media (prefers-color-scheme: dark){
+
+:root{
+
+    --bg:#0f1115;
+    --card:#151922;
+    --text:#f5f5f5;
+    --secondary:#9ca3af;
+    --border:#242933;
 }
 
-/* 标题与文字样式 */
-h1 { font-size: 2em; border-bottom: 2px solid #000; padding-bottom: 10px; }
-a { color: #551a8b; text-decoration: underline; }
-a:hover { background: #eee; }
-p, div { font-size: 18px; line-height: 1.6; color: #000; }
-
-/* 列表适配 */
-.post-item { margin-bottom: 12px; }
-.post-item span { color: #666; margin-right: 10px; }
-
-/* 移动端特殊处理 */
-@media (max-width: 600px) {
-    .container { padding: 20px; margin: 20px 5px; }
-    h1 { font-size: 1.5em; }
 }
 
-/* Markdown 内容样式 */
-pre { background: #f4f4f4; padding: 15px; overflow-x: auto; border: 1px solid #ccc; }
-code { font-family: monospace; background: #f4f4f4; }
-img { max-width: 100%; height: auto; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    line-height:1.8;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.hero{
+
+    padding:120px 20px 80px;
+    text-align:center;
+}
+
+.hero h1{
+
+    font-size:3rem;
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+.hero p{
+
+    color:var(--secondary);
+    font-size:1.1rem;
+}
+
+.container{
+
+    max-width:var(--max-width);
+
+    margin:auto;
+
+    padding:0 20px 80px;
+}
+
+.post-card{
+
+    border-bottom:1px solid var(--border);
+
+    padding:30px 0;
+
+    transition:.25s;
+}
+
+.post-card:hover{
+
+    transform:translateX(5px);
+}
+
+.post-card h2{
+
+    font-size:1.4rem;
+    margin-bottom:8px;
+}
+
+.meta{
+
+    color:var(--secondary);
+    font-size:.95rem;
+}
+
+footer{
+
+    text-align:center;
+
+    padding:40px;
+
+    color:var(--secondary);
+
+    border-top:1px solid var(--border);
+}
+
+/* ===== POST PAGE ===== */
+
+.post{
+
+    max-width:800px;
+
+    margin:auto;
+
+    padding:80px 20px;
+}
+
+.post-title{
+
+    font-size:2.8rem;
+
+    margin-bottom:10px;
+}
+
+.post-date{
+
+    color:var(--secondary);
+
+    margin-bottom:50px;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3{
+
+    margin-top:40px;
+    margin-bottom:15px;
+}
+
+.post-content p{
+
+    margin-bottom:20px;
+}
+
+.post-content img{
+
+    max-width:100%;
+    border-radius:12px;
+}
+
+.post-content pre{
+
+    overflow:auto;
+
+    background:#1e1e1e;
+
+    color:white;
+
+    padding:16px;
+
+    border-radius:10px;
+
+    margin:20px 0;
+}
+
+.post-content code{
+
+    font-family:
+    Consolas,
+    monospace;
+}
+
+.post-content blockquote{
+
+    border-left:4px solid #999;
+
+    padding-left:15px;
+
+    color:var(--secondary);
+
+    margin:20px 0;
+}
+
+.back{
+
+    margin-bottom:40px;
+
+    display:inline-block;
+
+    color:var(--secondary);
+}
