@@ -1,80 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noah's Ark</title>
-  <link rel="icon" type="image/png" href="../favicon.png">
-  <link rel="stylesheet" href="../style.css">
-  <script src="../theme.js"></script>
+    <meta charset="UTF-8">
+    <title>Articles</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav><a href="../index.html">← Back to Main</a></nav>
+    <div id="content">Loading...</div>
 
+    <script>
+        // 1. 获取网址里的文件名 (例如 ?file=hello-world.md)
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileName = urlParams.get('file');
 
-  <main>
-    <header class="post-header">
-      <h1 id="post-title">加载中…</h1>
-      <p class="post-meta" id="post-date"></p>
-      <div class="divider"></div>
-    </header>
-
-    <article class="post-body" id="post-body">
-    </article>
-
-    <footer class="post-footer">— 感谢阅读</footer>
-  </main>
-
-  <!--
-    marked.js：轻量 Markdown 解析库（CDN，约 45KB）
-    如需离线使用，可下载到本地：https://cdn.jsdelivr.net/npm/marked/marked.min.js
-  -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (function () {
-      // 从 URL 参数 ?p=xxx.md 获取文章文件名
-      const params   = new URLSearchParams(location.search);
-      const filename = params.get('p');
-
-      if (!filename) {
-        document.getElementById('post-title').textContent = '未指定文章';
-        return;
-      }
-
-      // 文章文件与 post.html 同在 posts/ 目录
-      fetch(filename)
-        .then(r => {
-          if (!r.ok) throw new Error('not found');
-          return r.text();
-        })
-        .then(md => {
-          // 解析 YAML Front Matter（--- 包裹的头部元数据）
-          const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n/);
-          let title = filename.replace('.md', '');
-          let date  = '';
-          let body  = md;
-
-          if (fmMatch) {
-            const fm = fmMatch[1];
-            const t  = fm.match(/^title:\s*(.+)$/m);
-            const d  = fm.match(/^date:\s*(.+)$/m);
-            if (t) title = t[1].replace(/^['"]|['"]$/g, '');
-            if (d) date  = d[1].trim();
-            body = md.slice(fmMatch[0].length);
-          }
-
-          // 更新页面
-          document.title = title + ' — Noah's Ark';
-          document.getElementById('post-title').textContent = title;
-          document.getElementById('post-date').textContent  = date;
-          document.getElementById('post-body').innerHTML    = marked.parse(body);
-        })
-        .catch(() => {
-          document.getElementById('post-title').textContent = '文章未找到';
-          document.getElementById('post-body').innerHTML =
-            '<p>无法加载文章，请检查文件是否存在。</p>';
-        });
-    })();
-  </script>
-
+        if (fileName) {
+            // 2. 因为 post.html 和 .md 都在 posts 文件夹，直接 fetch 即可
+            fetch(fileName)
+                .then(res => {
+                    if(!res.ok) throw new Error("找不到该文件");
+                    return res.text();
+                })
+                .then(mdText => {
+                    // 3. 将 Markdown 转为 HTML 并显示
+                    document.getElementById('content').innerHTML = marked.parse(mdText);
+                })
+                .catch(err => {
+                    document.getElementById('content').innerHTML = "错误：" + err.message;
+                });
+        }
+    </script>
 </body>
 </html>
