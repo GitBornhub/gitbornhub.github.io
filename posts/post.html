@@ -1,38 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Articles</title>
-    <link rel="stylesheet" href="../style.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="icon" type="image/png" href="../favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>正在加载...</title>
+    <link rel="stylesheet" href="../style.css"> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <nav><a href="../index.html">← Back to Main</a></nav>
-    <div id="content">Loading...</div>
+    <div class="container">
+        <nav><a href="../index.html">← 返回首页</a></nav>
+        <article id="content">
+            </article>
+    </div>
 
     <script>
-        // 1. 获取网址里的文件名 (例如 ?file=hello-world.md)
-        const urlParams = new URLSearchParams(window.location.search);
-        const fileName = urlParams.get('file');
+        const params = new URLSearchParams(window.location.search);
+        const file = params.get('file');
 
-        if (fileName) {
-            // 2. 因为 post.html 和 .md 都在 posts 文件夹，直接 fetch 即可
-            fetch(fileName)
-                .then(res => {
-                    if(!res.ok) throw new Error("找不到该文件");
-                    return res.text();
+        if (file) {
+            fetch(file)
+                .then(res => res.text())
+                .then(md => {
+                    document.getElementById('content').innerHTML = marked.parse(md);
+                    document.title = file.replace('.md', '');
                 })
-                .then(mdText => {
-                    // 3. 将 Markdown 转为 HTML 并显示
-                    document.getElementById('content').innerHTML = marked.parse(mdText);
-                })
-                .catch(err => {
-                    document.getElementById('content').innerHTML = "错误：" + err.message;
+                .catch(() => {
+                    document.getElementById('content').innerHTML = "文章加载失败。";
                 });
         }
     </script>
