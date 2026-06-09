@@ -1,33 +1,60 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>正在加载...</title>
-    <link rel="stylesheet" href="../style.css"> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Article</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 </head>
+
 <body>
-    <div class="container">
-        <nav><a href="../index.html">← 返回首页</a></nav>
-        <article id="content">
-            </article>
-    </div>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const file = params.get('file');
+<main class="post">
 
-        if (file) {
-            fetch(file)
-                .then(res => res.text())
-                .then(md => {
-                    document.getElementById('content').innerHTML = marked.parse(md);
-                    document.title = file.replace('.md', '');
-                })
-                .catch(() => {
-                    document.getElementById('content').innerHTML = "文章加载失败。";
-                });
-        }
-    </script>
+    <a href="../index.html" class="back">
+        ← Back
+    </a>
+
+    <div id="article"></div>
+
+</main>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const file = params.get("file");
+
+fetch(file)
+.then(response => response.text())
+.then(md => {
+
+    const lines = md.split("\n");
+
+    const title = lines[0].replace("# ","");
+
+    const content = marked.parse(md);
+
+    document.title = title;
+
+    document.getElementById("article").innerHTML = `
+        <h1 class="post-title">${title}</h1>
+        <div class="post-content">
+            ${content}
+        </div>
+    `;
+});
+
+</script>
+
 </body>
+
 </html>
