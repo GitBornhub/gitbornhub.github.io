@@ -1,38 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noah's Ark</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NW Blog</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>Nothing to say.
-                
-                Just share life.</h1>
-        </header>
-        
-        <main id="post-list">
-            </main>
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <h1>NW Blog</h1>
+
+        <p>
+            Curtain Wall · Engineering · Technology
+        </p>
+
     </div>
 
-    <script>
-        fetch('posts.json')
-            .then(res => res.json())
-            .then(data => {
-                const list = document.getElementById('post-list');
-                data.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'post-item';
-                    div.innerHTML = `
-                        <span>${item.date}</span>
-                        <a href="posts/post.html?file=${item.file}">${item.title}</a>
-                    `;
-                    list.appendChild(div);
-                });
-            });
-    </script>
+</header>
+
+<main class="container">
+
+    <section id="posts-list">
+    </section>
+
+</main>
+
+<footer>
+
+    <p>© 2026 NW Blog</p>
+
+</footer>
+
+<script>
+
+fetch("posts.json")
+.then(response => response.json())
+.then(posts => {
+
+    const container = document.getElementById("posts-list");
+
+    posts.sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+    posts.forEach(post => {
+
+        const article = document.createElement("article");
+
+        article.className = "post-card";
+
+        article.innerHTML = `
+            <a href="posts/post.html?file=${post.file}">
+                <h2>${post.title}</h2>
+
+                <div class="meta">
+                    <span>${post.date}</span>
+                </div>
+            </a>
+        `;
+
+        container.appendChild(article);
+    });
+
+});
+
+</script>
+
 </body>
 </html>
