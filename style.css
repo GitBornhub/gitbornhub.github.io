@@ -13,14 +13,19 @@ body {
 
 /* 方案 2 的核心：容器化（纸张效果） */
 .container {
-    background-color: rgba(255, 255, 255, 0.6); /* 95% 不透明白，保护视力 */
+    background-color: rgba(255, 255, 255, 0.6); /* 60% 半透明白，透出背景图 */
     max-width: 800px;
     width: 90%;
-    margin: 40px auto;
-    padding: 40px;      /* 内部留白，像纸张边缘 */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 阴影增加立体感 */
-    min-height: calc(100vh - 80px); /* 保证纸张撑开 */
-    box-sizing: border-box;
+    margin: 40px auto;            /* 上下外边距 40px，左右自动居中 */
+    padding: 40px;                 /* 内部留白，像纸张边缘 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 柔和阴影，增加悬浮立体感 */
+    min-height: calc(100vh - 80px); /* 最小高度撑满视口（扣除上下外边距） */
+    box-sizing: border-box;       /* 盒模型：padding 不会额外撑大容器宽度 */
+    
+    /* 🎨 新增：圆角与边缘裁剪 */
+    border-radius: 16px;          /* 16px 圆角（数值越大越圆润，常用 8px ~ 24px） */
+    overflow: hidden;             /* 确保内部子元素不会超出圆角边界 */
+    backdrop-filter: blur(10px);  /* 💡 附加推荐：开启毛玻璃磨砂效果，配半透明背景质感极佳 */
 }
 
 /* 标题与文字样式 */
