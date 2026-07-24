@@ -13,7 +13,7 @@ body {
 
 /* 方案 2 的核心：容器化（纸张效果） */
 .container {
-    background-color: rgba(255, 255, 255, 0.8); /* 95% 不透明白，保护视力 */
+    background-color: rgba(255, 255, 255, 0.6); /* 95% 不透明白，保护视力 */
     max-width: 800px;
     width: 90%;
     margin: 40px auto;
