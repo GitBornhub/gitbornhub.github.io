@@ -16,7 +16,7 @@ body {
     background-color: rgba(255, 255, 255, 0.95); /* 95% 不透明白，保护视力 */
     max-width: 800px;
     width: 90%;
-    margin: 40px 10px; /* 上下外边距 */
+    margin: 40px auto;
     padding: 40px;      /* 内部留白，像纸张边缘 */
     box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 阴影增加立体感 */
     min-height: calc(100vh - 80px); /* 保证纸张撑开 */
